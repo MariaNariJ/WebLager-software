@@ -1,4 +1,4 @@
-package dk.easv.weblager_software;
+package dk.easv;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
