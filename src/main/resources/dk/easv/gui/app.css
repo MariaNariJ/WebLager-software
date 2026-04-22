@@ -2,94 +2,107 @@
     -fx-font-family: "Montserrat";
 }
 
+/* PAGE */
 .login-root {
-    -fx-background-color: #2D3D4F;
+    -fx-background-color: #2F4861;
 }
 
+.login-pattern-pane {
+    -fx-background-color: #2F4861;
+}
+
+/* CARD */
 .login-card {
-    -fx-background-color: #FFFFFF;
-    -fx-background-radius: 24;
-    -fx-border-color: #D9E0E7;
-    -fx-border-radius: 24;
+    -fx-background-color: linear-gradient(to bottom right, #1D3147, #1A2B3F);
+    -fx-background-radius: 26;
+    -fx-border-color: rgba(255,255,255,0.05);
+    -fx-border-radius: 26;
     -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 24, 0.18, 0, 8);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 28, 0.18, 0, 10);
 }
 
+/* CENTER LOGO BOX */
 .logo-box {
-    -fx-background-color: #EAF8F4;
-    -fx-background-radius: 16;
-    -fx-border-color: #24C79F;
-    -fx-border-radius: 16;
-    -fx-border-width: 1;
+    -fx-background-color: transparent;
+    -fx-background-radius: 18;
+    -fx-border-color: #17C7A3;
+    -fx-border-radius: 18;
+    -fx-border-width: 2;
 }
 
-.logo-icon {
-    -fx-text-fill: #24C79F;
-    -fx-font-size: 28px;
-    -fx-font-weight: 700;
-}
-
+/* TEXT */
 .brand-title {
-    -fx-text-fill: #2D3D4F;
-    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-font-size: 34px;
     -fx-font-weight: 800;
 }
 
 .login-title {
-    -fx-text-fill: #2D3D4F;
-    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
     -fx-font-weight: 700;
 }
 
 .login-subtitle {
-    -fx-text-fill: #6B7280;
+    -fx-text-fill: #A9B7C6;
     -fx-font-size: 14px;
+    -fx-font-weight: 400;
 }
 
 .field-label {
-    -fx-text-fill: #2D3D4F;
+    -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: 700;
 }
 
+/* INPUTS */
 .login-field {
-    -fx-background-color: #F9FAFB;
-    -fx-background-radius: 12;
-    -fx-border-color: #D1D5DB;
-    -fx-border-radius: 12;
+    -fx-background-color: #24394F;
+    -fx-background-radius: 14;
+    -fx-border-color: transparent;
+    -fx-border-radius: 14;
     -fx-border-width: 1;
-    -fx-text-fill: #2D3D4F;
-    -fx-prompt-text-fill: #9CA3AF;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #7E91A3;
     -fx-font-size: 14px;
-    -fx-padding: 0 14 0 14;
+    -fx-padding: 0 16 0 16;
+    -fx-pref-height: 46px;
 }
 
 .login-field:focused {
-    -fx-border-color: #24C79F;
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #24394F;
+    -fx-border-color: #17C7A3;
 }
 
+/* CHECKBOX */
 .login-checkbox {
-    -fx-text-fill: #2D3D4F;
+    -fx-text-fill: #D6E0EA;
     -fx-font-size: 13px;
 }
 
 .login-checkbox .box {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #C7D0DA;
-    -fx-border-radius: 4;
-    -fx-background-radius: 4;
+    -fx-background-color: transparent;
+    -fx-border-color: #7F93A8;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 1.5;
+}
+
+.login-checkbox:selected .box {
+    -fx-border-color: #17C7A3;
 }
 
 .login-checkbox:selected .mark {
-    -fx-background-color: #24C79F;
+    -fx-background-color: #17C7A3;
 }
 
+/* LINKS */
 .link-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-text-fill: #24C79F;
+    -fx-text-fill: #17C7A3;
     -fx-font-size: 13px;
+    -fx-font-weight: 600;
     -fx-padding: 0;
 }
 
@@ -97,58 +110,32 @@
     -fx-underline: true;
 }
 
+/* BUTTON */
 .primary-button {
-    -fx-background-color: #24C79F;
+    -fx-background-color: #1FD0AE;
     -fx-text-fill: white;
     -fx-font-size: 16px;
-    -fx-font-weight: 700;
+    -fx-font-weight: 800;
     -fx-background-radius: 14;
     -fx-cursor: hand;
+    -fx-pref-height: 50px;
 }
 
 .primary-button:hover {
-    -fx-background-color: #1fb389;
+    -fx-background-color: #18b998;
 }
 
-.secondary-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #2D3D4F;
-    -fx-font-size: 15px;
-    -fx-font-weight: 700;
-    -fx-border-color: #D1D5DB;
-    -fx-border-radius: 14;
-    -fx-background-radius: 14;
-    -fx-border-width: 1;
-    -fx-cursor: hand;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #F9FAFB;
-}
-
-.divider-label {
-    -fx-text-fill: #9CA3AF;
-    -fx-font-size: 13px;
-}
-
+/* FOOTER */
 .version-label {
-    -fx-text-fill: #9CA3AF;
+    -fx-text-fill: #8EA1B4;
     -fx-font-size: 12px;
 }
 
-.close-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #94A3B8;
-    -fx-font-size: 16px;
-    -fx-cursor: hand;
-    -fx-padding: 0;
+/* IMAGE HELPERS */
+.center-logo-image {
+    -fx-opacity: 1;
 }
 
-.close-button:hover {
-    -fx-text-fill: #2D3D4F;
-}
-
-.thin-separator .line {
-    -fx-border-color: #E5E7EB;
-    -fx-border-width: 1 0 0 0;
+.watermark-image {
+    -fx-opacity: 0.16;
 }

@@ -6,10 +6,12 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -22,42 +24,327 @@
             styleClass="login-root">
 
     <children>
+
+        <Pane prefWidth="1440.0" prefHeight="820.0" styleClass="login-pattern-pane">
+            <children>
+
+                <!-- Row 1 -->
+                <ImageView layoutX="55.0" layoutY="55.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="215.0" layoutY="95.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="375.0" layoutY="55.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="535.0" layoutY="105.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="695.0" layoutY="60.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="855.0" layoutY="92.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1015.0" layoutY="55.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1175.0" layoutY="95.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1335.0" layoutY="60.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Row 2 -->
+                <ImageView layoutX="95.0" layoutY="185.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="255.0" layoutY="230.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="415.0" layoutY="185.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="575.0" layoutY="230.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="735.0" layoutY="185.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="895.0" layoutY="230.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1055.0" layoutY="185.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1215.0" layoutY="230.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1375.0" layoutY="185.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Row 3 -->
+                <ImageView layoutX="55.0" layoutY="315.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="215.0" layoutY="360.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="375.0" layoutY="315.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="535.0" layoutY="360.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="695.0" layoutY="315.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="855.0" layoutY="360.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1015.0" layoutY="315.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1175.0" layoutY="360.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1335.0" layoutY="315.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Row 4 -->
+                <ImageView layoutX="95.0" layoutY="445.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="255.0" layoutY="490.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="415.0" layoutY="445.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="575.0" layoutY="490.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="735.0" layoutY="445.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="895.0" layoutY="490.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1055.0" layoutY="445.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1215.0" layoutY="490.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1375.0" layoutY="445.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Row 5 -->
+                <ImageView layoutX="55.0" layoutY="575.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="215.0" layoutY="620.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="375.0" layoutY="575.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="535.0" layoutY="620.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="695.0" layoutY="575.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="855.0" layoutY="620.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1015.0" layoutY="575.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1175.0" layoutY="620.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1335.0" layoutY="575.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- Row 6 -->
+                <ImageView layoutX="95.0" layoutY="705.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="255.0" layoutY="750.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="415.0" layoutY="705.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="575.0" layoutY="750.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="735.0" layoutY="705.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="895.0" layoutY="750.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1055.0" layoutY="705.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1215.0" layoutY="750.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+                <ImageView layoutX="1375.0" layoutY="705.0" fitWidth="52.0" preserveRatio="true" smooth="true" styleClass="watermark-image">
+                    <image>
+                        <Image url="@assets/LogoBlue_Logoicon.png"/>
+                    </image>
+                </ImageView>
+
+            </children>
+        </Pane>
+
         <StackPane AnchorPane.topAnchor="0.0"
                    AnchorPane.rightAnchor="0.0"
                    AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0">
+                   AnchorPane.leftAnchor="0.0"
+                   alignment="CENTER">
 
             <children>
                 <VBox maxWidth="420.0"
                       prefWidth="420.0"
+                      prefHeight="600.0"
+                      maxHeight="600.0"
+                      alignment="TOP_CENTER"
                       spacing="18.0"
                       styleClass="login-card">
                     <padding>
-                        <Insets top="34.0" right="34.0" bottom="28.0" left="34.0"/>
+                        <Insets top="34.0" right="30.0" bottom="34.0" left="30.0"/>
                     </padding>
 
                     <children>
-                        <HBox alignment="CENTER_RIGHT">
-                            <children>
-                                <Region HBox.hgrow="ALWAYS"/>
-                                <Button text="✕"
-                                        mnemonicParsing="false"
-                                        prefHeight="30.0"
-                                        prefWidth="30.0"
-                                        focusTraversable="false"
-                                        styleClass="close-button"/>
-                            </children>
-                        </HBox>
-
                         <VBox alignment="CENTER" spacing="12.0">
                             <children>
-                                <StackPane minWidth="64.0"
-                                           minHeight="64.0"
-                                           maxWidth="64.0"
-                                           maxHeight="64.0"
+                                <StackPane minWidth="94.0"
+                                           minHeight="94.0"
+                                           maxWidth="94.0"
+                                           maxHeight="94.0"
                                            styleClass="logo-box">
                                     <children>
-                                        <Label text="WL" styleClass="logo-icon"/>
+                                        <ImageView fitWidth="100.0" preserveRatio="true" smooth="true" styleClass="center-logo-image">
+                                            <image>
+                                                <Image url="@assets/WeblagerGreenIcon.png"/>
+                                            </image>
+                                        </ImageView>
                                     </children>
                                 </StackPane>
 
@@ -69,22 +356,20 @@
                             </children>
                         </VBox>
 
-                        <VBox spacing="10.0">
+                        <VBox spacing="8.0">
                             <children>
                                 <Label text="Username" styleClass="field-label"/>
                                 <TextField fx:id="usernameField"
                                            promptText="Enter your username"
-                                           prefHeight="46.0"
                                            styleClass="login-field"/>
                             </children>
                         </VBox>
 
-                        <VBox spacing="10.0">
+                        <VBox spacing="8.0">
                             <children>
                                 <Label text="Password" styleClass="field-label"/>
                                 <PasswordField fx:id="passwordField"
                                                promptText="Enter your password"
-                                               prefHeight="46.0"
                                                styleClass="login-field"/>
                             </children>
                         </VBox>
@@ -104,25 +389,10 @@
 
                         <Button fx:id="signInButton"
                                 text="Sign In"
-                                prefHeight="50.0"
                                 maxWidth="1.7976931348623157E308"
                                 styleClass="primary-button"/>
 
-                        <HBox alignment="CENTER" spacing="12.0">
-                            <children>
-                                <Separator HBox.hgrow="ALWAYS" styleClass="thin-separator"/>
-                                <Label text="or" styleClass="divider-label"/>
-                                <Separator HBox.hgrow="ALWAYS" styleClass="thin-separator"/>
-                            </children>
-                        </HBox>
-
-                        <Button fx:id="windowsSignInButton"
-                                text="Use Windows account"
-                                prefHeight="48.0"
-                                maxWidth="1.7976931348623157E308"
-                                styleClass="secondary-button"/>
-
-                        <VBox alignment="CENTER" spacing="6.0">
+                        <VBox alignment="CENTER" spacing="0.0">
                             <children>
                                 <Label text="Version 1.0.0" styleClass="version-label"/>
                             </children>
@@ -131,5 +401,6 @@
                 </VBox>
             </children>
         </StackPane>
+
     </children>
 </AnchorPane>
