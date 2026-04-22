@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                dk.easv.maria.weblager_software/dk.easv.maria.weblager_software.HelloApplication
+                                dk.easv.maria.weblager_software/dk.easv.weblager_software.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
