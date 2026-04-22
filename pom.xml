@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dk.easv.maria</groupId>
-    <artifactId>WebLager_software</artifactId>
+    <artifactId>WebLager-software</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>WebLager_software</name>
 
