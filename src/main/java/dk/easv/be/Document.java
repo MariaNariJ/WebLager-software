@@ -7,4 +7,28 @@ public class Document {
     private int boxId;
 
     // getters/setters
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getBoxId() {
+        return boxId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setBoxId(int boxId) {
+        this.boxId = boxId;
+    }
 }
