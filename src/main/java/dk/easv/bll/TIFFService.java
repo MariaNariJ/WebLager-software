@@ -43,7 +43,7 @@ public class TIFFService {
                     zis.transferTo(fos);
                 }
 
-                result.add(new File(outFile.getName(), outFile.getPath(), outFile.length()));
+                result.add(new File(outFile.getName(), outFile.getPath(), 0));
             }
         }
         return result;
