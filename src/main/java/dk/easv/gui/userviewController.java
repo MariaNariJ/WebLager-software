@@ -12,8 +12,9 @@ public class userviewController {
     public void onFetchFilesClicked() {
         List<File> files = apiService.fetchFiles(10);
 
+        // Temporary test output
         for (File file : files) {
-            System.out.println(file.getFilePath());
+            System.out.println(file);
         }
     }
 }
