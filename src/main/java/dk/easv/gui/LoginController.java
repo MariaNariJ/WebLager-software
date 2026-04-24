@@ -57,6 +57,7 @@ public class LoginController {
         }
     }
 
+
     /*
     This method is used to create users in the database until there is a feature to create users
 

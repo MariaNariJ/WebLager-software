@@ -104,6 +104,7 @@
                         <Label text="›" styleClass="muted-text"/>
                         <Label text="Document 3" styleClass="tree-title"/>
                         <Region HBox.hgrow="ALWAYS"/>
+
                         <Label text="15" styleClass="count-pill"/>
                     </HBox>
                 </VBox>
