@@ -1,7 +1,7 @@
 package dk.easv.bll;
 
 import dk.easv.be.User;
-import dk.easv.dal.UserDAO;
+import dk.easv.dal.dao.UserDAO;
 
 public class PasswordManager {
     UserDAO dao = new UserDAO();

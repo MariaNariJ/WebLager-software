@@ -46,11 +46,11 @@ public class LoginController {
                     //Change stage to Admin page view
                     System.out.println("Logged in as Admin");
                 } else {
-                    //stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../userview.fxml"))));
+                    stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../gui/userview.fxml"))));
                     System.out.println("Logged in as User");
                 }
             } catch (Exception e) {
-                System.out.println("Failed changing stage" + e.getMessage());
+                System.out.println("Failed changing stage " + e.getMessage());
             }
         } else {
             System.out.println("Wrong username or password");

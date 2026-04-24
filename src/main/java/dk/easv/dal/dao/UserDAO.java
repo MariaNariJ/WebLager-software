@@ -1,6 +1,7 @@
-package dk.easv.dal;
+package dk.easv.dal.dao;
 
 import dk.easv.be.User;
+import dk.easv.dal.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
