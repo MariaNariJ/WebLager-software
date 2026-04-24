@@ -14,9 +14,10 @@ public class HelloApplication extends Application {
                 HelloApplication.class.getResource("/dk/easv/gui/log-in.fxml")
         );
 
-        Scene scene = new Scene(fxmlLoader.load(), 1440, 820);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("WebLager");
         stage.setScene(scene);
+        stage.sizeToScene();
         stage.show();
     }
 }
