@@ -108,7 +108,7 @@
                     </HBox>
                 </VBox>
 
-                <Button text="+  Scan Next (F5)" styleClass="primary-action"/>
+                <Button text="+  Scan Next (F5)" styleClass="primary-action" onAction="#onFetchFilesClicked"/>
 
                 <VBox spacing="4" styleClass="scan-status">
                     <Label text="✓  Scanned file 45" styleClass="status-title"/>
