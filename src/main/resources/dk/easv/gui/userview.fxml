@@ -1,14 +1,277 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane prefWidth="1440" prefHeight="820"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="dk.easv.gui.userviewController"
-            prefHeight="400.0" prefWidth="600.0">
+            stylesheets="@app.css"
+            styleClass="app-root">
 
+    <children>
+
+        <!-- SIDEBAR -->
+        <VBox layoutX="0" layoutY="0" prefWidth="180" prefHeight="820" spacing="18" styleClass="sidebar">
+            <padding>
+                <Insets top="24" right="14" bottom="20" left="14"/>
+            </padding>
+
+            <children>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ImageView fitWidth="32" preserveRatio="true">
+                        <image>
+                            <Image url="@assets/WeblagerGreenIcon.png"/>
+                        </image>
+                    </ImageView>
+                    <Label text="WebLager" styleClass="sidebar-logo-text"/>
+                </HBox>
+
+                <VBox spacing="10">
+                    <Button text="▣  Scanning" styleClass="nav-button-active"/>
+                    <Button text="□  Documents" styleClass="nav-button"/>
+                    <Button text="☑  QA" styleClass="nav-button"/>
+                    <Button text="⇧  Export" styleClass="nav-button"/>
+                    <Button text="☰  Logs" styleClass="nav-button"/>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <Button text="↩  Log out" styleClass="nav-button"/>
+            </children>
+        </VBox>
+
+        <!-- TOP BAR -->
+        <HBox layoutX="180" layoutY="0" prefWidth="1260" prefHeight="58" alignment="CENTER_RIGHT" spacing="16" styleClass="top-bar">
+            <padding>
+                <Insets right="22"/>
+            </padding>
+            <children>
+                <Label text="☀" styleClass="top-icon"/>
+                <Label text="🔔" styleClass="top-icon"/>
+                <Label text="JD" styleClass="avatar"/>
+                <VBox spacing="0">
+                    <Label text="johndoe" styleClass="top-user"/>
+                    <Label text="User" styleClass="top-role"/>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- SCANNED FILES PANEL -->
+        <VBox layoutX="195" layoutY="72" prefWidth="250" prefHeight="610" spacing="14" styleClass="panel">
+            <padding>
+                <Insets top="16" right="14" bottom="14" left="14"/>
+            </padding>
+
+            <children>
+                <Label text="Scanned Files" styleClass="section-title"/>
+                <TextField promptText="Search files..." styleClass="dark-field"/>
+
+                <HBox spacing="26">
+                    <Label text="Scans: 45" styleClass="muted-text"/>
+                    <Label text="Documents: 3" styleClass="muted-text"/>
+                </HBox>
+
+                <VBox spacing="8">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="⌄" styleClass="muted-text"/>
+                        <Label text="Document 1" styleClass="tree-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="12" styleClass="count-pill"/>
+                    </HBox>
+
+                    <Button text="     1    (Ref: 1)" styleClass="file-selected"/>
+                    <Label text="     2    (Ref: 2)" styleClass="file-row"/>
+                    <Label text="     3    (Ref: 3)" styleClass="file-row"/>
+                    <Label text="     4    (Ref: 4)" styleClass="file-row"/>
+                    <Label text="     5    (Ref: 5)" styleClass="file-row"/>
+                    <Label text="     6    (Ref: 6)" styleClass="file-row"/>
+
+                    <Separator styleClass="dark-separator"/>
+
+                    <HBox spacing="8">
+                        <Label text="›" styleClass="muted-text"/>
+                        <Label text="Document 2" styleClass="tree-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="18" styleClass="count-pill"/>
+                    </HBox>
+
+                    <HBox spacing="8">
+                        <Label text="›" styleClass="muted-text"/>
+                        <Label text="Document 3" styleClass="tree-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label text="15" styleClass="count-pill"/>
+                    </HBox>
+                </VBox>
+
+                <Button text="+  Scan Next (F5)" styleClass="primary-action"/>
+
+                <VBox spacing="4" styleClass="scan-status">
+                    <Label text="✓  Scanned file 45" styleClass="status-title"/>
+                    <Label text="Barcode detected" styleClass="muted-text"/>
+                    <Label text="New document started" styleClass="muted-text"/>
+                </VBox>
+            </children>
+        </VBox>
+
+        <!-- CENTER DOCUMENT AREA -->
+        <VBox layoutX="460" layoutY="72" prefWidth="590" prefHeight="610" spacing="12" styleClass="panel">
+            <padding>
+                <Insets top="12" right="14" bottom="14" left="14"/>
+            </padding>
+
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Button text="‹" styleClass="small-button"/>
+                    <Label text="File 1 of 45" styleClass="blue-text"/>
+                    <Label text="(Ref: 1)" styleClass="muted-text"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="−" styleClass="small-button"/>
+                    <Label text="100%" styleClass="section-title"/>
+                    <Button text="+" styleClass="small-button"/>
+                </HBox>
+
+                <StackPane prefHeight="435" styleClass="document-preview-wrap">
+                    <VBox prefWidth="430" prefHeight="390" alignment="TOP_CENTER" spacing="18" styleClass="document-preview">
+                        <padding>
+                            <Insets top="36" right="36" bottom="24" left="36"/>
+                        </padding>
+                        <children>
+                            <HBox>
+                                <Label text="WebLager A/S" style="-fx-font-size: 22; -fx-font-weight: 800;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <VBox>
+                                    <Label text="INVOICE" style="-fx-font-size: 24; -fx-font-weight: 800;"/>
+                                    <Label text="No. 10045" style="-fx-font-size: 15; -fx-font-weight: 700;"/>
+                                </VBox>
+                            </HBox>
+
+                            <GridPane hgap="55" vgap="4">
+                                <children>
+                                    <Label text="Customer:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                    <Label text="Acme Corporation" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                    <Label text="Date:" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                    <Label text="12-05-2024" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                                    <Label text="Due Date:" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                    <Label text="26-05-2024" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                                </children>
+                            </GridPane>
+
+                            <Label text="Item        Description                 Qty.      Unit Price      Total"/>
+                            <Separator/>
+                            <Label text="1           Archive Box                 10        25,00           250,00"/>
+                            <Label text="2           Document Folder             100       2,50            250,00"/>
+                            <Label text="3           Label                       200       0,50            100,00"/>
+                            <Separator/>
+                            <Label text="Subtotal: 600,00     VAT: 150,00     Total: 750,00"/>
+                            <Region VBox.vgrow="ALWAYS"/>
+                            <Label text="||||||||||||||||||||||||||||||||" style="-fx-font-size: 26;"/>
+                            <Label text="*BARCODE*"/>
+                        </children>
+                    </VBox>
+                </StackPane>
+
+                <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
+                    <Button text="↺&#10;Rotate Left&#10;(Q)" styleClass="toolbar-button"/>
+                    <Button text="↻&#10;Rotate Right&#10;(E)" styleClass="toolbar-button"/>
+                    <Button text="↔&#10;Fit Width" styleClass="toolbar-button"/>
+                    <Button text="▣&#10;Actual Size" styleClass="toolbar-button"/>
+                    <Button text="→&#10;Next File&#10;(D)" styleClass="toolbar-button"/>
+                    <Button text="←&#10;Previous File&#10;(A)" styleClass="toolbar-button"/>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- METADATA PANEL -->
+        <VBox layoutX="1065" layoutY="72" prefWidth="350" prefHeight="610" spacing="14" styleClass="panel">
+            <padding>
+                <Insets top="18" right="18" bottom="18" left="18"/>
+            </padding>
+
+            <children>
+                <HBox spacing="30">
+                    <Label text="Metadata" styleClass="tab-active"/>
+                    <Label text="Info" styleClass="tab-inactive"/>
+                </HBox>
+
+                <Separator styleClass="dark-separator"/>
+
+                <Label text="Client *" styleClass="field-label-dark"/>
+                <ComboBox prefWidth="310" promptText="Acme Corporation" styleClass="combo-dark"/>
+
+                <Label text="Box *" styleClass="field-label-dark"/>
+                <ComboBox prefWidth="310" promptText="BOX-0123" styleClass="combo-dark"/>
+
+                <Label text="Document Name *" styleClass="field-label-dark"/>
+                <TextField text="Invoice_10045" styleClass="dark-field"/>
+
+                <Label text="Document Type *" styleClass="field-label-dark"/>
+                <TextField text="Invoice" styleClass="dark-field"/>
+
+                <Label text="Date *" styleClass="field-label-dark"/>
+                <TextField text="12-05-2024" styleClass="dark-field"/>
+
+                <Label text="Notes" styleClass="field-label-dark"/>
+                <TextArea text="Invoice from Acme Corporation regarding office supplies."
+                          prefHeight="70" wrapText="true" styleClass="dark-area"/>
+
+                <Label text="Status" styleClass="field-label-dark"/>
+                <ComboBox prefWidth="310" promptText="In Progress" styleClass="combo-dark"/>
+
+                <Button text="💾  Save Metadata (F2)" styleClass="primary-action"/>
+            </children>
+        </VBox>
+
+        <!-- BOTTOM OVERVIEW -->
+        <HBox layoutX="195" layoutY="695" prefWidth="1220" prefHeight="105" spacing="12">
+            <children>
+                <VBox prefWidth="650" spacing="10" styleClass="panel">
+                    <padding>
+                        <Insets top="14" right="16" bottom="14" left="16"/>
+                    </padding>
+                    <children>
+                        <Label text="Documents Overview" styleClass="section-title"/>
+                        <HBox spacing="12">
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label text="Document 1" styleClass="section-title"/>
+                                <Label text="Files: 12" styleClass="muted-text"/>
+                                <Label text="Status: In Progress" styleClass="muted-text"/>
+                            </VBox>
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label text="Document 2" styleClass="section-title"/>
+                                <Label text="Files: 18" styleClass="muted-text"/>
+                                <Label text="Status: Waiting for QA" styleClass="muted-text"/>
+                            </VBox>
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label text="Document 3" styleClass="section-title"/>
+                                <Label text="Files: 15" styleClass="muted-text"/>
+                                <Label text="Status: Not Started" styleClass="muted-text"/>
+                            </VBox>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox prefWidth="558" spacing="10" styleClass="panel">
+                    <padding>
+                        <Insets top="14" right="16" bottom="14" left="16"/>
+                    </padding>
+                    <children>
+                        <HBox>
+                            <Label text="Recent Logs" styleClass="section-title"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label text="View all logs" styleClass="blue-text"/>
+                        </HBox>
+                        <Label text="10:42:31       Barcode detected - New document started        johndoe" styleClass="log-row"/>
+                        <Label text="10:40:12       File 45 scanned                              johndoe" styleClass="log-row"/>
+                        <Label text="10:39:58       File 44 scanned                              johndoe" styleClass="log-row"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+    </children>
 </AnchorPane>
