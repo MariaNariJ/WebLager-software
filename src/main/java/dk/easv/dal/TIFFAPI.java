@@ -1,5 +1,6 @@
 package dk.easv.dal;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URI;
@@ -26,7 +27,14 @@ public class TIFFAPI {
 
     public String getAllFiles() {
         try {
-            String downloadPath = System.getProperty("java.io.tmpdir") + "TIFFApp_tiffs.zip";
+            String documentsPath = System.getProperty("user.home") + "/Documents";
+            String tiffAppFolder = documentsPath + "/TIFFApp_tiffs";
+            File tiffAppDir = new File(tiffAppFolder);
+            if (!tiffAppDir.exists() && !tiffAppDir.mkdir()) {
+                throw new java.io.IOException("Failed to create directory: " + tiffAppFolder);
+            }
+
+            String downloadPath = tiffAppFolder + "tiffs.zip";
 
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/getAllFiles")).GET().build();
             HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());

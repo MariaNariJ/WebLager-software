@@ -69,6 +69,6 @@ public class UserviewController {
     public void onFetchFilesClicked() throws Exception {
 //        System.out.println(apiService.getCount());
         apiService.processTiffs();
-        //Note that the path is: ..\Users\"User"\AppData\Local\Temp\TIFFApp_tiffs
+        //Path is: ..\Users\[Username]\Documents\TIFFApp_tiffs\
     }
 }

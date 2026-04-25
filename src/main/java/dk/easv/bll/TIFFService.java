@@ -29,7 +29,7 @@ public class TIFFService {
             System.err.println("Failed getting TIFFs from the api");
             return null;
         }
-        Path extractPath = Paths.get(System.getProperty("java.io.tmpdir"), "TIFFApp_tiffs");
+        Path extractPath = Paths.get(System.getProperty("user.home"), "/Documents/TIFFApp_tiffs");
 
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
             ZipEntry entry;
