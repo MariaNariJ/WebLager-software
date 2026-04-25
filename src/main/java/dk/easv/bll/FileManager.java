@@ -1,13 +1,13 @@
 package dk.easv.bll;
 
-import dk.easv.be.File;
-import dk.easv.dal.dao.FileDAO;
+import dk.easv.be.Page;
+import dk.easv.dal.dao.PageDAO;
 
 public class FileManager {
 
-    private FileDAO fileDAO = new FileDAO();
+    private PageDAO pageDAO = new PageDAO();
 
-    public void saveFile(File file) throws Exception {
-        fileDAO.createFile(file);
+    public void saveFile(Page page) throws Exception {
+        pageDAO.createFile(page);
     }
 }
