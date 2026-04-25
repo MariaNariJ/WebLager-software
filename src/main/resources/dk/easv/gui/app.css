@@ -2,7 +2,8 @@
     -fx-font-family: "Montserrat";
 }
 
-/* PAGE */
+/* ================= LOGIN PAGE ================= */
+
 .login-root {
     -fx-background-color: #2F4861;
 }
@@ -11,7 +12,6 @@
     -fx-background-color: #2F4861;
 }
 
-/* CARD */
 .login-card {
     -fx-background-color: linear-gradient(to bottom right, #1D3147, #1A2B3F);
     -fx-background-radius: 26;
@@ -21,7 +21,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 28, 0.18, 0, 10);
 }
 
-/* CENTER LOGO BOX */
 .logo-box {
     -fx-background-color: transparent;
     -fx-background-radius: 18;
@@ -30,7 +29,6 @@
     -fx-border-width: 2;
 }
 
-/* TEXT */
 .brand-title {
     -fx-text-fill: white;
     -fx-font-size: 34px;
@@ -46,7 +44,6 @@
 .login-subtitle {
     -fx-text-fill: #A9B7C6;
     -fx-font-size: 14px;
-    -fx-font-weight: 400;
 }
 
 .field-label {
@@ -55,7 +52,6 @@
     -fx-font-weight: 700;
 }
 
-/* INPUTS */
 .login-field {
     -fx-background-color: #24394F;
     -fx-background-radius: 14;
@@ -70,11 +66,9 @@
 }
 
 .login-field:focused {
-    -fx-background-color: #24394F;
     -fx-border-color: #17C7A3;
 }
 
-/* CHECKBOX */
 .login-checkbox {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 13px;
@@ -96,7 +90,6 @@
     -fx-background-color: #17C7A3;
 }
 
-/* LINKS */
 .link-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -110,7 +103,6 @@
     -fx-underline: true;
 }
 
-/* BUTTON */
 .primary-button {
     -fx-background-color: #1FD0AE;
     -fx-text-fill: white;
@@ -122,16 +114,14 @@
 }
 
 .primary-button:hover {
-    -fx-background-color: #18b998;
+    -fx-background-color: #18B998;
 }
 
-/* FOOTER */
 .version-label {
     -fx-text-fill: #8EA1B4;
     -fx-font-size: 12px;
 }
 
-/* IMAGE HELPERS */
 .center-logo-image {
     -fx-opacity: 1;
 }
@@ -139,6 +129,8 @@
 .watermark-image {
     -fx-opacity: 0.16;
 }
+
+/* ================= USER VIEW ================= */
 
 .app-root {
     -fx-background-color: #07111E;
@@ -181,6 +173,51 @@
 .nav-button-active {
     -fx-background-color: #24C79F;
     -fx-text-fill: #FFFFFF;
+}
+
+.sidebar-icon {
+    -fx-font-size: 22px;
+    -fx-text-fill: #94A3B8;
+    -fx-padding: 6;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.sidebar-icon:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: #E2E8F0;
+}
+.sidebar-icon-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94A3B8;
+    -fx-font-size: 22px;
+    -fx-background-radius: 8;
+    -fx-padding: 4 8 4 8;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.sidebar-icon-button:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: #E2E8F0;
+}
+
+.sidebar-icon-button-active {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: #24C79F;
+}
+
+.sidebar-icon-button-active {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-text-fill: #24C79F;
+}
+
+.tooltip {
+    -fx-background-color: #1B2A3A;
+    -fx-text-fill: #CBD5E1;
+    -fx-font-size: 10px;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 6;
 }
 
 .top-bar {
@@ -299,7 +336,7 @@
 }
 
 .primary-action:hover {
-    -fx-background-color: #1fb389;
+    -fx-background-color: #1FB389;
 }
 
 .scan-status {

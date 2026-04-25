@@ -5,18 +5,25 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tooltip?>
 
 <AnchorPane prefWidth="1000" prefHeight="700"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.easv.gui.userviewController"
+            fx:controller="dk.easv.gui.UserviewController"
             stylesheets="@app.css"
             styleClass="app-root">
 
     <children>
 
         <!-- SIDEBAR -->
-        <VBox layoutX="0" layoutY="0" prefWidth="180" prefHeight="820" spacing="18" styleClass="sidebar">
+        <VBox fx:id="sidebar"
+              layoutX="-180"
+              layoutY="0"
+              prefWidth="180"
+              prefHeight="820"
+              spacing="18"
+              styleClass="sidebar">
             <padding>
                 <Insets top="24" right="14" bottom="20" left="14"/>
             </padding>
@@ -41,9 +48,49 @@
 
                 <Region VBox.vgrow="ALWAYS"/>
 
+                <!-- USER + ICONS -->
+                <VBox spacing="12">
+
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="☀" styleClass="sidebar-icon">
+                            <tooltip>
+                                <Tooltip text="Switch theme"/>
+                            </tooltip>
+                        </Label>
+
+                        <Button fx:id="sidebarLockButton"
+                                text="⧉"
+                                onAction="#onSidebarLockClicked"
+                                styleClass="sidebar-icon-button">
+                            <tooltip>
+                                <Tooltip text="Lock sidebar"/>
+                            </tooltip>
+                        </Button>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="JD" styleClass="avatar"/>
+                        <VBox spacing="0">
+                            <Label text="johndoe" styleClass="top-user"/>
+                            <Label text="User" styleClass="top-role"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+
+                <!-- logout -->
                 <Button text="↩  Log out" styleClass="nav-button"/>
             </children>
         </VBox>
+
+
+        <!-- SIDE BAR -->
+        <Pane fx:id="sidebarTrigger"
+              layoutX="0"
+              layoutY="0"
+              prefWidth="12"
+              prefHeight="820"
+              style="-fx-background-color: transparent;" />
 
         <!-- TOP BAR -->
         <HBox layoutX="180" layoutY="0" prefWidth="1260" prefHeight="58" alignment="CENTER_RIGHT" spacing="16" styleClass="top-bar">
@@ -51,13 +98,7 @@
                 <Insets right="22"/>
             </padding>
             <children>
-                <Label text="☀" styleClass="top-icon"/>
-                <Label text="🔔" styleClass="top-icon"/>
-                <Label text="JD" styleClass="avatar"/>
-                <VBox spacing="0">
-                    <Label text="johndoe" styleClass="top-user"/>
-                    <Label text="User" styleClass="top-role"/>
-                </VBox>
+
             </children>
         </HBox>
 
