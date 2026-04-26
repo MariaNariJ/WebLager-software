@@ -10,6 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import dk.easv.bll.FileManager;
 import dk.easv.bll.TIFFService;
@@ -23,6 +27,22 @@ import java.io.File;
 import java.util.List;
 
 public class UserviewController {
+
+    @FXML
+    private void onLogOutClicked() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/gui/log-in.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) sidebar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("WebLager");
+            stage.sizeToScene();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private final TIFFService apiService = new TIFFService();
     private final FileManager fileManager = new FileManager();

@@ -79,7 +79,9 @@
                 </VBox>
 
                 <!-- logout -->
-                <Button text="↩  Log out" styleClass="nav-button"/>
+                <Button text="↩  Log out"
+                        styleClass="nav-button"
+                        onAction="#onLogOutClicked"/>
             </children>
         </VBox>
 
