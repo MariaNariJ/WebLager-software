@@ -4,6 +4,7 @@ public class Page {
     private String pageName;
     private String pagePath;
     private int documentId;
+    private String barcode;
 
     public Page (String fileName, String filePath, int documentId) {
         this.pageName = fileName;
@@ -21,5 +22,13 @@ public class Page {
 
     public int getDocumentId() {
         return documentId;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 }

@@ -258,6 +258,19 @@
     -fx-border-width: 1;
 }
 
+.dark-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.dark-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.dark-scroll .content {
+    -fx-background-color: transparent;
+}
+
 .section-title {
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;

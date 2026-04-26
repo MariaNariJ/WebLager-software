@@ -88,7 +88,7 @@
         <Pane fx:id="sidebarTrigger"
               layoutX="0"
               layoutY="0"
-              prefWidth="12"
+              prefWidth="20"
               prefHeight="820"
               style="-fx-background-color: transparent;" />
 
@@ -117,37 +117,18 @@
                     <Label text="Documents: 3" styleClass="muted-text"/>
                 </HBox>
 
-                <VBox spacing="8">
-                    <HBox spacing="8" alignment="CENTER_LEFT">
-                        <Label text="⌄" styleClass="muted-text"/>
-                        <Label text="Document 1" styleClass="tree-title"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label text="12" styleClass="count-pill"/>
-                    </HBox>
-
-                    <Button text="     1    (Ref: 1)" styleClass="file-selected"/>
-                    <Label text="     2    (Ref: 2)" styleClass="file-row"/>
-                    <Label text="     3    (Ref: 3)" styleClass="file-row"/>
-                    <Label text="     4    (Ref: 4)" styleClass="file-row"/>
-                    <Label text="     5    (Ref: 5)" styleClass="file-row"/>
-                    <Label text="     6    (Ref: 6)" styleClass="file-row"/>
-
-                    <Separator styleClass="dark-separator"/>
-
-                    <HBox spacing="8">
-                        <Label text="›" styleClass="muted-text"/>
-                        <Label text="Document 2" styleClass="tree-title"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label text="18" styleClass="count-pill"/>
-                    </HBox>
-
-                    <HBox spacing="8">
-                        <Label text="›" styleClass="muted-text"/>
-                        <Label text="Document 3" styleClass="tree-title"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label text="15" styleClass="count-pill"/>
-                    </HBox>
-                </VBox>
+                <ScrollPane prefHeight="350" fitToWidth="true" styleClass="dark-scroll">
+                    <content>
+                        <VBox fx:id="fileListContainer" spacing="8">
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Label text="⌄" styleClass="muted-text"/>
+                                <Label text="Document 1" styleClass="tree-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label text="0" styleClass="count-pill"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
 
                 <Button text="+  Scan Next (F5)" styleClass="primary-action" onAction="#onFetchFilesClicked"/>
 
@@ -160,12 +141,15 @@
         </VBox>
 
         <!-- CENTER DOCUMENT AREA -->
+        <!-- CENTER DOCUMENT AREA -->
         <VBox layoutX="460" layoutY="72" prefWidth="590" prefHeight="610" spacing="12" styleClass="panel">
             <padding>
                 <Insets top="12" right="14" bottom="14" left="14"/>
             </padding>
 
             <children>
+
+                <!-- TOP BAR -->
                 <HBox alignment="CENTER_LEFT" spacing="12">
                     <Button text="‹" styleClass="small-button"/>
                     <Label text="File 1 of 45" styleClass="blue-text"/>
@@ -176,46 +160,14 @@
                     <Button text="+" styleClass="small-button"/>
                 </HBox>
 
+                <!-- PREVIEW -->
                 <StackPane prefHeight="435" styleClass="document-preview-wrap">
-                    <VBox prefWidth="430" prefHeight="390" alignment="TOP_CENTER" spacing="18" styleClass="document-preview">
-                        <padding>
-                            <Insets top="36" right="36" bottom="24" left="36"/>
-                        </padding>
-                        <children>
-                            <HBox>
-                                <Label text="WebLager A/S" style="-fx-font-size: 22; -fx-font-weight: 800;"/>
-                                <Region HBox.hgrow="ALWAYS"/>
-                                <VBox>
-                                    <Label text="INVOICE" style="-fx-font-size: 24; -fx-font-weight: 800;"/>
-                                    <Label text="No. 10045" style="-fx-font-size: 15; -fx-font-weight: 700;"/>
-                                </VBox>
-                            </HBox>
-
-                            <GridPane hgap="55" vgap="4">
-                                <children>
-                                    <Label text="Customer:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                    <Label text="Acme Corporation" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                                    <Label text="Date:" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                                    <Label text="12-05-2024" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                                    <Label text="Due Date:" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                    <Label text="26-05-2024" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                                </children>
-                            </GridPane>
-
-                            <Label text="Item        Description                 Qty.      Unit Price      Total"/>
-                            <Separator/>
-                            <Label text="1           Archive Box                 10        25,00           250,00"/>
-                            <Label text="2           Document Folder             100       2,50            250,00"/>
-                            <Label text="3           Label                       200       0,50            100,00"/>
-                            <Separator/>
-                            <Label text="Subtotal: 600,00     VAT: 150,00     Total: 750,00"/>
-                            <Region VBox.vgrow="ALWAYS"/>
-                            <Label text="||||||||||||||||||||||||||||||||" style="-fx-font-size: 26;"/>
-                            <Label text="*BARCODE*"/>
-                        </children>
-                    </VBox>
+                    <ImageView fx:id="previewImage"
+                               fitWidth="430"
+                               preserveRatio="true" />
                 </StackPane>
 
+                <!-- TOOLBAR -->
                 <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
                     <Button text="↺&#10;Rotate Left&#10;(Q)" styleClass="toolbar-button"/>
                     <Button text="↻&#10;Rotate Right&#10;(E)" styleClass="toolbar-button"/>
@@ -224,9 +176,9 @@
                     <Button text="→&#10;Next File&#10;(D)" styleClass="toolbar-button"/>
                     <Button text="←&#10;Previous File&#10;(A)" styleClass="toolbar-button"/>
                 </HBox>
+
             </children>
         </VBox>
-
         <!-- METADATA PANEL -->
         <VBox layoutX="1065" layoutY="72" prefWidth="350" prefHeight="610" spacing="14" styleClass="panel">
             <padding>
@@ -255,6 +207,9 @@
 
                 <Label text="Date *" styleClass="field-label-dark"/>
                 <TextField text="12-05-2024" styleClass="dark-field"/>
+
+                <Label text="Barcode" styleClass="field-label-dark"/>
+                <Label fx:id="barcodeLabel" text="No barcode" styleClass="muted-text"/>
 
                 <Label text="Notes" styleClass="field-label-dark"/>
                 <TextArea text="Invoice from Acme Corporation regarding office supplies."

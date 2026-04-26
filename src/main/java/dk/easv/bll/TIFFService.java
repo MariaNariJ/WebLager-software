@@ -3,6 +3,8 @@ package dk.easv.bll;
 import dk.easv.be.Page;
 import dk.easv.dal.TIFFAPI;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -64,5 +66,9 @@ public class TIFFService {
             new File(zipPath).delete();
         }
         return pages;
+    }
+
+    public BufferedImage convertToImage(File file) throws IOException {
+        return ImageIO.read(file);
     }
 }
