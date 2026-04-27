@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -22,16 +24,30 @@ public class TIFFService {
     public int getCount() {
         return api.getCount();
     }
-
+    
     public List<Page> processTiffs() {
-        String zipPath = api.getAllFiles();
         List<Page> pages = new ArrayList<>();
+        Path extractPath = Paths.get(System.getProperty("user.home"), "/Documents/TIFFApp_tiffs");
+        File existingDir = extractPath.toFile();
+
+        if (existingDir.exists() && existingDir.isDirectory()) {
+            File[] existingFiles = existingDir.listFiles();
+
+            if (existingFiles != null && existingFiles.length > 0) {
+                Arrays.sort(existingFiles, Comparator.comparing(File::lastModified));
+                for (File file : existingFiles) {
+                    pages.add(new Page(file.getName(), file.getPath(), 0));
+                }
+                return pages;
+            }
+        }
+
+        String zipPath = api.getAllFiles();
 
         if (zipPath == null) {
             System.err.println("Failed getting TIFFs from the api");
             return null;
         }
-        Path extractPath = Paths.get(System.getProperty("user.home"), "/Documents/TIFFApp_tiffs");
 
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
             ZipEntry entry;
