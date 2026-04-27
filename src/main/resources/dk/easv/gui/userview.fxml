@@ -164,9 +164,15 @@
 
                 <!-- PREVIEW -->
                 <StackPane prefHeight="435" styleClass="document-preview-wrap">
-                    <ImageView fx:id="previewImage"
-                               fitWidth="430"
-                               preserveRatio="true" />
+
+                    <!-- NEW CONTAINER -->
+                    <StackPane prefWidth="430" prefHeight="390" styleClass="document-preview-wrap">
+                        <ImageView fx:id="previewImage"
+                                   fitWidth="430"
+                                   fitHeight="390"
+                                   preserveRatio="true"/>
+                    </StackPane>
+
                 </StackPane>
 
                 <!-- TOOLBAR -->

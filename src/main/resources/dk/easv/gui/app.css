@@ -368,6 +368,19 @@
 .document-preview-wrap {
     -fx-background-color: #081421;
     -fx-background-radius: 8;
+    -fx-alignment: center;
+}
+
+.preview-container {
+    -fx-background-color: #081421;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.2, 0, 2);
 }
 
 .document-preview {
