@@ -1,103 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefWidth="1000" prefHeight="700"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.easv.gui.UserviewController"
-            stylesheets="@app.css"
-            styleClass="app-root">
+<AnchorPane prefHeight="700" prefWidth="1000" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 
         <!-- SIDEBAR -->
-        <VBox fx:id="sidebar"
-              layoutX="-180"
-              layoutY="0"
-              prefWidth="180"
-              prefHeight="820"
-              spacing="18"
-              styleClass="sidebar">
+        <VBox fx:id="sidebar" layoutX="-180" layoutY="0" prefHeight="820" prefWidth="180" spacing="18" styleClass="sidebar">
             <padding>
-                <Insets top="24" right="14" bottom="20" left="14"/>
+                <Insets bottom="20" left="14" right="14" top="24" />
             </padding>
 
             <children>
-                <HBox spacing="10" alignment="CENTER_LEFT">
+                <HBox alignment="CENTER_LEFT" spacing="10">
                     <ImageView fitWidth="32" preserveRatio="true">
                         <image>
-                            <Image url="@assets/WeblagerGreenIcon.png"/>
+                            <Image url="@assets/WeblagerGreenIcon.png" />
                         </image>
                     </ImageView>
-                    <Label text="WebLager" styleClass="sidebar-logo-text"/>
+                    <Label styleClass="sidebar-logo-text" text="WebLager" />
                 </HBox>
 
                 <VBox spacing="10">
-                    <Button text="▣  Scanning" styleClass="nav-button-active"/>
-                    <Button text="□  Documents" styleClass="nav-button"/>
-                    <Button text="☑  QA" styleClass="nav-button"/>
-                    <Button text="⇧  Export" styleClass="nav-button"/>
-                    <Button text="☰  Logs" styleClass="nav-button"/>
+                    <Button styleClass="nav-button-active" text="▣  Scanning" />
+                    <Button styleClass="nav-button" text="□  Documents" />
+                    <Button styleClass="nav-button" text="☑  QA" />
+                    <Button styleClass="nav-button" text="⇧  Export" />
+                    <Button styleClass="nav-button" text="☰  Logs" />
                 </VBox>
 
-                <Region VBox.vgrow="ALWAYS"/>
+                <Region VBox.vgrow="ALWAYS" />
 
                 <!-- USER + ICONS -->
                 <VBox spacing="12">
 
-                    <HBox spacing="8" alignment="CENTER_LEFT">
-                        <Label text="☀" styleClass="sidebar-icon">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label styleClass="sidebar-icon" text="☀">
                             <tooltip>
-                                <Tooltip text="Switch theme"/>
+                                <Tooltip text="Switch theme" />
                             </tooltip>
                         </Label>
 
-                        <Button fx:id="sidebarLockButton"
-                                text="⧉"
-                                onAction="#onSidebarLockClicked"
-                                styleClass="sidebar-icon-button">
+                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
                             <tooltip>
-                                <Tooltip text="Lock sidebar"/>
+                                <Tooltip text="Lock sidebar" />
                             </tooltip>
                         </Button>
                     </HBox>
 
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="JD" styleClass="avatar"/>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label styleClass="avatar" text="JD" />
                         <VBox spacing="0">
-                            <Label text="johndoe" styleClass="top-user"/>
-                            <Label text="User" styleClass="top-role"/>
+                            <Label styleClass="top-user" text="johndoe" />
+                            <Label styleClass="top-role" text="User" />
                         </VBox>
                     </HBox>
 
                 </VBox>
 
                 <!-- logout -->
-                <Button text="↩  Log out"
-                        styleClass="nav-button"
-                        onAction="#onLogOutClicked"/>
+                <Button onAction="#onLogOutClicked" styleClass="nav-button" text="↩  Log out" />
             </children>
         </VBox>
 
 
         <!-- SIDE BAR -->
-        <Pane fx:id="sidebarTrigger"
-              layoutX="0"
-              layoutY="0"
-              prefWidth="20"
-              prefHeight="820"
-              style="-fx-background-color: transparent;" />
+        <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefHeight="820" prefWidth="20" style="-fx-background-color: transparent;" />
 
         <!-- TOP BAR -->
-        <HBox layoutX="180" layoutY="0" prefWidth="1260" prefHeight="58" alignment="CENTER_RIGHT" spacing="16" styleClass="top-bar">
+        <HBox alignment="CENTER_RIGHT" layoutX="180" layoutY="0" prefHeight="58" prefWidth="1260" spacing="16" styleClass="top-bar">
             <padding>
-                <Insets right="22"/>
+                <Insets right="22" />
             </padding>
             <children>
 
@@ -105,155 +95,151 @@
         </HBox>
 
         <!-- SCANNED FILES PANEL -->
-        <VBox layoutX="195" layoutY="72" prefWidth="250" prefHeight="610" spacing="14" styleClass="panel">
+        <VBox layoutX="195" layoutY="72" prefHeight="610" prefWidth="250" spacing="14" styleClass="panel">
             <padding>
-                <Insets top="16" right="14" bottom="14" left="14"/>
+                <Insets bottom="14" left="14" right="14" top="16" />
             </padding>
 
             <children>
-                <Label text="Scanned Files" styleClass="section-title"/>
-                <TextField promptText="Search files..." styleClass="dark-field"/>
+                <Label styleClass="section-title" text="Scanned Files" />
+                <TextField promptText="Search files..." styleClass="dark-field" />
 
                 <HBox spacing="26">
-                    <Label text="Scans: 45" styleClass="muted-text"/>
-                    <Label text="Documents: 3" styleClass="muted-text"/>
+                    <Label styleClass="muted-text" text="Scans: 45" />
+                    <Label styleClass="muted-text" text="Documents: 3" />
                 </HBox>
 
-                <ScrollPane prefHeight="350" fitToWidth="true" styleClass="dark-scroll">
+                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="350" styleClass="dark-scroll">
                     <content>
-                        <VBox fx:id="fileListContainer" spacing="8">
-                            <HBox spacing="8" alignment="CENTER_LEFT">
-                                <Label text="⌄" styleClass="muted-text"/>
-                                <Label text="Document 1" styleClass="tree-title"/>
-                                <Region HBox.hgrow="ALWAYS"/>
-                                <Label text="0" styleClass="count-pill"/>
+                        <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8">
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label styleClass="muted-text" text="⌄" />
+                                <Label styleClass="tree-title" text="Document 1" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label styleClass="count-pill" text="0" />
                             </HBox>
                         </VBox>
                     </content>
                 </ScrollPane>
 
-                <Button text="+  Scan Next (F5)" styleClass="primary-action" onAction="#onFetchFilesClicked"/>
+                <Button onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
 
                 <VBox spacing="4" styleClass="scan-status">
-                    <Label text="✓  Scanned file 45" styleClass="status-title"/>
-                    <Label text="Barcode detected" styleClass="muted-text"/>
-                    <Label text="New document started" styleClass="muted-text"/>
+                    <Label styleClass="status-title" text="✓  Scanned file 45" />
+                    <Label styleClass="muted-text" text="Barcode detected" />
+                    <Label styleClass="muted-text" text="New document started" />
                 </VBox>
             </children>
         </VBox>
 
         <!-- CENTER DOCUMENT AREA -->
         <!-- CENTER DOCUMENT AREA -->
-        <VBox layoutX="460" layoutY="72" prefWidth="590" prefHeight="610" spacing="12" styleClass="panel">
+        <VBox layoutX="460" layoutY="72" prefHeight="610" prefWidth="590" spacing="12" styleClass="panel">
             <padding>
-                <Insets top="12" right="14" bottom="14" left="14"/>
+                <Insets bottom="14" left="14" right="14" top="12" />
             </padding>
 
             <children>
 
                 <!-- TOP BAR -->
                 <HBox alignment="CENTER_LEFT" spacing="12">
-                    <Button text="‹" styleClass="small-button"/>
-                    <Label text="File 1 of 45" styleClass="blue-text"/>
-                    <Label text="(Ref: 1)" styleClass="muted-text"/>
-                    <Region HBox.hgrow="ALWAYS"/>
-                    <Button text="−" styleClass="small-button"/>
-                    <Label text="100%" styleClass="section-title"/>
-                    <Button text="+" styleClass="small-button"/>
+                    <Button styleClass="small-button" text="‹" />
+                    <Label styleClass="blue-text" text="File 1 of 45" />
+                    <Label styleClass="muted-text" text="(Ref: 1)" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button styleClass="small-button" text="−" />
+                    <Label styleClass="section-title" text="100%" />
+                    <Button styleClass="small-button" text="+" />
                 </HBox>
 
                 <!-- PREVIEW -->
                 <StackPane prefHeight="435" styleClass="document-preview-wrap">
 
                     <!-- NEW CONTAINER -->
-                    <StackPane prefWidth="430" prefHeight="390" styleClass="document-preview-wrap">
-                        <ImageView fx:id="previewImage"
-                                   fitWidth="430"
-                                   fitHeight="390"
-                                   preserveRatio="true"/>
+                    <StackPane prefHeight="390" prefWidth="430" styleClass="document-preview-wrap">
+                        <ImageView fx:id="previewImage" fitHeight="390" fitWidth="430" preserveRatio="true" />
                     </StackPane>
 
                 </StackPane>
 
                 <!-- TOOLBAR -->
                 <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
-                    <Button text="↺&#10;Rotate Left&#10;(Q)" styleClass="toolbar-button"/>
-                    <Button text="↻&#10;Rotate Right&#10;(E)" styleClass="toolbar-button"/>
-                    <Button text="↔&#10;Fit Width" styleClass="toolbar-button"/>
-                    <Button text="▣&#10;Actual Size" styleClass="toolbar-button"/>
-                    <Button text="→&#10;Next File&#10;(D)" styleClass="toolbar-button"/>
-                    <Button text="←&#10;Previous File&#10;(A)" styleClass="toolbar-button"/>
+                    <Button styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
+                    <Button styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
+                    <Button styleClass="toolbar-button" text="↔&#10;Fit Width" />
+                    <Button styleClass="toolbar-button" text="▣&#10;Actual Size" />
+                    <Button styleClass="toolbar-button" text="→&#10;Next File&#10;(D)" />
+                    <Button styleClass="toolbar-button" text="←&#10;Previous File&#10;(A)" />
                 </HBox>
 
             </children>
         </VBox>
         <!-- METADATA PANEL -->
-        <VBox layoutX="1065" layoutY="72" prefWidth="350" prefHeight="610" spacing="14" styleClass="panel">
+        <VBox layoutX="1065" layoutY="72" prefHeight="610" prefWidth="350" spacing="14" styleClass="panel">
             <padding>
-                <Insets top="18" right="18" bottom="18" left="18"/>
+                <Insets bottom="18" left="18" right="18" top="18" />
             </padding>
 
             <children>
                 <HBox spacing="30">
-                    <Label text="Metadata" styleClass="tab-active"/>
-                    <Label text="Info" styleClass="tab-inactive"/>
+                    <Label styleClass="tab-active" text="Metadata" />
+                    <Label styleClass="tab-inactive" text="Info" />
                 </HBox>
 
-                <Separator styleClass="dark-separator"/>
+                <Separator styleClass="dark-separator" />
 
-                <Label text="Client *" styleClass="field-label-dark"/>
-                <ComboBox prefWidth="310" promptText="Acme Corporation" styleClass="combo-dark"/>
+                <Label styleClass="field-label-dark" text="Client *" />
+                <ComboBox prefWidth="310" promptText="Acme Corporation" styleClass="combo-dark" />
 
-                <Label text="Box *" styleClass="field-label-dark"/>
-                <ComboBox prefWidth="310" promptText="BOX-0123" styleClass="combo-dark"/>
+                <Label styleClass="field-label-dark" text="Box *" />
+                <ComboBox prefWidth="310" promptText="BOX-0123" styleClass="combo-dark" />
 
-                <Label text="Document Name *" styleClass="field-label-dark"/>
-                <TextField text="Invoice_10045" styleClass="dark-field"/>
+                <Label styleClass="field-label-dark" text="Document Name *" />
+                <TextField styleClass="dark-field" text="Invoice_10045" />
 
-                <Label text="Document Type *" styleClass="field-label-dark"/>
-                <TextField text="Invoice" styleClass="dark-field"/>
+                <Label styleClass="field-label-dark" text="Document Type *" />
+                <TextField styleClass="dark-field" text="Invoice" />
 
-                <Label text="Date *" styleClass="field-label-dark"/>
-                <TextField text="12-05-2024" styleClass="dark-field"/>
+                <Label styleClass="field-label-dark" text="Date *" />
+                <TextField styleClass="dark-field" text="12-05-2024" />
 
-                <Label text="Barcode" styleClass="field-label-dark"/>
-                <Label fx:id="barcodeLabel" text="No barcode" styleClass="muted-text"/>
+                <Label styleClass="field-label-dark" text="Barcode" />
+                <Label fx:id="barcodeLabel" styleClass="muted-text" text="No barcode" />
 
-                <Label text="Notes" styleClass="field-label-dark"/>
-                <TextArea text="Invoice from Acme Corporation regarding office supplies."
-                          prefHeight="70" wrapText="true" styleClass="dark-area"/>
+                <Label styleClass="field-label-dark" text="Notes" />
+                <TextArea prefHeight="70" styleClass="dark-area" text="Invoice from Acme Corporation regarding office supplies." wrapText="true" />
 
-                <Label text="Status" styleClass="field-label-dark"/>
-                <ComboBox prefWidth="310" promptText="In Progress" styleClass="combo-dark"/>
+                <Label styleClass="field-label-dark" text="Status" />
+                <ComboBox prefWidth="310" promptText="In Progress" styleClass="combo-dark" />
 
-                <Button text="💾  Save Metadata (F2)" styleClass="primary-action"/>
+                <Button styleClass="primary-action" text="💾  Save Metadata (F2)" />
             </children>
         </VBox>
 
         <!-- BOTTOM OVERVIEW -->
-        <HBox layoutX="195" layoutY="695" prefWidth="1220" prefHeight="105" spacing="12">
+        <HBox layoutX="195" layoutY="695" prefHeight="105" prefWidth="1220" spacing="12">
             <children>
                 <VBox prefWidth="650" spacing="10" styleClass="panel">
                     <padding>
-                        <Insets top="14" right="16" bottom="14" left="16"/>
+                        <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
                     <children>
-                        <Label text="Documents Overview" styleClass="section-title"/>
+                        <Label styleClass="section-title" text="Documents Overview" />
                         <HBox spacing="12">
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label text="Document 1" styleClass="section-title"/>
-                                <Label text="Files: 12" styleClass="muted-text"/>
-                                <Label text="Status: In Progress" styleClass="muted-text"/>
+                                <Label styleClass="section-title" text="Document 1" />
+                                <Label styleClass="muted-text" text="Files: 12" />
+                                <Label styleClass="muted-text" text="Status: In Progress" />
                             </VBox>
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label text="Document 2" styleClass="section-title"/>
-                                <Label text="Files: 18" styleClass="muted-text"/>
-                                <Label text="Status: Waiting for QA" styleClass="muted-text"/>
+                                <Label styleClass="section-title" text="Document 2" />
+                                <Label styleClass="muted-text" text="Files: 18" />
+                                <Label styleClass="muted-text" text="Status: Waiting for QA" />
                             </VBox>
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label text="Document 3" styleClass="section-title"/>
-                                <Label text="Files: 15" styleClass="muted-text"/>
-                                <Label text="Status: Not Started" styleClass="muted-text"/>
+                                <Label styleClass="section-title" text="Document 3" />
+                                <Label styleClass="muted-text" text="Files: 15" />
+                                <Label styleClass="muted-text" text="Status: Not Started" />
                             </VBox>
                         </HBox>
                     </children>
@@ -261,17 +247,17 @@
 
                 <VBox prefWidth="558" spacing="10" styleClass="panel">
                     <padding>
-                        <Insets top="14" right="16" bottom="14" left="16"/>
+                        <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
                     <children>
                         <HBox>
-                            <Label text="Recent Logs" styleClass="section-title"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Label text="View all logs" styleClass="blue-text"/>
+                            <Label styleClass="section-title" text="Recent Logs" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label styleClass="blue-text" text="View all logs" />
                         </HBox>
-                        <Label text="10:42:31       Barcode detected - New document started        johndoe" styleClass="log-row"/>
-                        <Label text="10:40:12       File 45 scanned                              johndoe" styleClass="log-row"/>
-                        <Label text="10:39:58       File 44 scanned                              johndoe" styleClass="log-row"/>
+                        <Label styleClass="log-row" text="10:42:31       Barcode detected - New document started        johndoe" />
+                        <Label styleClass="log-row" text="10:40:12       File 45 scanned                              johndoe" />
+                        <Label styleClass="log-row" text="10:39:58       File 44 scanned                              johndoe" />
                     </children>
                 </VBox>
             </children>

@@ -138,6 +138,7 @@ public class UserviewController {
 
                 StackPane thumbContainer = new StackPane();
                 thumbContainer.setPrefSize(120, 160);
+                thumbContainer.setMaxSize(120, 160);
                 thumbContainer.setAlignment(Pos.CENTER);
 
                 ImageView thumbnail = new ImageView(fxImage);
@@ -155,14 +156,11 @@ public class UserviewController {
                 thumbnail.setFitWidth(imgW * scale);
                 thumbnail.setFitHeight(imgH * scale);
 
-                // Clip overflow (this removes white borders visually)
-                Rectangle clip = new Rectangle(120, 160);
-                thumbContainer.setClip(clip);
-
                 thumbContainer.getChildren().add(thumbnail);
 
                 // Button
                 Button fileButton = new Button();
+                fileButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
                 fileButton.setGraphic(thumbContainer);
                 fileButton.setText(page.getPageName());
                 fileButton.setContentDisplay(ContentDisplay.TOP);
