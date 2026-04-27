@@ -138,23 +138,15 @@ public class UserviewController {
 
                 StackPane thumbContainer = new StackPane();
                 thumbContainer.setPrefSize(120, 160);
+                thumbContainer.setMinSize(120, 160);
                 thumbContainer.setMaxSize(120, 160);
                 thumbContainer.setAlignment(Pos.CENTER);
 
                 ImageView thumbnail = new ImageView(fxImage);
-                thumbnail.setPreserveRatio(true);
+                thumbnail.setFitWidth(120);
+                thumbnail.setFitHeight(160);
+                thumbnail.setPreserveRatio(false); // <-- fills entire box
                 thumbnail.setSmooth(true);
-
-                double imgW = fxImage.getWidth();
-                double imgH = fxImage.getHeight();
-
-                double boxW = 120;
-                double boxH = 160;
-
-                double scale = Math.max(boxW / imgW, boxH / imgH);
-
-                thumbnail.setFitWidth(imgW * scale);
-                thumbnail.setFitHeight(imgH * scale);
 
                 thumbContainer.getChildren().add(thumbnail);
 
@@ -165,9 +157,7 @@ public class UserviewController {
                 fileButton.setText(page.getPageName());
                 fileButton.setContentDisplay(ContentDisplay.TOP);
                 fileButton.getStyleClass().add("file-row");
-                fileButton.setText(page.getPageName());
-                fileButton.setContentDisplay(ContentDisplay.TOP);
-                fileButton.getStyleClass().add("file-row");
+
 
                 // ---------- CLICK ----------
                 fileButton.setOnAction(e -> {

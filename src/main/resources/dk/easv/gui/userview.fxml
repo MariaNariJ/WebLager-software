@@ -109,7 +109,12 @@
                     <Label styleClass="muted-text" text="Documents: 3" />
                 </HBox>
 
-                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="350" styleClass="dark-scroll">
+                <ScrollPane fitToHeight="true"
+                            fitToWidth="true"
+                            prefHeight="350"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            styleClass="dark-scroll">
                     <content>
                         <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8">
                             <HBox alignment="CENTER_LEFT" spacing="8">
@@ -133,7 +138,6 @@
         </VBox>
 
         <!-- CENTER DOCUMENT AREA -->
-        <!-- CENTER DOCUMENT AREA -->
         <VBox layoutX="460" layoutY="72" prefHeight="610" prefWidth="590" spacing="12" styleClass="panel">
             <padding>
                 <Insets bottom="14" left="14" right="14" top="12" />
@@ -153,13 +157,13 @@
                 </HBox>
 
                 <!-- PREVIEW -->
-                <StackPane prefHeight="435" styleClass="document-preview-wrap">
-
-                    <!-- NEW CONTAINER -->
-                    <StackPane prefHeight="390" prefWidth="430" styleClass="document-preview-wrap">
-                        <ImageView fx:id="previewImage" fitHeight="390" fitWidth="430" preserveRatio="true" />
-                    </StackPane>
-
+                <!-- PREVIEW -->
+                <StackPane prefHeight="435" prefWidth="590" styleClass="document-preview-wrap">
+                    <ImageView fx:id="previewImage"
+                               fitWidth="520"
+                               fitHeight="400"
+                               preserveRatio="true"
+                               smooth="true" />
                 </StackPane>
 
                 <!-- TOOLBAR -->
