@@ -21,10 +21,8 @@ public class BarcodeService {
 
             return result.getText();
 
-        } catch (NotFoundException e) {
-            return "No barcode found.";
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            return null;
         }
     }
 }

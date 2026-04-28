@@ -4,13 +4,13 @@ public class Page {
 
     private String pageName;
     private String pagePath;
-    private int documentId;
+    private int pageId;
     private String barcode;
 
-    public Page(String fileName, String filePath, int documentId) {
+    public Page(String fileName, String filePath, int pageId) {
         this.pageName = fileName;
         this.pagePath = filePath;
-        this.documentId = documentId;
+        this.pageId = pageId;
     }
 
     public String getPageName() {
@@ -21,8 +21,8 @@ public class Page {
         return pagePath;
     }
 
-    public int getDocumentId() {
-        return documentId;
+    public int getPageId() {
+        return pageId;
     }
 
     public String getBarcode() {

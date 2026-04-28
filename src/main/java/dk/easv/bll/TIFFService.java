@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,7 +27,7 @@ public class TIFFService {
         return api.getCount();
     }
     
-    public List<Page> processTiffs() {
+    public List<Page> processAllTiffs() {
         List<Page> pages = new ArrayList<>();
         Path extractPath = Paths.get(System.getProperty("user.home"), "/Documents/TIFFApp_tiffs");
         File existingDir = extractPath.toFile();
@@ -78,6 +80,49 @@ public class TIFFService {
             }
         } catch (IOException | SecurityException e) {
             System.err.println("An error occurred while extracting the TIFFs zip file: " + e);
+        } finally {
+            new File(zipPath).delete();
+        }
+        return pages;
+    }
+
+    public List<Page> processTiff(int counter) {
+        List<Page> pages = new ArrayList<>();
+        Path extractPath = Paths.get(System.getProperty("user.home"), "/Documents/TIFFApp_tiffs");
+
+        String zipPath = api.getRandomFile();
+        if (zipPath == null) {
+            System.err.println("Failed getting TIFFs from the api");
+            return null;
+        }
+
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.isDirectory()) continue;
+
+                String newName = timestamp + "_" + counter + ".tiff";
+                int newId = timestamp.hashCode() + counter;
+
+                Path entryPath = extractPath.resolve(newName).normalize();
+
+                File outFile = entryPath.toFile();
+                File parentDir = outFile.getParentFile();
+
+                if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+                    throw new IOException("Failed to create directory: " + parentDir);
+                }
+
+                try (FileOutputStream out = new FileOutputStream(outFile)) {
+                    zis.transferTo(out);
+                }
+
+                pages.add(new Page(newName, outFile.getPath(), newId));
+            }
+        } catch (IOException | SecurityException e) {
+            System.err.println("An error occurred while extracting the TIFF zip file: " + e);
         } finally {
             new File(zipPath).delete();
         }

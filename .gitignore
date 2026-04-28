@@ -10,6 +10,7 @@ target/
 .idea/compiler.xml
 .idea/libraries/
 .idea/dataSources.xml
+.idea/inspectionProfiles
 *.iws
 *.iml
 *.ipr
@@ -40,3 +41,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+

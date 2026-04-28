@@ -23,7 +23,9 @@ import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static java.lang.StrictMath.clamp;
 
@@ -205,19 +207,18 @@ public class UserviewController {
     // ================= FETCH FILES =================
     @FXML
     public void onFetchFilesClicked() {
-
-        scannedPages = fileManager.processAndScanFiles();
-
-        if (scannedPages == null || scannedPages.isEmpty()) {
-            System.out.println("No files processed.");
-            return;
-        }
-
         fileListContainer.getChildren().clear();
 
-        for (Page page : scannedPages) {
-            addPageToUI(page);
-        }
+        scannedPages = new ArrayList<>();
+
+        CompletableFuture.runAsync(() -> {
+            fileManager.proccesFilesInOrder(page -> {
+                Platform.runLater(() -> {
+                    scannedPages.add(page);
+                    addPageToUI(page);
+                });
+            });
+        });
     }
 
     // ================= FILTER FILES =================
@@ -271,6 +272,7 @@ public class UserviewController {
             Button fileButton = new Button();
             fileButton.setGraphic(thumbContainer);
             fileButton.setText(page.getPageName());
+            fileButton.setMnemonicParsing(false);
             fileButton.setContentDisplay(ContentDisplay.TOP);
             fileButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
