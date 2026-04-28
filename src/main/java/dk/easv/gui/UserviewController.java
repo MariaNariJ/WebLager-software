@@ -185,7 +185,7 @@ public class UserviewController {
 
         sidebarVisible = false;
 
-        TranslateTransition transition = new TranslateTransition(Duration.millis(220), sidebar);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(110), sidebar);
         transition.setToX(0);
         transition.play();
     }

@@ -214,9 +214,9 @@
         </VBox>
 
         <!-- BOTTOM OVERVIEW -->
-        <HBox alignment="CENTER" layoutX="188.0" layoutY="648.0" prefHeight="165.0" prefWidth="1245.0" spacing="12">
+        <HBox alignment="CENTER" layoutX="188.0" layoutY="648.0" prefHeight="165.0" prefWidth="1245.0" spacing="7.0">
             <children>
-                <VBox prefHeight="165.0" prefWidth="668.0" spacing="10" styleClass="panel">
+                <VBox prefHeight="165.0" prefWidth="708.0" spacing="10" styleClass="panel">
                     <padding>
                         <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
@@ -242,7 +242,7 @@
                     </children>
                 </VBox>
 
-                <VBox prefHeight="165.0" prefWidth="563.0" spacing="10" styleClass="panel">
+                <VBox prefHeight="165.0" prefWidth="555.0" spacing="10" styleClass="panel">
                     <padding>
                         <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
