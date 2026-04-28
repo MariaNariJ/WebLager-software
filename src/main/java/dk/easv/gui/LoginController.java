@@ -5,10 +5,13 @@ import dk.easv.bll.PasswordManager;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.util.concurrent.CompletableFuture;
+import javafx.application.Platform;
 
 import java.util.Objects;
 
@@ -19,7 +22,9 @@ public class LoginController {
     private PasswordField passwordField;
     @FXML
     private CheckBox rememberMeCheckBox;
-
+    @FXML
+    private Button signInButton;
+    @FXML
     private final PasswordManager passwordManager  = new PasswordManager();
 
     public void initialize()
@@ -31,30 +36,51 @@ public class LoginController {
         String login = usernameField.getText().toLowerCase();
         String password = passwordField.getText();
 
-        if (login.isEmpty() || password.isEmpty())
-        {
+        if (login.isEmpty() || password.isEmpty()) {
             System.out.println("Please fill in all fields");
             return;
         }
 
-        if (passwordManager.checkPassword(login, password))
-        {
-            User user = passwordManager.getUser();
-            try {
-                Stage stage = (Stage) usernameField.getScene().getWindow();
-                if (user.getRole().equals("Admin")) {
-                    //Change stage to Admin page view
-                    System.out.println("Logged in as Admin");
-                } else {
-                    stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../gui/userview.fxml"))));
-                    System.out.println("Logged in as User");
-                }
-            } catch (Exception e) {
-                System.out.println("Failed changing stage " + e.getMessage());
+        signInButton.setDisable(true);
+        signInButton.setOpacity(0.6);
+
+        CompletableFuture.supplyAsync(() -> {
+            boolean isValid = passwordManager.checkPassword(login, password);
+
+            if (isValid) {
+                return passwordManager.getUser();
+            } else {
+                return null;
             }
-        } else {
-            System.out.println("Wrong username or password");
-        }
+        }).thenAccept(user -> {
+            Platform.runLater(() -> {
+                if (user != null) {
+                    try {
+                        Stage stage = (Stage) usernameField.getScene().getWindow();
+                        if (user.getRole().equals("Admin")) {
+                            //Change stage to Admin page view
+                            System.out.println("Logged in as Admin");
+                        } else {
+                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../gui/userview.fxml"))));
+                            System.out.println("Logged in as User");
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Failed changing stage " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Wrong username or password");
+                    signInButton.setDisable(false);
+                    signInButton.setOpacity(1);
+                }
+            });
+        }).exceptionally(ex -> {
+            Platform.runLater(() -> {
+                System.err.println("An error occurred during login: " + ex.getMessage());
+                signInButton.setDisable(false);
+                signInButton.setOpacity(1);
+            });
+            return null;
+        });
     }
 
     /*
