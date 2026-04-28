@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1000" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
+<AnchorPane prefHeight="799.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 
@@ -85,7 +84,7 @@
         <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefHeight="820" prefWidth="20" style="-fx-background-color: transparent;" />
 
         <!-- TOP BAR -->
-        <HBox alignment="CENTER_RIGHT" layoutX="180" layoutY="0" prefHeight="58" prefWidth="1260" spacing="16" styleClass="top-bar">
+        <HBox alignment="CENTER_RIGHT" layoutX="180" layoutY="0" prefHeight="2.0" prefWidth="1260" spacing="16" styleClass="top-bar">
             <padding>
                 <Insets right="22" />
             </padding>
@@ -95,28 +94,21 @@
         </HBox>
 
         <!-- SCANNED FILES PANEL -->
-        <VBox layoutX="195" layoutY="72" prefHeight="610" prefWidth="250" spacing="14" styleClass="panel">
+        <VBox layoutX="187.0" layoutY="7.0" prefHeight="633.0" prefWidth="266.0" spacing="14" styleClass="panel">
             <padding>
                 <Insets bottom="14" left="14" right="14" top="16" />
             </padding>
 
             <children>
                 <Label styleClass="section-title" text="Scanned Files" />
-                <TextField fx:id="searchField"
-                           promptText="Search files..."
-                           styleClass="dark-field" />
+                <TextField fx:id="searchField" promptText="Search files..." styleClass="dark-field" />
 
                 <HBox spacing="26">
                     <Label styleClass="muted-text" text="Scans: 45" />
                     <Label styleClass="muted-text" text="Documents: 3" />
                 </HBox>
 
-                <ScrollPane fitToHeight="true"
-                            fitToWidth="true"
-                            prefHeight="350"
-                            hbarPolicy="NEVER"
-                            vbarPolicy="AS_NEEDED"
-                            styleClass="dark-scroll">
+                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="350" styleClass="dark-scroll" vbarPolicy="AS_NEEDED">
                     <content>
                         <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8">
                             <HBox alignment="CENTER_LEFT" spacing="8">
@@ -140,7 +132,7 @@
         </VBox>
 
         <!-- CENTER DOCUMENT AREA -->
-        <VBox layoutX="460" layoutY="72" prefHeight="610" prefWidth="590" spacing="12" styleClass="panel">
+        <VBox layoutX="459.0" layoutY="7.0" prefHeight="633.0" prefWidth="616.0" spacing="12" styleClass="panel">
             <padding>
                 <Insets bottom="14" left="14" right="14" top="12" />
             </padding>
@@ -159,21 +151,12 @@
                 </HBox>
 
                 <!-- PREVIEW -->
-                <ScrollPane fx:id="previewScrollPane"
-                            fitToWidth="true"
-                            fitToHeight="true"
-                            pannable="true"
-                            style="-fx-background: transparent; -fx-background-color: transparent;">
+                <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background: transparent; -fx-background-color: transparent;">
 
                     <content>
-                        <StackPane prefHeight="435" prefWidth="590"
-                                   alignment="CENTER"
-                                   style="-fx-background-color: transparent;">
+                        <StackPane alignment="CENTER" prefHeight="435" prefWidth="590" style="-fx-background-color: transparent;">
 
-                            <ImageView fx:id="previewImage"
-                                       preserveRatio="true"
-                                       smooth="true"
-                                       style="-fx-background-color: transparent;" />
+                            <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent;" />
 
                         </StackPane>
                     </content>
@@ -192,13 +175,13 @@
             </children>
         </VBox>
         <!-- METADATA PANEL -->
-        <VBox layoutX="1065" layoutY="72" prefHeight="610" prefWidth="350" spacing="14" styleClass="panel">
+        <VBox layoutX="1081.0" layoutY="8.0" prefHeight="633.0" prefWidth="350" spacing="14" styleClass="panel">
             <padding>
                 <Insets bottom="18" left="18" right="18" top="18" />
             </padding>
 
             <children>
-                <HBox spacing="30">
+                <HBox prefHeight="28.0" prefWidth="312.0" spacing="30">
                     <Label styleClass="tab-active" text="Metadata" />
                     <Label styleClass="tab-inactive" text="Info" />
                 </HBox>
@@ -223,9 +206,6 @@
                 <Label styleClass="field-label-dark" text="Barcode" />
                 <Label fx:id="barcodeLabel" styleClass="muted-text" text="No barcode" />
 
-                <Label styleClass="field-label-dark" text="Notes" />
-                <TextArea prefHeight="70" styleClass="dark-area" text="Invoice from Acme Corporation regarding office supplies." wrapText="true" />
-
                 <Label styleClass="field-label-dark" text="Status" />
                 <ComboBox prefWidth="310" promptText="In Progress" styleClass="combo-dark" />
 
@@ -234,9 +214,9 @@
         </VBox>
 
         <!-- BOTTOM OVERVIEW -->
-        <HBox layoutX="195" layoutY="695" prefHeight="105" prefWidth="1220" spacing="12">
+        <HBox alignment="CENTER" layoutX="188.0" layoutY="648.0" prefHeight="165.0" prefWidth="1245.0" spacing="12">
             <children>
-                <VBox prefWidth="650" spacing="10" styleClass="panel">
+                <VBox prefHeight="165.0" prefWidth="668.0" spacing="10" styleClass="panel">
                     <padding>
                         <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
@@ -262,7 +242,7 @@
                     </children>
                 </VBox>
 
-                <VBox prefWidth="558" spacing="10" styleClass="panel">
+                <VBox prefHeight="165.0" prefWidth="563.0" spacing="10" styleClass="panel">
                     <padding>
                         <Insets bottom="14" left="16" right="16" top="14" />
                     </padding>
