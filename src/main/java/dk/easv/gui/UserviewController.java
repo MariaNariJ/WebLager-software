@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -27,6 +24,8 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.util.List;
+
+import static java.lang.StrictMath.clamp;
 
 public class UserviewController {
 
@@ -55,8 +54,47 @@ public class UserviewController {
     @FXML
     private TextField searchField;
 
+    @FXML
+    private Label zoomLabel;
+
+    @FXML
+    private void onZoomIn() {
+        if (zoomLevel < MAX_ZOOM) {
+            zoomLevel += ZOOM_STEP;
+            updateZoom();
+            updateZoomLabel();
+        }
+    }
+
+    @FXML
+    private void onZoomOut() {
+        if (zoomLevel > MIN_ZOOM) {
+            zoomLevel -= ZOOM_STEP;
+            updateZoom();
+            updateZoomLabel();
+        }
+    }
+
+    @FXML
+    private ScrollPane previewScrollPane;
+
+    private void updateZoomLabel() {
+        int percent = (int) (zoomLevel * 100);
+        zoomLabel.setText(percent + "%");
+    }
+
     private boolean sidebarVisible = false;
     private boolean sidebarLocked = false;
+
+    // ================= ZOOM =================
+    private double zoomLevel = 1.0;
+    private final double ZOOM_STEP = 0.1;
+    private final double MIN_ZOOM = 0.2;
+    private final double MAX_ZOOM = 3.0;
+
+    private Image currentImage;
+
+
 
     // ================= Initialize =================
     @FXML
@@ -69,6 +107,55 @@ public class UserviewController {
         // Search listener
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {
             filterFiles(newValue);
+        });
+
+        previewScrollPane.setOnScroll(event -> {
+            if (currentImage == null) return;
+
+            double zoomFactor = (event.getDeltaY() > 0) ? 1.1 : 0.9;
+
+            double oldZoom = zoomLevel;
+            double newZoom = zoomLevel * zoomFactor;
+
+            if (newZoom < MIN_ZOOM || newZoom > MAX_ZOOM) return;
+
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+
+            double hValue = previewScrollPane.getHvalue();
+            double vValue = previewScrollPane.getVvalue();
+
+            double contentWidth = previewImage.getBoundsInParent().getWidth();
+            double contentHeight = previewImage.getBoundsInParent().getHeight();
+
+            double viewportWidth = previewScrollPane.getViewportBounds().getWidth();
+            double viewportHeight = previewScrollPane.getViewportBounds().getHeight();
+
+            double mouseXRatio = (hValue * (contentWidth - viewportWidth) + mouseX) / contentWidth;
+            double mouseYRatio = (vValue * (contentHeight - viewportHeight) + mouseY) / contentHeight;
+
+            zoomLevel = newZoom;
+            updateZoom();
+            updateZoomLabel();
+
+            double newContentWidth = contentWidth * (zoomLevel / oldZoom);
+            double newContentHeight = contentHeight * (zoomLevel / oldZoom);
+
+            double newHValue = (mouseXRatio * newContentWidth - mouseX) / (newContentWidth - viewportWidth);
+            double newVValue = (mouseYRatio * newContentHeight - mouseY) / (newContentHeight - viewportHeight);
+
+            previewScrollPane.setHvalue(clamp(newHValue));
+            previewScrollPane.setVvalue(clamp(newVValue));
+
+            event.consume();
+        });
+
+        previewImage.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                zoomLevel = 1.0;
+                updateZoom();
+                updateZoomLabel();
+            }
         });
 
         Platform.runLater(() -> {
@@ -189,9 +276,12 @@ public class UserviewController {
 
             fileButton.setOnAction(e -> {
                 barcodeLabel.setText(page.getBarcode());
-                previewImage.setImage(fxImage);
-                previewImage.setPreserveRatio(true);
-                previewImage.setFitWidth(500);
+
+                currentImage = fxImage;
+                zoomLevel = 1.0;
+
+                updateZoom();
+                updateZoomLabel();
             });
 
             fileListContainer.getChildren().add(fileButton);
@@ -199,6 +289,22 @@ public class UserviewController {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    // ================= Zoom Logic =================
+
+    private void updateZoom() {
+        if (currentImage == null) return;
+
+        previewImage.setImage(currentImage);
+        previewImage.setPreserveRatio(true);
+
+        // Base size (your UI size)
+        double baseWidth = previewScrollPane.getWidth();
+        double baseHeight = previewScrollPane.getHeight();
+
+        previewImage.setFitWidth(baseWidth * zoomLevel);
+        previewImage.setFitHeight(baseHeight * zoomLevel);
     }
 
     // ================= SMART CROP =================
@@ -283,5 +389,12 @@ public class UserviewController {
         int b = rgb & 0xff;
 
         return (r > 200 && g > 200 && b > 200);
+    }
+
+    // ================= HELPER =================
+    private double clamp(double value) {
+        if (value < 0) return 0;
+        if (value > 1) return 1;
+        return value;
     }
 }

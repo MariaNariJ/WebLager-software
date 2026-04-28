@@ -153,20 +153,31 @@
                     <Label styleClass="blue-text" text="File 1 of 45" />
                     <Label styleClass="muted-text" text="(Ref: 1)" />
                     <Region HBox.hgrow="ALWAYS" />
-                    <Button styleClass="small-button" text="−" />
-                    <Label styleClass="section-title" text="100%" />
-                    <Button styleClass="small-button" text="+" />
+                    <Button onAction="#onZoomOut" styleClass="small-button" text="−" />
+                    <Label fx:id="zoomLabel" styleClass="section-title" text="100%" />
+                    <Button onAction="#onZoomIn" styleClass="small-button" text="+" />
                 </HBox>
 
                 <!-- PREVIEW -->
-                <!-- PREVIEW -->
-                <StackPane prefHeight="435" prefWidth="590" styleClass="document-preview-wrap">
-                    <ImageView fx:id="previewImage"
-                               fitWidth="520"
-                               fitHeight="400"
-                               preserveRatio="true"
-                               smooth="true" />
-                </StackPane>
+                <ScrollPane fx:id="previewScrollPane"
+                            fitToWidth="true"
+                            fitToHeight="true"
+                            pannable="true"
+                            style="-fx-background: transparent; -fx-background-color: transparent;">
+
+                    <content>
+                        <StackPane prefHeight="435" prefWidth="590"
+                                   alignment="CENTER"
+                                   style="-fx-background-color: transparent;">
+
+                            <ImageView fx:id="previewImage"
+                                       preserveRatio="true"
+                                       smooth="true"
+                                       style="-fx-background-color: transparent;" />
+
+                        </StackPane>
+                    </content>
+                </ScrollPane>
 
                 <!-- TOOLBAR -->
                 <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
