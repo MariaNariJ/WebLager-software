@@ -102,7 +102,9 @@
 
             <children>
                 <Label styleClass="section-title" text="Scanned Files" />
-                <TextField promptText="Search files..." styleClass="dark-field" />
+                <TextField fx:id="searchField"
+                           promptText="Search files..."
+                           styleClass="dark-field" />
 
                 <HBox spacing="26">
                     <Label styleClass="muted-text" text="Scans: 45" />

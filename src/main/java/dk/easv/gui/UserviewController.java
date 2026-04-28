@@ -9,30 +9,27 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.geometry.Pos;
+
 import dk.easv.bll.FileManager;
-import dk.easv.bll.TIFFService;
 import dk.easv.be.Page;
 
 import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
-
 import java.util.List;
 
 public class UserviewController {
 
-    private final TIFFService apiService = new TIFFService();
     private final FileManager fileManager = new FileManager();
 
     private List<Page> scannedPages;
@@ -55,15 +52,24 @@ public class UserviewController {
     @FXML
     private ImageView previewImage;
 
+    @FXML
+    private TextField searchField;
+
     private boolean sidebarVisible = false;
     private boolean sidebarLocked = false;
 
     // ================= Initialize =================
     @FXML
     public void initialize() {
+
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());
         sidebarTrigger.toFront();
+
+        // Search listener
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+            filterFiles(newValue);
+        });
 
         Platform.runLater(() -> {
             sidebar.getScene().setOnKeyPressed(event -> {
@@ -123,56 +129,75 @@ public class UserviewController {
         fileListContainer.getChildren().clear();
 
         for (Page page : scannedPages) {
+            addPageToUI(page);
+        }
+    }
 
-            try {
-                BufferedImage original = ImageIO.read(new File(page.getPagePath()));
+    // ================= FILTER FILES =================
+    private void filterFiles(String query) {
 
-                if (original == null) continue;
+        if (scannedPages == null) return;
 
-                //  Crop background to get better thumbnails and previews
-                BufferedImage cropped = cropBackground(original);
+        String lowerQuery = query.trim().toLowerCase();
 
-                Image fxImage = SwingFXUtils.toFXImage(cropped, null);
+        fileListContainer.getChildren().clear();
 
-                // ---------- THUMBNAIL ----------
-
-                StackPane thumbContainer = new StackPane();
-                thumbContainer.setPrefSize(120, 160);
-                thumbContainer.setMinSize(120, 160);
-                thumbContainer.setMaxSize(120, 160);
-                thumbContainer.setAlignment(Pos.CENTER);
-
-                ImageView thumbnail = new ImageView(fxImage);
-                thumbnail.setFitWidth(120);
-                thumbnail.setFitHeight(160);
-                thumbnail.setPreserveRatio(false); // <-- fills entire box
-                thumbnail.setSmooth(true);
-
-                thumbContainer.getChildren().add(thumbnail);
-
-                // Button
-                Button fileButton = new Button();
-                fileButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                fileButton.setGraphic(thumbContainer);
-                fileButton.setText(page.getPageName());
-                fileButton.setContentDisplay(ContentDisplay.TOP);
-                fileButton.getStyleClass().add("file-row");
-
-
-                // ---------- CLICK ----------
-                fileButton.setOnAction(e -> {
-                    barcodeLabel.setText(page.getBarcode());
-
-                    previewImage.setImage(fxImage);
-                    previewImage.setPreserveRatio(true);
-                    previewImage.setFitWidth(500);
-                });
-
-                fileListContainer.getChildren().add(fileButton);
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        if (lowerQuery.isEmpty()) {
+            for (Page page : scannedPages) {
+                addPageToUI(page);
             }
+            return;
+        }
+
+        for (Page page : scannedPages) {
+
+            String name = page.getPageName() != null ? page.getPageName().toLowerCase() : "";
+            String barcode = page.getBarcode() != null ? page.getBarcode().toLowerCase() : "";
+
+            if (name.contains(lowerQuery) || barcode.contains(lowerQuery)) {
+                addPageToUI(page);
+            }
+        }
+    }
+
+    // ================= ADD PAGE TO UI =================
+    private void addPageToUI(Page page) {
+        try {
+            BufferedImage original = ImageIO.read(new File(page.getPagePath()));
+            if (original == null) return;
+
+            BufferedImage cropped = cropBackground(original);
+            Image fxImage = SwingFXUtils.toFXImage(cropped, null);
+
+            // Thumbnail container
+            StackPane thumbContainer = new StackPane();
+            thumbContainer.setPrefSize(120, 160);
+            thumbContainer.setAlignment(Pos.CENTER);
+
+            ImageView thumbnail = new ImageView(fxImage);
+            thumbnail.setFitWidth(120);
+            thumbnail.setFitHeight(160);
+            thumbnail.setPreserveRatio(false);
+
+            thumbContainer.getChildren().add(thumbnail);
+
+            Button fileButton = new Button();
+            fileButton.setGraphic(thumbContainer);
+            fileButton.setText(page.getPageName());
+            fileButton.setContentDisplay(ContentDisplay.TOP);
+            fileButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+
+            fileButton.setOnAction(e -> {
+                barcodeLabel.setText(page.getBarcode());
+                previewImage.setImage(fxImage);
+                previewImage.setPreserveRatio(true);
+                previewImage.setFitWidth(500);
+            });
+
+            fileListContainer.getChildren().add(fileButton);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -185,53 +210,58 @@ public class UserviewController {
         int top = 0, bottom = height - 1;
         int left = 0, right = width - 1;
 
-        // TOP
-        outer:
         for (int y = 0; y < height; y++) {
+            boolean found = false;
             for (int x = 0; x < width; x++) {
                 if (!isBackground(image.getRGB(x, y))) {
                     top = y;
-                    break outer;
+                    found = true;
+                    break;
                 }
             }
+            if (found) break;
         }
 
-        // BOTTOM
-        outer:
         for (int y = height - 1; y >= 0; y--) {
+            boolean found = false;
             for (int x = 0; x < width; x++) {
                 if (!isBackground(image.getRGB(x, y))) {
                     bottom = y;
-                    break outer;
+                    found = true;
+                    break;
                 }
             }
+            if (found) break;
         }
 
-        // LEFT
-        outer:
         for (int x = 0; x < width; x++) {
+            boolean found = false;
             for (int y = 0; y < height; y++) {
                 if (!isBackground(image.getRGB(x, y))) {
                     left = x;
-                    break outer;
+                    found = true;
+                    break;
                 }
             }
+            if (found) break;
         }
 
-        // RIGHT
-        outer:
         for (int x = width - 1; x >= 0; x--) {
+            boolean found = false;
             for (int y = 0; y < height; y++) {
                 if (!isBackground(image.getRGB(x, y))) {
                     right = x;
-                    break outer;
+                    found = true;
+                    break;
                 }
             }
+            if (found) break;
         }
 
         return image.getSubimage(left, top, right - left + 1, bottom - top + 1);
     }
 
+    // ================= LOGOUT =================
     @FXML
     private void onLogOutClicked() {
         try {
@@ -252,7 +282,6 @@ public class UserviewController {
         int g = (rgb >> 8) & 0xff;
         int b = rgb & 0xff;
 
-        // Detect light colors (white + beige + light gray)
         return (r > 200 && g > 200 && b > 200);
     }
 }

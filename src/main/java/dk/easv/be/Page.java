@@ -1,12 +1,13 @@
 package dk.easv.be;
 
 public class Page {
+
     private String pageName;
     private String pagePath;
     private int documentId;
     private String barcode;
 
-    public Page (String fileName, String filePath, int documentId) {
+    public Page(String fileName, String filePath, int documentId) {
         this.pageName = fileName;
         this.pagePath = filePath;
         this.documentId = documentId;
