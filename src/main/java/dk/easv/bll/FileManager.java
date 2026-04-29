@@ -20,31 +20,23 @@ public class FileManager {
         pageDAO.createFile(page);
     }
 
-    public List<Page> processAndScanFiles() {
-
-        List<Page> pages = tiffService.processAllTiffs();
-
-        if (pages == null) {
-            return null;
-        }
-
-        for (Page page : pages) {
-            try {
-                File file = new File(page.getPagePath());
-
-                BufferedImage image = tiffService.convertToImage(file);
-
-                String barcode = barcodeService.scanBarcode(image);
-
-                page.setBarcode(barcode);
-
-            } catch (Exception e) {
-                System.err.println("Error processing file: " + page.getPagePath());
-            }
-        }
-
-        return pages;
-    }
+//    public List<Page> processAndScanFiles() {
+//        List<Page> pages = tiffService.processAllTiffs();
+//        if (pages == null) {
+//            return null;
+//        }
+//        for (Page page : pages) {
+//            try {
+//                File file = new File(page.getPagePath());
+//                BufferedImage image = tiffService.convertToImage(file);
+//                String barcode = barcodeService.scanBarcode(image);
+//                page.setBarcode(barcode);
+//            } catch (Exception e) {
+//                System.err.println("Error processing file: " + page.getPagePath());
+//            }
+//        }
+//        return pages;
+//    }
 
     public List<Page> proccesFilesInOrder(Consumer<Page> scannedPage) {
         List<Page> documentPages = new ArrayList<>();
