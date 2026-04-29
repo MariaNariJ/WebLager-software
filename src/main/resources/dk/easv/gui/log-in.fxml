@@ -96,7 +96,7 @@
                         </VBox>
 
                         <HBox alignment="CENTER_LEFT">
-                            <children>
+                            <!--<children>
                                 <CheckBox fx:id="rememberMeCheckBox"
                                           styleClass="login-checkbox"
                                           text="Remember me"/>
@@ -105,7 +105,7 @@
 
                                 <Hyperlink styleClass="link-button"
                                            text="Forgot password?"/>
-                            </children>
+                            </children>-->
                         </HBox>
 
                         <Button fx:id="signInButton"

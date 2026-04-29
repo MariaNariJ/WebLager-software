@@ -92,7 +92,7 @@ public class TIFFService {
                 if (entry.isDirectory()) continue;
 
                 String newName = timestamp + "_" + counter + ".tiff";
-                int newId = timestamp.hashCode() + counter;
+                String newId = timestamp + counter;
 
                 Path entryPath = extractPath.resolve(newName).normalize();
 
@@ -107,7 +107,7 @@ public class TIFFService {
                     zis.transferTo(out);
                 }
 
-                pages.add(new Page(newName, outFile.getPath(), newId));
+                pages.add(new Page(newId, counter, -1, newName, outFile.getPath(), 0));
             }
         } catch (IOException | SecurityException e) {
             System.err.println("An error occurred while extracting the TIFF zip file: " + e);
