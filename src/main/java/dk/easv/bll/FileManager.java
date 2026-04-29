@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -20,6 +23,7 @@ public class FileManager {
     public void updatePageRotation(Page page) {
         pageDAO.updatePageRotation(page);
     }
+    // ================= PROCESS FILES =================
 
     public void proccesFilesFromApi(Consumer<Page> scannedPage) {
         boolean pageBarcode = false;
