@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import dk.easv.bll.FileManager;
 import dk.easv.be.Page;
 
@@ -28,11 +27,40 @@ import java.util.concurrent.CompletableFuture;
 
 public class UserviewController {
 
+
+
     private final FileManager fileManager = new FileManager();
 
     private List<Page> scannedPages;
     private boolean scanning = false;
     private int currentIndex = -1;
+
+    @FXML
+    private VBox fileListContainer;
+
+    @FXML
+    private VBox sidebar;
+
+    @FXML
+    private Pane sidebarTrigger;
+
+    @FXML
+    private Button sidebarLockButton;
+
+    @FXML
+    private Label barcodeLabel;
+
+    @FXML
+    private ImageView previewImage;
+
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Label zoomLabel;
+
+    @FXML
+    private Button btnFetchFiles;
 
     private final Map<String, Runnable> keyBindings = new HashMap<>();
 
@@ -50,6 +78,16 @@ public class UserviewController {
     // ================= STATE =================
     private Image currentImage;
 
+    private void updateZoomLabel() {
+        int percent = (int) (zoomLevel * 100);
+        zoomLabel.setText(percent + "%");
+    }
+
+    private boolean sidebarVisible = true;
+    private boolean sidebarLocked = true;
+
+
+    // ================= ZOOM =================
     private double zoomLevel = 1.0;
     private final double ZOOM_STEP = 0.1;
     private final double MIN_ZOOM = 0.2;
@@ -121,6 +159,12 @@ public class UserviewController {
                 }
             });
         });
+        // Sidebar locked and visible by default
+        sidebar.setTranslateX(180);
+
+        if (!sidebarLockButton.getStyleClass().contains("sidebar-icon-button-active")) {
+            sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
+        }
     }
 
     // ================= ZOOM =================
