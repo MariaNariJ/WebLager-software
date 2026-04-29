@@ -97,8 +97,8 @@
 
                 <!-- TOOLBAR -->
                 <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
-                    <Button styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
-                    <Button styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
+                    <!--<Button styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
+                    <Button styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />-->
                     <Button onAction="#onFitToWidth" styleClass="toolbar-button" text="↔&#10;Fit Width" />
                     <Button onAction="#onResetZoom" styleClass="toolbar-button" text="▣&#10;Actual Size" />
                     <Button onAction="#onNextFile" styleClass="toolbar-button" text="→&#10;Next File&#10;(D)" />
@@ -125,41 +125,41 @@
                             <children>
                                 <HBox spacing="30">
                                     <Label styleClass="tab-active" text="Metadata" />
-                                    <Label styleClass="tab-inactive" text="Info" />
-                                </HBox>
+                                <!--  <Label styleClass="tab-inactive" text="Info" /> -->
+                              </HBox>
 
-                                <Separator styleClass="dark-separator" />
+                              <Separator styleClass="dark-separator" />
 
-                                <Label styleClass="field-label-dark" text="Client *" />
-                        <TextField fx:id="txtClient" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Client *" />
+                      <TextField fx:id="txtClient" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Box *" />
-                        <TextField fx:id="txtBox" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Box *" />
+                      <TextField fx:id="txtBox" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Document Name *" />
-                                <TextField fx:id="txtDocumentName" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Document Name *" />
+                              <TextField fx:id="txtDocumentName" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Document Type" />
-                                <TextField fx:id="txtDocumentType" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Document Type" />
+                              <TextField fx:id="txtDocumentType" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Date *" />
-                                <TextField fx:id="txtDate" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Date *" />
+                              <TextField fx:id="txtDate" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Barcode" />
-                                <Label fx:id="barcodeLabel" styleClass="muted-text" text="No barcode found" />
+                              <Label styleClass="field-label-dark" text="Barcode" />
+                              <Label fx:id="barcodeLabel" styleClass="muted-text" text="No barcode found" />
 
-                                <Label opacity="0.0" styleClass="field-label-dark" text="Status" />
-                                <ComboBox maxWidth="1.7976931348623157E308" opacity="0.0" promptText="In Progress" styleClass="combo-dark" />
-                        <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                              <Label opacity="0.0" styleClass="field-label-dark" text="Status" />
+                              <ComboBox maxWidth="1.7976931348623157E308" opacity="0.0" promptText="In Progress" styleClass="combo-dark" />
+                      <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
 
-                <Button minHeight="-Infinity" minWidth="-Infinity" onAction="#onSaveMetadataClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="💾  Save Metadata (F2)" />
-            </children>
-        </VBox>
+              <Button minHeight="-Infinity" minWidth="-Infinity" onAction="#onSaveMetadataClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="💾  Save Metadata (F2)" />
+          </children>
+      </VBox>
 
-                    </children>
-                </HBox>
+                  </children>
+              </HBox>
 
-                <!-- BOTTOM OVERVIEW -->
+              <!-- BOTTOM OVERVIEW -->
                 <HBox prefHeight="165.0" spacing="8.0">
 
                     <children>
@@ -167,20 +167,21 @@
                             <padding>
                                 <Insets bottom="14" left="16" right="16" top="14" />
                             </padding>
-                            <children>
-                                <Label styleClass="section-title" text="Documents Overview" />
+                            <!--<children>
+                                    <Label styleClass="section-title" text="Documents Overview" />
 
                                 <HBox spacing="12">
                                     <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                        <Label styleClass="section-title" text="Document 1" />
+                                       <Label styleClass="section-title" text="Document 1" />
                                         <Label styleClass="muted-text" text="Files: 12" />
                                         <Label styleClass="muted-text" text="Status: In Progress" />
                                     </VBox>
 
                                     <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                        <Label styleClass="section-title" text="Document 2" />
-                                        <Label styleClass="muted-text" text="Files: 18" />
+                                       <Label styleClass="section-title" text="Document 2" />
+                                       <Label styleClass="muted-text" text="Files: 18" />
                                         <Label styleClass="muted-text" text="Status: Waiting for QA" />
+
                                     </VBox>
 
                                     <VBox prefWidth="190" spacing="6" styleClass="mini-card">
@@ -189,14 +190,14 @@
                                         <Label styleClass="muted-text" text="Status: Not Started" />
                                     </VBox>
                                 </HBox>
-                            </children>
+                            </children>-->
                         </VBox>
 
                         <VBox minWidth="420.0" prefWidth="555.0" spacing="10" styleClass="panel">
                             <padding>
                                 <Insets bottom="14" left="16" right="16" top="14" />
                             </padding>
-                            <children>
+                           <!-- <children>
                                 <HBox>
                                     <Label styleClass="section-title" text="Recent Logs" />
                                     <Region HBox.hgrow="ALWAYS" />
@@ -206,7 +207,7 @@
                                 <Label styleClass="log-row" text="10:42:31       Barcode detected - New document started        johndoe" />
                                 <Label styleClass="log-row" text="10:40:12       File 45 scanned                              johndoe" />
                                 <Label styleClass="log-row" text="10:39:58       File 44 scanned                              johndoe" />
-                            </children>
+                            </children>-->
                         </VBox>
                     </children>
                 </HBox>
@@ -233,10 +234,10 @@
 
                 <VBox spacing="10">
                     <Button styleClass="nav-button-active" text="▣  Scanning" />
-                    <Button styleClass="nav-button" text="□  Documents" />
-                    <Button styleClass="nav-button" text="☑  QA" />
-                    <Button styleClass="nav-button" text="⇧  Export" />
-                    <Button styleClass="nav-button" text="☰  Logs" />
+                    <!-- <Button styleClass="nav-button" text="□  Documents" /> -->
+                    <!-- <Button styleClass="nav-button" text="☑  QA" /> -->
+                    <!-- <Button styleClass="nav-button" text="⇧  Export" /> -->
+                    <!-- <Button styleClass="nav-button" text="☰  Logs" /> -->
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />
@@ -249,7 +250,10 @@
                             </tooltip>
                         </Label>
 
-                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
+                        <Button fx:id="sidebarLockButton"
+                                onAction="#onSidebarLockClicked"
+                                styleClass="sidebar-icon-button"
+                                text="⧉">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
                             </tooltip>

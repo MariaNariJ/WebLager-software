@@ -109,6 +109,7 @@ public class UserviewController {
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());
         sidebarTrigger.toFront();
+        sidebar.toFront();
 
 //        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
 //            filterFiles(newValue);
@@ -410,24 +411,37 @@ public class UserviewController {
     // ================= SIDEBAR =================
     private void showSidebar() {
         if (sidebarVisible) return;
+
         sidebarVisible = true;
 
-        new TranslateTransition(Duration.millis(110), sidebar)
-                .setToX(180);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(110), sidebar);
+        transition.setToX(180);
+        transition.play();
     }
 
     private void hideSidebar() {
         if (!sidebarVisible || sidebarLocked) return;
+
         sidebarVisible = false;
 
-        new TranslateTransition(Duration.millis(110), sidebar)
-                .setToX(0);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(110), sidebar);
+        transition.setToX(0);
+        transition.play();
     }
 
     @FXML
     private void onSidebarLockClicked() {
         sidebarLocked = !sidebarLocked;
-        if (sidebarLocked) showSidebar();
+
+        if (sidebarLocked) {
+            if (!sidebarLockButton.getStyleClass().contains("sidebar-icon-button-active")) {
+                sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
+            }
+            showSidebar();
+        } else {
+            sidebarLockButton.getStyleClass().remove("sidebar-icon-button-active");
+            hideSidebar();
+        }
     }
 
     // ================= LOGOUT =================
