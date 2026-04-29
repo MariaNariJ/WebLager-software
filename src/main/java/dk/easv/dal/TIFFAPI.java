@@ -1,5 +1,6 @@
 package dk.easv.dal;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URI;
@@ -11,22 +12,59 @@ public class TIFFAPI {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final String baseUrl = "https://studentiffapi-production.up.railway.app";
 
-    public int getCount() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/getCount")).GET().build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//    public int getCount() {
+//        try {
+//        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/getCount")).GET().build();
+//        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+//        return Integer.parseInt(response.body().trim());
+//        } catch (Exception e) {
+//            System.err.println("Failed getting count of TIFFs from the api");
+//            e.printStackTrace();
+//            return -1;
+//        }
+//    }
 
-        return Integer.parseInt(response.body().trim());
-    }
+//    public String getAllFiles() {
+//        try {
+//            String documentsPath = System.getProperty("user.home") + "/Documents";
+//            String tiffAppFolder = documentsPath + "/TIFFApp_tiffs";
+//            File tiffAppDir = new File(tiffAppFolder);
+//            if (!tiffAppDir.exists() && !tiffAppDir.mkdir()) {
+//                throw new java.io.IOException("Failed to create directory: " + tiffAppFolder);
+//            }
+//            String downloadPath = tiffAppFolder + "tiffs.zip";
+//            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/getAllFiles")).GET().build();
+//            HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+//            try (InputStream in = response.body(); FileOutputStream out = new FileOutputStream(downloadPath)) {
+//                in.transferTo(out);
+//            }
+//            return downloadPath;
+//        } catch (Exception e) {
+//            System.err.println("Failed getting TIFFs from the api");
+//            return null;
+//        }
+//    }
 
-    public String getAllFiles() throws Exception {
-        String downloadPath = System.getProperty("java.io.tmpdir") + "TIFFApp_tiffs.zip";
+    public String getRandomFile() {
+        try {
+            String documentsPath = System.getProperty("user.home") + "/Documents";
+            String tiffAppFolder = documentsPath + "/TIFFApp_tiffs";
+            File tiffAppDir = new File(tiffAppFolder);
+            if (!tiffAppDir.exists() && !tiffAppDir.mkdir()) {
+                throw new java.io.IOException("Failed to create directory: " + tiffAppFolder);
+            }
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "getAllFiles")).GET().build();
-        HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            String downloadPath = tiffAppFolder + "Tiff.zip";
 
-        try (InputStream in = response.body(); FileOutputStream out = new FileOutputStream(downloadPath)) {
-            in.transferTo(out);
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/getRandomFile")).GET().build();
+            HttpResponse<InputStream> response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            try (InputStream in = response.body(); FileOutputStream out = new FileOutputStream(downloadPath)) {
+                in.transferTo(out);
+            }
+            return downloadPath;
+        } catch (Exception e) {
+            System.err.println("Failed getting TIFFs from the api");
+            return null;
         }
-        return downloadPath;
     }
 }

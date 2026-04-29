@@ -6,7 +6,6 @@ public class Document {
     private String status;
     private int boxId;
 
-    // getters/setters
 
     public String getName() {
         return name;
