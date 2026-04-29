@@ -60,6 +60,9 @@ public class UserviewController {
     private Label zoomLabel;
 
     @FXML
+    private Pane scalePane;
+
+    @FXML
     private Button btnFetchFiles;
 
     @FXML
@@ -104,6 +107,13 @@ public class UserviewController {
     // ================= Initialize =================
     @FXML
     public void initialize() {
+
+        scalePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                scalePane.scaleXProperty().bind(newScene.widthProperty().divide(1443.0));
+                scalePane.scaleYProperty().bind(newScene.heightProperty().divide(820.0));
+            }
+        });
 
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());

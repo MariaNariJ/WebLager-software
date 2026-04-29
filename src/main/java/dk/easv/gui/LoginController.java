@@ -4,34 +4,95 @@ import dk.easv.be.User;
 import dk.easv.bll.PasswordHasher;
 import dk.easv.bll.PasswordManager;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.util.concurrent.CompletableFuture;
-import javafx.application.Platform;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class LoginController {
+
     @FXML
     private TextField usernameField;
+
     @FXML
     private PasswordField passwordField;
+
     @FXML
     private CheckBox rememberMeCheckBox;
+
     @FXML
     private Button signInButton;
 
-    private final PasswordManager passwordManager  = new PasswordManager();
-//    private final PasswordHasher hash = new PasswordHasher();
+    @FXML
+    private Pane loginPatternPane;
 
-    public void initialize()
-    {
-//        CreateUser();
+    private final PasswordManager passwordManager = new PasswordManager();
+    //    private final PasswordHasher hash = new PasswordHasher();
+
+    private Image backgroundLogo;
+
+    public void initialize() {
+        //        CreateUser();
+
+        backgroundLogo = new Image(
+                Objects.requireNonNull(
+                        getClass().getResourceAsStream("/dk/easv/gui/assets/LogoBlue_Logoicon.png")
+                )
+        );
+
+        Platform.runLater(this::generateResponsiveBackgroundLogos);
+
+        loginPatternPane.widthProperty().addListener((obs, oldValue, newValue) -> generateResponsiveBackgroundLogos());
+        loginPatternPane.heightProperty().addListener((obs, oldValue, newValue) -> generateResponsiveBackgroundLogos());
+    }
+
+    private void generateResponsiveBackgroundLogos() {
+        loginPatternPane.getChildren().clear();
+
+        double width = loginPatternPane.getWidth();
+        double height = loginPatternPane.getHeight();
+
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        double spacingX = 160;
+        double spacingY = 130;
+        double logoSize = 52;
+
+        int columns = (int) Math.ceil(width / spacingX) + 1;
+        int rows = (int) Math.ceil(height / spacingY) + 1;
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < columns; col++) {
+
+                ImageView logo = new ImageView(backgroundLogo);
+
+                logo.setFitWidth(logoSize);
+                logo.setPreserveRatio(true);
+                logo.setSmooth(true);
+                logo.setMouseTransparent(true);
+                logo.getStyleClass().add("watermark-image");
+
+                double xOffset = row % 2 == 0 ? 55 : 95;
+                double yOffset = col % 2 == 0 ? 55 : 95;
+
+                logo.setLayoutX((col * spacingX) + xOffset);
+                logo.setLayoutY((row * spacingY) + yOffset);
+
+                loginPatternPane.getChildren().add(logo);
+            }
+        }
     }
 
     public void btnSingIn() {
@@ -59,15 +120,27 @@ public class LoginController {
                 if (user != null) {
                     try {
                         Stage stage = (Stage) usernameField.getScene().getWindow();
+
                         if (user.getRole().equals("Admin")) {
                             //Change stage to Admin page view
                             System.out.println("Logged in as Admin");
                         } else {
-                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../gui/userview.fxml"))));
+                            stage.getScene().setRoot(
+                                    FXMLLoader.load(
+                                            Objects.requireNonNull(
+                                                    getClass().getResource("/dk/easv/gui/userview.fxml")
+                                            )
+                                    )
+                            );
                             System.out.println("Logged in as User");
                         }
+
                     } catch (Exception e) {
                         System.err.println("Failed changing stage " + e.getMessage());
+                        e.printStackTrace();
+
+                        signInButton.setDisable(false);
+                        signInButton.setOpacity(1);
                     }
                 } else {
                     System.out.println("Wrong username or password");
@@ -85,19 +158,19 @@ public class LoginController {
         });
     }
 
-//    This method is used to create users in the database until there is a feature to create users
-//    public void CreateUser()
-//    {
-//        String login = "Username";
-//        String password = "u";
-//        try
-//        {
-//            String salt = hash.generateSalt();
-//            String hashedPassword = hash.hashPassword(password, salt);
-//            System.out.println(salt);
-//            System.out.println(hashedPassword);
-//        } catch (Exception e) {
-//            System.out.println("Failed generating User" + e.getMessage());
-//        }
-//    }
+    //    This method is used to create users in the database until there is a feature to create users
+    //    public void CreateUser()
+    //    {
+    //        String login = "Username";
+    //        String password = "u";
+    //        try
+    //        {
+    //            String salt = hash.generateSalt();
+    //            String hashedPassword = hash.hashPassword(password, salt);
+    //            System.out.println(salt);
+    //            System.out.println(hashedPassword);
+    //        } catch (Exception e) {
+    //            System.out.println("Failed generating User" + e.getMessage());
+    //        }
+    //    }
 }

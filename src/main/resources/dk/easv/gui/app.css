@@ -445,3 +445,7 @@
     -fx-padding: 7 10 7 10;
     -fx-font-size: 12px;
 }
+.responsive-fill {
+    -fx-max-width: 1.7976931348623157E308;
+    -fx-max-height: 1.7976931348623157E308;
+}
