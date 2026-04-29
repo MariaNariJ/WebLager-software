@@ -32,8 +32,8 @@ import static java.lang.StrictMath.clamp;
 public class UserviewController {
 
     private final FileManager fileManager = new FileManager();
-
     private List<Page> scannedPages;
+    private boolean scanning = false;
 
     @FXML
     private VBox fileListContainer;
@@ -58,6 +58,9 @@ public class UserviewController {
 
     @FXML
     private Label zoomLabel;
+
+    @FXML
+    private Button btnFetchFiles;
 
     @FXML
     private void onZoomIn() {
@@ -162,7 +165,7 @@ public class UserviewController {
 
         Platform.runLater(() -> {
             sidebar.getScene().setOnKeyPressed(event -> {
-                if (event.getCode() == javafx.scene.input.KeyCode.F5) {
+                if (event.getCode() == javafx.scene.input.KeyCode.F5 && !scanning) {
                     onFetchFilesClicked();
                 }
             });
@@ -208,8 +211,11 @@ public class UserviewController {
     @FXML
     public void onFetchFilesClicked() {
         fileListContainer.getChildren().clear();
-
         scannedPages = new ArrayList<>();
+
+        scanning = true;
+        btnFetchFiles.setDisable(true);
+        btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
             fileManager.proccesFilesInOrder(page -> {
@@ -218,7 +224,14 @@ public class UserviewController {
                     addPageToUI(page);
                 });
             });
+        }).thenRun(() -> {
+            Platform.runLater(() -> {
+                btnFetchFiles.setDisable(false);
+                btnFetchFiles.setOpacity(1.0);
+                scanning = false;
+            });
         });
+
     }
 
     // ================= FILTER FILES =================
@@ -286,7 +299,7 @@ public class UserviewController {
                 updateZoomLabel();
             });
 
-            fileListContainer.getChildren().add(fileButton);
+            fileListContainer.getChildren().addFirst(fileButton);
 
         } catch (Exception ex) {
             ex.printStackTrace();

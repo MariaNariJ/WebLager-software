@@ -1,6 +1,7 @@
 package dk.easv.gui;
 
 import dk.easv.be.User;
+import dk.easv.bll.PasswordHasher;
 import dk.easv.bll.PasswordManager;
 
 import javafx.fxml.FXML;
@@ -24,8 +25,9 @@ public class LoginController {
     private CheckBox rememberMeCheckBox;
     @FXML
     private Button signInButton;
-    @FXML
+
     private final PasswordManager passwordManager  = new PasswordManager();
+//    private final PasswordHasher hash = new PasswordHasher();
 
     public void initialize()
     {
@@ -83,22 +85,19 @@ public class LoginController {
         });
     }
 
-    /*
-    This method is used to create users in the database until there is a feature to create users
-
-    public void CreateUser()
-    {
-        String login = "rocky";
-        String password = "r";
-        try
-        {
-            String salt = hash.generateSalt();
-            String hashedPassword = hash.hashPassword(password, salt);
-            System.out.println(salt);
-            System.out.println(hashedPassword);
-        } catch (Exception e) {
-            System.out.println("Failed generating User" + e.getMessage());
-        }
-    }
-    */
+//    This method is used to create users in the database until there is a feature to create users
+//    public void CreateUser()
+//    {
+//        String login = "Username";
+//        String password = "u";
+//        try
+//        {
+//            String salt = hash.generateSalt();
+//            String hashedPassword = hash.hashPassword(password, salt);
+//            System.out.println(salt);
+//            System.out.println(hashedPassword);
+//        } catch (Exception e) {
+//            System.out.println("Failed generating User" + e.getMessage());
+//        }
+//    }
 }

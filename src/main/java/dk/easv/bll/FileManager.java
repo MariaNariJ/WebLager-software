@@ -11,14 +11,8 @@ import java.util.function.Consumer;
 
 public class FileManager {
 
-    private PageDAO pageDAO = new PageDAO();
-
-    private TIFFService tiffService = new TIFFService();
-    private BarcodeService barcodeService = new BarcodeService();
-
-    public void saveFile(Page page) throws Exception {
-        pageDAO.createFile(page);
-    }
+    private final TIFFService tiffService = new TIFFService();
+    private final BarcodeService barcodeService = new BarcodeService();
 
 //    public List<Page> processAndScanFiles() {
 //        List<Page> pages = tiffService.processAllTiffs();

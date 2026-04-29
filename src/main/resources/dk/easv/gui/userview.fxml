@@ -121,7 +121,7 @@
                     </content>
                 </ScrollPane>
 
-                <Button onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
+                <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
 
                 <VBox spacing="4" styleClass="scan-status">
                     <Label styleClass="status-title" text="✓  Scanned file 45" />
