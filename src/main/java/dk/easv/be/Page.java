@@ -54,4 +54,8 @@ public class Page {
     public int getRotation() {
         return rotation;
     }
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
+
 }

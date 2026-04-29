@@ -1,6 +1,7 @@
 package dk.easv.bll;
 
 import dk.easv.be.Page;
+import dk.easv.dal.dao.PageDAO;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

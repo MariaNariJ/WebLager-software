@@ -6,6 +6,7 @@ import dk.easv.dal.dao.BoxDAO;
 import dk.easv.dal.dao.DocumentDAO;
 import dk.easv.dal.dao.PageDAO;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -74,30 +75,12 @@ public class UserviewController {
     @FXML
     private TextField txtDate;
 
-    private final Map<String, Runnable> keyBindings = new HashMap<>();
-
-    @FXML private VBox fileListContainer;
-    @FXML private VBox sidebar;
-    @FXML private Pane sidebarTrigger;
-    @FXML private Button sidebarLockButton;
-    @FXML private Label barcodeLabel;
-    @FXML private ImageView previewImage;
-    @FXML private TextField searchField;
-    @FXML private Label zoomLabel;
     @FXML private ScrollPane previewScrollPane;
-    @FXML private Button btnFetchFiles;
+
+    private final Map<String, Runnable> keyBindings = new HashMap<>();
 
     // ================= STATE =================
     private Image currentImage;
-
-    private void updateZoomLabel() {
-        int percent = (int) (zoomLevel * 100);
-        zoomLabel.setText(percent + "%");
-    }
-
-    private boolean sidebarVisible = true;
-    private boolean sidebarLocked = true;
-
 
     // ================= ZOOM =================
     private double zoomLevel = 1.0;
@@ -127,9 +110,9 @@ public class UserviewController {
         sidebar.setOnMouseExited(e -> hideSidebar());
         sidebarTrigger.toFront();
 
-        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
-            filterFiles(newValue);
-        });
+//        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
+//            filterFiles(newValue);
+//        });
 
         // CTRL + scroll zoom
         previewScrollPane.setOnScroll(event -> {
@@ -358,7 +341,6 @@ public class UserviewController {
         }
     }
 
-    // ================= ADD PAGE =================
     private void addPageToUI(Page page) {
         try {
             BufferedImage img = ImageIO.read(new File(page.getPagePath()));
@@ -376,13 +358,6 @@ public class UserviewController {
             Button btn = new Button(page.getPageName(), container);
             btn.setContentDisplay(ContentDisplay.TOP);
 
-            fileButton.setOnAction(e -> {
-                if (page.getBarcode() == null) {
-                    barcodeLabel.setText("No barcode found");
-                } else {
-                    barcodeLabel.setText(page.getBarcode());
-                }
-
             int index = scannedPages.indexOf(page);
 
             btn.setOnAction(e -> showPage(index));
@@ -393,6 +368,31 @@ public class UserviewController {
             e.printStackTrace();
         }
     }
+
+
+    // ================= BACKGROUND DETECTION =================
+    private boolean isBackground(int rgb) {
+        int r = (rgb >> 16) & 0xff;
+        int g = (rgb >> 8) & 0xff;
+        int b = rgb & 0xff;
+
+        return (r > 200 && g > 200 && b > 200);
+    }
+
+    // ================= HELPER =================
+    private double clamp(double value) {
+        if (value < 0) return 0;
+        if (value > 1) return 1;
+        return value;
+    }
+
+    // ================= IMAGE =================
+    private BufferedImage cropBackground(BufferedImage image) {
+        return image; // keep your original logic if needed
+    }
+
+
+    // ================= ADD PAGE =================
 
     // ================= FILTER =================
     private void filterFiles(String query) {
@@ -442,8 +442,6 @@ public class UserviewController {
         }
     }
 
-    // ================= IMAGE =================
-    private BufferedImage cropBackground(BufferedImage image) {
-        return image; // keep your original logic if needed
+    public void onFitToWidth(ActionEvent actionEvent) {
     }
 }
