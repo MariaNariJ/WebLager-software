@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import dk.easv.bll.FileManager;
 import dk.easv.be.Page;
 
@@ -30,6 +29,8 @@ import java.util.concurrent.CompletableFuture;
 import static java.lang.StrictMath.clamp;
 
 public class UserviewController {
+
+
 
     private final FileManager fileManager = new FileManager();
     private List<Page> scannedPages;
@@ -60,9 +61,6 @@ public class UserviewController {
     private Label zoomLabel;
 
     @FXML
-    private Pane scalePane;
-
-    @FXML
     private Button btnFetchFiles;
 
     @FXML
@@ -91,8 +89,9 @@ public class UserviewController {
         zoomLabel.setText(percent + "%");
     }
 
-    private boolean sidebarVisible = false;
-    private boolean sidebarLocked = false;
+    private boolean sidebarVisible = true;
+    private boolean sidebarLocked = true;
+
 
     // ================= ZOOM =================
     private double zoomLevel = 1.0;
@@ -107,13 +106,6 @@ public class UserviewController {
     // ================= Initialize =================
     @FXML
     public void initialize() {
-
-        scalePane.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene != null) {
-                scalePane.scaleXProperty().bind(newScene.widthProperty().divide(1443.0));
-                scalePane.scaleYProperty().bind(newScene.heightProperty().divide(820.0));
-            }
-        });
 
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());
@@ -180,6 +172,12 @@ public class UserviewController {
                 }
             });
         });
+        // Sidebar locked and visible by default
+        sidebar.setTranslateX(180);
+
+        if (!sidebarLockButton.getStyleClass().contains("sidebar-icon-button-active")) {
+            sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
+        }
     }
 
     // ================= SIDEBAR =================
