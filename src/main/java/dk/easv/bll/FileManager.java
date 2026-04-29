@@ -1,11 +1,11 @@
 package dk.easv.bll;
 
 import dk.easv.be.Page;
-import dk.easv.dal.dao.PageDAO;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -32,10 +32,8 @@ public class FileManager {
 //        return pages;
 //    }
 
-    public List<Page> proccesFilesInOrder(Consumer<Page> scannedPage) {
-        List<Page> documentPages = new ArrayList<>();
+    public void proccesFilesFromApi(Consumer<Page> scannedPage) {
         boolean pageBarcode = false;
-
         int counter = 1;
 
         while (!pageBarcode) {
@@ -53,7 +51,6 @@ public class FileManager {
 
                     String barcode  = barcodeService.scanBarcode(image);
                     page.setBarcode(barcode);
-                    documentPages.add(page);
 
                     if (scannedPage != null) {
                         scannedPage.accept(page);
@@ -61,6 +58,7 @@ public class FileManager {
 
                     if (barcode != null && !barcode.trim().isEmpty()) {
                         pageBarcode = true;
+
                         break;
                     }
                 } catch (Exception e) {
@@ -68,6 +66,14 @@ public class FileManager {
                 }
             }
         }
-        return documentPages;
+    }
+
+    public InputStream getFileStream(Page page) {
+        try {
+            return new FileInputStream(page.getPagePath());
+        } catch (Exception e) {
+            System.err.println("Error getting file stream for page: " + page.getPagePath());
+            return null;
+        }
     }
 }

@@ -1,5 +1,10 @@
 package dk.easv.gui;
 
+import dk.easv.be.Box;
+import dk.easv.be.Document;
+import dk.easv.dal.dao.BoxDAO;
+import dk.easv.dal.dao.DocumentDAO;
+import dk.easv.dal.dao.PageDAO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +27,7 @@ import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -30,38 +36,41 @@ import static java.lang.StrictMath.clamp;
 
 public class UserviewController {
 
-
-
+    private final BoxDAO boxDAO = new BoxDAO();
+    private final DocumentDAO documentDAO = new DocumentDAO();
+    private final PageDAO pageDAO = new PageDAO();
     private final FileManager fileManager = new FileManager();
     private List<Page> scannedPages;
     private boolean scanning = false;
 
     @FXML
     private VBox fileListContainer;
-
     @FXML
     private VBox sidebar;
-
     @FXML
     private Pane sidebarTrigger;
-
     @FXML
     private Button sidebarLockButton;
-
     @FXML
     private Label barcodeLabel;
-
     @FXML
     private ImageView previewImage;
-
     @FXML
     private TextField searchField;
-
     @FXML
     private Label zoomLabel;
-
     @FXML
     private Button btnFetchFiles;
+    @FXML
+    private TextField txtClient;
+    @FXML
+    private TextField txtBox;
+    @FXML
+    private TextField txtDocumentName;
+    @FXML
+    private TextField txtDocumentType;
+    @FXML
+    private TextField txtDate;
 
     @FXML
     private void onZoomIn() {
@@ -226,7 +235,7 @@ public class UserviewController {
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
-            fileManager.proccesFilesInOrder(page -> {
+            fileManager.proccesFilesFromApi(page -> {
                 Platform.runLater(() -> {
                     scannedPages.add(page);
                     addPageToUI(page);
@@ -239,7 +248,35 @@ public class UserviewController {
                 scanning = false;
             });
         });
+    }
 
+    @FXML
+    public void onSaveMetadataClicked() {
+        if (scannedPages.isEmpty()) {
+            return;
+        }
+        String Client = txtClient.getText();
+        String BoxName = txtBox.getText();
+        String DocumentName = txtDocumentName.getText();
+        String DocumentType = txtDocumentType.getText();
+        String Date = txtDate.getText();
+
+        if (Client.isEmpty() || BoxName.isEmpty() || DocumentName.isEmpty() || Date.isEmpty()) {
+            return;
+        }
+
+        Box box = new Box(BoxName, Client);
+        int boxId = boxDAO.insertBox(box);
+        Document document = new Document(boxId, scannedPages.getLast().getBarcode(), java.sql.Date.valueOf(Date), DocumentName, DocumentType);
+        int documentId = documentDAO.insertDocument(document);
+
+        for (Page page : scannedPages) {
+            page.setDocumentId(documentId);
+            System.out.println("Saving page with barcode: " + page.getBarcode() + " linked to document ID: " + documentId);
+            InputStream inputStream = fileManager.getFileStream(page);
+
+            pageDAO.insertPage(page, inputStream);
+        }
     }
 
     // ================= FILTER FILES =================
@@ -298,7 +335,11 @@ public class UserviewController {
             fileButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
             fileButton.setOnAction(e -> {
-                barcodeLabel.setText(page.getBarcode());
+                if (page.getBarcode() == null) {
+                    barcodeLabel.setText("No barcode found");
+                } else {
+                    barcodeLabel.setText(page.getBarcode());
+                }
 
                 currentImage = fxImage;
                 zoomLevel = 1.0;
