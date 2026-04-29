@@ -2,6 +2,12 @@
     -fx-font-family: "Montserrat";
 }
 
+/* ================= COLORS =================
+   Dark mode accent blue from Logo_DarkMode_Blue.png:
+   Main:  #318ECD
+   Hover: #287DB7
+*/
+
 /* ================= LOGIN PAGE ================= */
 
 .login-root {
@@ -24,7 +30,7 @@
 .logo-box {
     -fx-background-color: transparent;
     -fx-background-radius: 18;
-    -fx-border-color: #17C7A3;
+    -fx-border-color: #318ECD;
     -fx-border-radius: 18;
     -fx-border-width: 2;
 }
@@ -66,7 +72,7 @@
 }
 
 .login-field:focused {
-    -fx-border-color: #17C7A3;
+    -fx-border-color: #318ECD;
 }
 
 .login-checkbox {
@@ -83,17 +89,17 @@
 }
 
 .login-checkbox:selected .box {
-    -fx-border-color: #17C7A3;
+    -fx-border-color: #318ECD;
 }
 
 .login-checkbox:selected .mark {
-    -fx-background-color: #17C7A3;
+    -fx-background-color: #318ECD;
 }
 
 .link-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-text-fill: #17C7A3;
+    -fx-text-fill: #318ECD;
     -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-padding: 0;
@@ -104,7 +110,7 @@
 }
 
 .primary-button {
-    -fx-background-color: #1FD0AE;
+    -fx-background-color: #318ECD;
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-font-weight: 800;
@@ -114,7 +120,7 @@
 }
 
 .primary-button:hover {
-    -fx-background-color: #18B998;
+    -fx-background-color: #287DB7;
 }
 
 .version-label {
@@ -171,7 +177,7 @@
 }
 
 .nav-button-active {
-    -fx-background-color: #24C79F;
+    -fx-background-color: #318ECD;
     -fx-text-fill: #FFFFFF;
 }
 
@@ -187,6 +193,7 @@
     -fx-background-color: rgba(255,255,255,0.08);
     -fx-text-fill: #E2E8F0;
 }
+
 .sidebar-icon-button {
     -fx-background-color: transparent;
     -fx-text-fill: #94A3B8;
@@ -203,13 +210,8 @@
 }
 
 .sidebar-icon-button-active {
-    -fx-background-color: rgba(255,255,255,0.08);
-    -fx-text-fill: #24C79F;
-}
-
-.sidebar-icon-button-active {
-    -fx-background-color: rgba(255,255,255,0.08);
-    -fx-text-fill: #24C79F;
+    -fx-background-color: rgba(49,142,205,0.18);
+    -fx-text-fill: #318ECD;
 }
 
 .tooltip {
@@ -232,7 +234,7 @@
 }
 
 .avatar {
-    -fx-background-color: #24C79F;
+    -fx-background-color: #318ECD;
     -fx-background-radius: 50;
     -fx-text-fill: white;
     -fx-font-weight: 800;
@@ -283,7 +285,7 @@
 }
 
 .blue-text {
-    -fx-text-fill: #33A9EE;
+    -fx-text-fill: #318ECD;
     -fx-font-size: 13px;
     -fx-font-weight: 700;
 }
@@ -332,7 +334,7 @@
 }
 
 .file-selected {
-    -fx-background-color: #1462C8;
+    -fx-background-color: #318ECD;
     -fx-background-radius: 5;
     -fx-text-fill: white;
     -fx-alignment: CENTER_LEFT;
@@ -340,7 +342,7 @@
 }
 
 .primary-action {
-    -fx-background-color: #24C79F;
+    -fx-background-color: #318ECD;
     -fx-text-fill: white;
     -fx-background-radius: 7;
     -fx-font-weight: 800;
@@ -349,7 +351,7 @@
 }
 
 .primary-action:hover {
-    -fx-background-color: #1FB389;
+    -fx-background-color: #287DB7;
 }
 
 .scan-status {
@@ -361,7 +363,7 @@
 }
 
 .status-title {
-    -fx-text-fill: #5BE38F;
+    -fx-text-fill: #318ECD;
     -fx-font-weight: 800;
 }
 
@@ -412,11 +414,11 @@
 }
 
 .toolbar-button:hover {
-    -fx-text-fill: #24C79F;
+    -fx-text-fill: #318ECD;
 }
 
 .tab-active {
-    -fx-text-fill: #24C79F;
+    -fx-text-fill: #318ECD;
     -fx-font-size: 14px;
     -fx-font-weight: 800;
 }
@@ -444,8 +446,4 @@
     -fx-text-fill: #D6E0EA;
     -fx-padding: 7 10 7 10;
     -fx-font-size: 12px;
-}
-.responsive-fill {
-    -fx-max-width: 1.7976931348623157E308;
-    -fx-max-height: 1.7976931348623157E308;
 }

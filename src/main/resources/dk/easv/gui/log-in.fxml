@@ -64,8 +64,7 @@
                                                    smooth="true"
                                                    styleClass="center-logo-image">
                                             <image>
-                                                <Image url="@assets/WeblagerGreenIcon.png"/>
-                                            </image>
+                                                <Image url="@assets/Logo_DarkMode_Blue.png"/>                                            </image>
                                         </ImageView>
                                     </children>
                                 </StackPane>
