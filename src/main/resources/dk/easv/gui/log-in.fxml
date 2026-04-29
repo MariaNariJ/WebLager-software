@@ -71,7 +71,8 @@
 
                                 <Label styleClass="brand-title" text="WebLager"/>
                                 <Label styleClass="login-title" text="Sign in to your account"/>
-                                <Label styleClass="login-subtitle"
+                                <Label fx:id="loginMessageLabel"
+                                       styleClass="login-subtitle"
                                        text="Please enter your credentials to continue"
                                        wrapText="true"/>
                             </children>

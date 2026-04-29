@@ -15,11 +15,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Label;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class LoginController {
+
+    @FXML
+    private Label loginMessageLabel;
 
     @FXML
     private TextField usernameField;
@@ -143,6 +146,10 @@ public class LoginController {
                         signInButton.setOpacity(1);
                     }
                 } else {
+                    loginMessageLabel.setText("Credentials do not match a user");
+                    loginMessageLabel.getStyleClass().remove("login-subtitle");
+                    loginMessageLabel.getStyleClass().add("login-error-message");
+
                     System.out.println("Wrong username or password");
                     signInButton.setDisable(false);
                     signInButton.setOpacity(1);

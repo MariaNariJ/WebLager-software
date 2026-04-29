@@ -57,6 +57,11 @@ Error color:                 #FF3D32
     -fx-text-fill: #A9B7C6;
     -fx-font-size: 14px;
 }
+.login-error-message {
+    -fx-text-fill: #FF3D32;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
 
 .field-label {
     -fx-text-fill: white;
