@@ -14,45 +14,40 @@ public class FileManager {
     private final TIFFService tiffService = new TIFFService();
     private final BarcodeService barcodeService = new BarcodeService();
 
-//    public List<Page> processAndScanFiles() {
-//        List<Page> pages = tiffService.processAllTiffs();
-//        if (pages == null) {
-//            return null;
-//        }
-//        for (Page page : pages) {
-//            try {
-//                File file = new File(page.getPagePath());
-//                BufferedImage image = tiffService.convertToImage(file);
-//                String barcode = barcodeService.scanBarcode(image);
-//                page.setBarcode(barcode);
-//            } catch (Exception e) {
-//                System.err.println("Error processing file: " + page.getPagePath());
-//            }
-//        }
-//        return pages;
-//    }
+    private final PageDAO pageDAO = new PageDAO(); // ✅ ADDED
 
+    // ================= SAVE ROTATION =================
+    public void updatePageRotation(Page page) {
+        pageDAO.updatePageRotation(page); // ✅ THIS WAS MISSING
+    }
+
+    // ================= PROCESS FILES =================
     public List<Page> proccesFilesInOrder(Consumer<Page> scannedPage) {
+
         List<Page> documentPages = new ArrayList<>();
         boolean pageBarcode = false;
 
         int counter = 1;
 
         while (!pageBarcode) {
+
             List<Page> pages = tiffService.processTiff(counter);
 
             if (pages == null || pages.isEmpty()) {
                 System.err.println("No pages found from the api");
                 break;
             }
+
             counter++;
+
             for (Page page : pages) {
                 try {
                     File file = new File(page.getPagePath());
                     BufferedImage image = tiffService.convertToImage(file);
 
-                    String barcode  = barcodeService.scanBarcode(image);
+                    String barcode = barcodeService.scanBarcode(image);
                     page.setBarcode(barcode);
+
                     documentPages.add(page);
 
                     if (scannedPage != null) {
@@ -63,11 +58,13 @@ public class FileManager {
                         pageBarcode = true;
                         break;
                     }
+
                 } catch (Exception e) {
                     System.err.println("Error processing file: " + page.getPagePath());
                 }
             }
         }
+
         return documentPages;
     }
 }

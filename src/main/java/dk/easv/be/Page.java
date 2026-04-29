@@ -6,6 +6,7 @@ public class Page {
     private String pagePath;
     private int pageId;
     private String barcode;
+    private int rotation; // 0, 90, 180, 270
 
     public Page(String fileName, String filePath, int pageId) {
         this.pageName = fileName;
@@ -32,4 +33,8 @@ public class Page {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
+
+    public int getRotation() { return rotation;}
+
+    public void setRotation(int rotation) { this.rotation = rotation;}
 }
