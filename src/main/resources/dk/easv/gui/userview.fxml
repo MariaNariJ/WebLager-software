@@ -90,7 +90,10 @@
                                 <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                                     <content>
                                         <StackPane alignment="CENTER" style="-fx-background-color: transparent;">
-                                            <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent;" />
+                                            <ImageView fx:id="previewImage"
+                                                       preserveRatio="true"
+                                                       smooth="true"
+                                                       style="-fx-background-color: transparent; -fx-border-color: transparent;" />
                                         </StackPane>
                                     </content>
                                 </ScrollPane>

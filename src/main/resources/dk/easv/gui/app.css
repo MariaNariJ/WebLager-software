@@ -301,6 +301,12 @@ Error color:                 #FF3D32
     -fx-font-weight: 700;
 }
 
+.file-name-label {
+    -fx-text-fill: #008FF7;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
 .dark-field,
 .dark-area {
     -fx-background-color: #465160;

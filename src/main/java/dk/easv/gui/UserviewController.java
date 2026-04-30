@@ -111,9 +111,8 @@ public class UserviewController {
         sidebarTrigger.toFront();
         sidebar.toFront();
 
-//        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
-//            filterFiles(newValue);
-//        });
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> {filterFiles(newValue);
+        });
 
         // CTRL + scroll zoom
         previewScrollPane.setOnScroll(event -> {
@@ -347,17 +346,27 @@ public class UserviewController {
             BufferedImage img = ImageIO.read(new File(page.getPagePath()));
             if (img == null) return;
 
-            Image fxImage = SwingFXUtils.toFXImage(img, null);
+            BufferedImage processed = cropBackground(img);
+            Image fxImage = SwingFXUtils.toFXImage(processed, null);
 
             ImageView thumbnail = new ImageView(fxImage);
             thumbnail.setFitWidth(120);
             thumbnail.setFitHeight(160);
+            thumbnail.setPreserveRatio(true);
+            //adds a visual transparency to tiff files inside the scanned files thumbnail view
+            thumbnail.setStyle("-fx-background-color: transparent;");
 
             StackPane container = new StackPane(thumbnail);
             container.setAlignment(Pos.CENTER);
 
-            Button btn = new Button(page.getPageName(), container);
+            Button btn = new Button();
+            btn.setGraphic(container);
+            btn.setText(page.getPageName());
             btn.setContentDisplay(ContentDisplay.TOP);
+            btn.getStyleClass().add("file-name-label");
+
+            // REMOVE default button styling
+            btn.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
             int index = scannedPages.indexOf(page);
 
@@ -392,17 +401,35 @@ public class UserviewController {
         return image; // keep your original logic if needed
     }
 
-
-    // ================= ADD PAGE =================
-
     // ================= FILTER =================
     private void filterFiles(String query) {
+
         if (scannedPages == null) return;
+
+        String search = query == null ? "" : query.trim().toLowerCase();
 
         fileListContainer.getChildren().clear();
 
+        // If empty it will show all
+        if (search.isEmpty()) {
+            for (Page page : scannedPages) {
+                addPageToUI(page);
+            }
+            return;
+        }
+
         for (Page page : scannedPages) {
-            if (page.getPageName().toLowerCase().contains(query.toLowerCase())) {
+
+            String fileName = page.getPageName() != null
+                    ? page.getPageName().toLowerCase()
+                    : "";
+
+            String barcode = page.getBarcode() != null
+                    ? page.getBarcode().toLowerCase()
+                    : "";
+
+            // partial match anywhere
+            if (fileName.contains(search) || barcode.contains(search)) {
                 addPageToUI(page);
             }
         }
