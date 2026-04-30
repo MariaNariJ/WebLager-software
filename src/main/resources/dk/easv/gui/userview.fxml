@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
+<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 
@@ -42,8 +42,8 @@
                                 <TextField fx:id="searchField" promptText="Search files..." styleClass="dark-field" />
 
                                 <HBox spacing="26">
-                                    <Label styleClass="muted-text" text="Scans: 45" />
-                                    <Label styleClass="muted-text" text="Documents: 3" />
+                                    <Label opacity="0.0" styleClass="muted-text" text="Scans: 45" />
+                                    <Label opacity="0.0" styleClass="muted-text" text="Documents: 3" />
                                 </HBox>
 
                                 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
@@ -62,9 +62,9 @@
                                 <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
 
                                 <VBox spacing="4" styleClass="scan-status">
-                                    <Label styleClass="status-title" text="✓  Scanned file 45" />
-                                    <Label styleClass="muted-text" text="Barcode detected" />
-                                    <Label styleClass="muted-text" text="New document started" />
+                                    <Label opacity="0.0" styleClass="status-title" text="✓  Scanned file 45" />
+                                    <Label opacity="0.0" styleClass="muted-text" text="Barcode detected" />
+                                    <Label opacity="0.0" styleClass="muted-text" text="New document started" />
                                 </VBox>
                             </children>
                         </VBox>
@@ -90,10 +90,7 @@
                                 <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                                     <content>
                                         <StackPane alignment="CENTER" style="-fx-background-color: transparent;">
-                                            <ImageView fx:id="previewImage"
-                                                       preserveRatio="true"
-                                                       smooth="true"
-                                                       style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+                                            <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
                                         </StackPane>
                                     </content>
                                 </ScrollPane>
@@ -253,10 +250,7 @@
                             </tooltip>
                         </Label>
 
-                        <Button fx:id="sidebarLockButton"
-                                onAction="#onSidebarLockClicked"
-                                styleClass="sidebar-icon-button"
-                                text="⧉">
+                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
                             </tooltip>
