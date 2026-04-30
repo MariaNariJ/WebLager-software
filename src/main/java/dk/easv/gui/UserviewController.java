@@ -361,6 +361,7 @@ public class UserviewController {
 
             Button btn = new Button();
             btn.setGraphic(container);
+            btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
             btn.setContentDisplay(ContentDisplay.TOP);
             btn.getStyleClass().add("file-name-label");

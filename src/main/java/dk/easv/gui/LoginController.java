@@ -128,13 +128,7 @@ public class LoginController {
                             //Change stage to Admin page view
                             System.out.println("Logged in as Admin");
                         } else {
-                            stage.getScene().setRoot(
-                                    FXMLLoader.load(
-                                            Objects.requireNonNull(
-                                                    getClass().getResource("/dk/easv/gui/userview.fxml")
-                                            )
-                                    )
-                            );
+                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dk/easv/gui/userview.fxml"))));
                             System.out.println("Logged in as User");
                         }
 
@@ -146,7 +140,7 @@ public class LoginController {
                         signInButton.setOpacity(1);
                     }
                 } else {
-                    loginMessageLabel.setText("Credentials do not match a user");
+                    loginMessageLabel.setText("Wrong username or password");
                     loginMessageLabel.getStyleClass().remove("login-subtitle");
                     loginMessageLabel.getStyleClass().add("login-error-message");
 
