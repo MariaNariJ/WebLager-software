@@ -464,3 +464,82 @@ Error color:                 #FF3D32
     -fx-padding: 7 10 7 10;
     -fx-font-size: 12px;
 }
+.shelf-header {
+    -fx-background-color: #2f3e4f;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.shelf-header:hover {
+    -fx-background-color: #3a4a5c;
+}
+
+.shelf-title {
+    -fx-text-fill: #008FF7;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+}
+
+.shelf-header {
+    -fx-padding: 16 18;
+}
+.shelf-content {
+    -fx-background-color: transparent;
+    -fx-padding: 10 0 6 0;
+}
+
+.mini-card {
+    -fx-background-color: #2D3D4F;
+    -fx-padding: 12;
+    -fx-background-radius: 10;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0.2, 0, 2);
+}
+
+.mini-card:hover {
+    -fx-background-color: #3a4a5c;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.shelf-header {
+    -fx-background-color: #2f3e4f;
+    -fx-padding: 14 18;
+    -fx-cursor: hand;
+
+    -fx-border-color: transparent transparent #3a4a5c transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.shelf-header:hover {
+    -fx-background-color: #3a4a5c;
+}
+.mini-card {
+    -fx-background-color: #354657;
+    -fx-padding: 12;
+    -fx-background-radius: 10;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);
+}
+
+.mini-card:hover {
+    -fx-background-color: #3f5163;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+.shelf-header {
+    -fx-background-color: #2f3e4f;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.shelf-header:hover {
+    -fx-background-color: #3a4a5c;
+}
+
+.shelf-arrow {
+    -fx-text-fill: #9fb3c8;
+    -fx-font-size: 14px;
+}

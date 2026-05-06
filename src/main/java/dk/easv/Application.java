@@ -16,7 +16,6 @@ public class Application extends javafx.application.Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("WebLager");
         stage.setScene(scene);
-        stage.sizeToScene();
         stage.show();
     }
 }

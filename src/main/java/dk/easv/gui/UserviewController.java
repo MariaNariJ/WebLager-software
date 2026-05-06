@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -159,6 +160,13 @@ public class UserviewController {
         if (!sidebarLockButton.getStyleClass().contains("sidebar-icon-button-active")) {
             sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
         }
+
+        // Bottom shelf starts collapsed
+        shelfOpen = false;
+        shelfContent.setVisible(false);
+        shelfContent.setManaged(false);
+        shelfArrow.setText("▼");
+
     }
 
     // ================= ZOOM =================
@@ -486,4 +494,26 @@ public class UserviewController {
 
     public void onFitToWidth(ActionEvent actionEvent) {
     }
+
+
+    // Bottom shelf
+    @FXML
+    private VBox shelfContent;
+
+    @FXML
+    private Label shelfArrow;
+
+    private boolean shelfOpen = false;
+
+    @FXML
+    private void toggleBottomShelf() {
+
+        shelfOpen = !shelfOpen;
+
+        shelfContent.setVisible(shelfOpen);
+        shelfContent.setManaged(shelfOpen);
+
+        shelfArrow.setText(shelfOpen ? "▲" : "▼");
+    }
+
 }

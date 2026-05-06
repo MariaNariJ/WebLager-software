@@ -151,41 +151,54 @@
                   </children>
               </HBox>
 
-              <!-- BOTTOM OVERVIEW -->
-                <HBox prefHeight="165.0" spacing="8.0">
+                <!-- BOTTOM SHELF -->
+                <VBox spacing="0" HBox.hgrow="ALWAYS" styleClass="panel">
 
-                    <children>
-                        <VBox spacing="10" styleClass="panel" HBox.hgrow="ALWAYS">
-                            <padding>
-                                <Insets bottom="14" left="16" right="16" top="14" />
-                            </padding>
-                            <children>
-                                    <Label styleClass="section-title" text="Documents Overview" />
+                    <!-- CLICKABLE HEADER -->
+                    <StackPane fx:id="shelfHeader"
+                               onMouseClicked="#toggleBottomShelf"
+                               styleClass="shelf-header">
 
-                                <HBox spacing="12">
-                                    <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                       <Label styleClass="section-title" text="Document 1" />
-                                        <Label styleClass="muted-text" text="Files: 12" />
-                                        <Label styleClass="muted-text" text="Status: In Progress" />
-                                    </VBox>
+                        <!-- Left aligned title -->
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Document Overview" styleClass="shelf-title"/>
+                        </HBox>
 
-                                    <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                       <Label styleClass="section-title" text="Document 2" />
-                                       <Label styleClass="muted-text" text="Files: 18" />
-                                        <Label styleClass="muted-text" text="Status: Waiting for QA" />
+                        <!-- Centered arrow -->
+                        <Label fx:id="shelfArrow"
+                               text="▼"
+                               styleClass="shelf-arrow"/>
+                    </StackPane>
 
-                                    </VBox>
+                    <!-- COLLAPSIBLE CONTENT -->
+                    <VBox fx:id="shelfContent"
+                          spacing="10"
+                          styleClass="shelf-content">
 
-                                    <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                        <Label styleClass="section-title" text="Document 3" />
-                                        <Label styleClass="muted-text" text="Files: 15" />
-                                        <Label styleClass="muted-text" text="Status: Not Started" />
-                                    </VBox>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
+                        <HBox spacing="12">
+
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label styleClass="section-title" text="Document 1"/>
+                                <Label styleClass="muted-text" text="Files: 12"/>
+                                <Label styleClass="muted-text" text="Status: In Progress"/>
+                            </VBox>
+
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label styleClass="section-title" text="Document 2"/>
+                                <Label styleClass="muted-text" text="Files: 18"/>
+                                <Label styleClass="muted-text" text="Status: Waiting for QA"/>
+                            </VBox>
+
+                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
+                                <Label styleClass="section-title" text="Document 3"/>
+                                <Label styleClass="muted-text" text="Files: 15"/>
+                                <Label styleClass="muted-text" text="Status: Not Started"/>
+                            </VBox>
+
+                        </HBox>
+                    </VBox>
+
+                </VBox>
 
             </children>
         </VBox>
