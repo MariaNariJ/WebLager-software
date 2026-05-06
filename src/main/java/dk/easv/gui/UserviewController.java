@@ -48,6 +48,8 @@ public class UserviewController {
     private int currentIndex = -1;
 
     @FXML
+    private Label fileCountLabel;
+    @FXML
     private VBox fileListContainer;
     @FXML
     private VBox sidebar;
@@ -77,6 +79,57 @@ public class UserviewController {
     private TextField txtDate;
 
     @FXML private ScrollPane previewScrollPane;
+
+    @FXML
+    private Button listViewButton;
+
+    @FXML
+    private Button imageViewButton;
+
+    private boolean imageViewMode = false;
+
+    @FXML
+    private Label scanStatusLabel;
+
+    @FXML
+    private void onListViewClicked() {
+        imageViewMode = false;
+
+        listViewButton.getStyleClass().remove("view-toggle-button");
+        listViewButton.getStyleClass().remove("view-toggle-button-active");
+        listViewButton.getStyleClass().add("view-toggle-button-active");
+
+        imageViewButton.getStyleClass().remove("view-toggle-button");
+        imageViewButton.getStyleClass().remove("view-toggle-button-active");
+        imageViewButton.getStyleClass().add("view-toggle-button");
+
+        refreshFileList();
+    }
+
+    @FXML
+    private void onImageViewClicked() {
+        imageViewMode = true;
+
+        imageViewButton.getStyleClass().remove("view-toggle-button");
+        imageViewButton.getStyleClass().remove("view-toggle-button-active");
+        imageViewButton.getStyleClass().add("view-toggle-button-active");
+
+        listViewButton.getStyleClass().remove("view-toggle-button");
+        listViewButton.getStyleClass().remove("view-toggle-button-active");
+        listViewButton.getStyleClass().add("view-toggle-button");
+
+        refreshFileList();
+    }
+
+    private void refreshFileList() {
+        if (scannedPages == null) return;
+
+        fileListContainer.getChildren().clear();
+
+        for (Page page : scannedPages) {
+            addPageToUI(page);
+        }
+    }
 
     private final Map<String, Runnable> keyBindings = new HashMap<>();
 
@@ -128,6 +181,7 @@ public class UserviewController {
             zoomLevel = newZoom;
             updateZoom();
             updateZoomLabel();
+            updateViewingStatus();
 
             event.consume();
         });
@@ -309,6 +363,14 @@ public class UserviewController {
                 Platform.runLater(() -> {
                     scannedPages.add(page);
                     addPageToUI(page);
+
+                    fileCountLabel.setText(String.valueOf(scannedPages.size()));
+
+                    if (currentIndex == -1) {
+                        showPage(0);
+                    } else {
+                        updateViewingStatus();
+                    }
                 });
             });
         }).thenRun(() -> {
@@ -351,35 +413,37 @@ public class UserviewController {
 
     private void addPageToUI(Page page) {
         try {
-            BufferedImage img = ImageIO.read(new File(page.getPagePath()));
-            if (img == null) return;
-
-            BufferedImage processed = cropBackground(img);
-            Image fxImage = SwingFXUtils.toFXImage(processed, null);
-
-            ImageView thumbnail = new ImageView(fxImage);
-            thumbnail.setFitWidth(120);
-            thumbnail.setFitHeight(160);
-            thumbnail.setPreserveRatio(true);
-            //adds a visual transparency to tiff files inside the scanned files thumbnail view
-            thumbnail.setStyle("-fx-background-color: transparent;");
-
-            StackPane container = new StackPane(thumbnail);
-            container.setAlignment(Pos.CENTER);
-
             Button btn = new Button();
-            btn.setGraphic(container);
             btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
-            btn.setContentDisplay(ContentDisplay.TOP);
             btn.getStyleClass().add("file-name-label");
 
-            // REMOVE default button styling
-            btn.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
-
             int index = scannedPages.indexOf(page);
-
             btn.setOnAction(e -> showPage(index));
+
+            if (imageViewMode) {
+                BufferedImage img = ImageIO.read(new File(page.getPagePath()));
+                if (img == null) return;
+
+                BufferedImage processed = cropBackground(img);
+                Image fxImage = SwingFXUtils.toFXImage(processed, null);
+
+                ImageView thumbnail = new ImageView(fxImage);
+                thumbnail.setFitWidth(120);
+                thumbnail.setFitHeight(160);
+                thumbnail.setPreserveRatio(true);
+
+                StackPane container = new StackPane(thumbnail);
+                container.setAlignment(Pos.CENTER);
+
+                btn.setGraphic(container);
+                btn.setContentDisplay(ContentDisplay.TOP);
+            } else {
+                btn.setGraphic(null);
+                btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
+            }
+
+            btn.setStyle("-fx-background-color: transparent; -fx-padding: 4 0 4 0;");
 
             fileListContainer.getChildren().addFirst(btn);
 
@@ -493,6 +557,22 @@ public class UserviewController {
     }
 
     public void onFitToWidth(ActionEvent actionEvent) {
+    }
+
+    private void updateViewingStatus() {
+
+        if (scannedPages == null || scannedPages.isEmpty()) {
+            scanStatusLabel.setText("No files loaded");
+            return;
+        }
+
+        int currentPage = currentIndex + 1;
+        int totalPages = scannedPages.size();
+
+        scanStatusLabel.setText(
+                "Viewing page " + currentPage +
+                        " out of " + totalPages
+        );
     }
 
 

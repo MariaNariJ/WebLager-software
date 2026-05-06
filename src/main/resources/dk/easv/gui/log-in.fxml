@@ -103,9 +103,6 @@
                                           text="Remember me"/>
 
                                 <Region HBox.hgrow="ALWAYS"/>
-
-                                <Hyperlink styleClass="link-button"
-                                           text="Forgot password?"/>
                             </children>
                         </HBox>
 

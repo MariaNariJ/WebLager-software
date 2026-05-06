@@ -41,30 +41,60 @@
                                 <Label styleClass="section-title" text="Scanned Files" />
                                 <TextField fx:id="searchField" promptText="Search files..." styleClass="dark-field" />
 
-                                <HBox spacing="26">
-                                    <Label opacity="0.0" styleClass="muted-text" text="Scans: 45" />
-                                    <Label opacity="0.0" styleClass="muted-text" text="Documents: 3" />
+                                <HBox alignment="CENTER_LEFT" spacing="8">
+
+                                    <Label styleClass="tree-title"
+                                           text="Files" />
+
+                                    <Label fx:id="fileCountLabel"
+                                           styleClass="count-pill"
+                                           text="0" />
+
+                                    <Region HBox.hgrow="ALWAYS" />
+
+                                    <Button fx:id="listViewButton"
+                                            onAction="#onListViewClicked"
+                                            styleClass="view-toggle-button-active"
+                                            text="☷">
+                                        <tooltip>
+                                            <Tooltip text="List view" />
+                                        </tooltip>
+                                    </Button>
+
+                                    <Button fx:id="imageViewButton"
+                                            onAction="#onImageViewClicked"
+                                            styleClass="view-toggle-button"
+                                            text="▦">
+                                        <tooltip>
+                                            <Tooltip text="Image view" />
+                                        </tooltip>
+                                    </Button>
+
                                 </HBox>
 
-                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                <ScrollPane fitToHeight="true"
+                                            fitToWidth="true"
+                                            hbarPolicy="NEVER"
+                                            styleClass="dark-scroll"
+                                            vbarPolicy="AS_NEEDED"
+                                            VBox.vgrow="ALWAYS">
+
                                     <content>
-                                        <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8">
-                                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                                <Label styleClass="muted-text" text="⌄" />
-                                                <Label styleClass="tree-title" text="Document 1" />
-                                                <Region HBox.hgrow="ALWAYS" />
-                                                <Label styleClass="count-pill" text="0" />
-                                            </HBox>
-                                        </VBox>
+                                        <VBox fx:id="fileListContainer"
+                                              alignment="TOP_CENTER"
+                                              spacing="8" />
                                     </content>
                                 </ScrollPane>
 
-                                <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
+                                <Button fx:id="btnFetchFiles"
+                                        onAction="#onFetchFilesClicked"
+                                        styleClass="primary-action"
+                                        text="+  Scan Next (F5)" />
 
                                 <VBox spacing="4" styleClass="scan-status">
-                                    <Label opacity="0.0" styleClass="status-title" text="✓  Scanned file 45" />
-                                    <Label opacity="0.0" styleClass="muted-text" text="Barcode detected" />
-                                    <Label opacity="0.0" styleClass="muted-text" text="New document started" />
+                                    <Label fx:id="scanStatusLabel"
+                                           styleClass="muted-text"
+                                           text="No files loaded" />
                                 </VBox>
                             </children>
                         </VBox>
