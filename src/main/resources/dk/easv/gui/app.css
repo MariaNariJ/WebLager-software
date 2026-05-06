@@ -464,3 +464,26 @@ Error color:                 #FF3D32
     -fx-padding: 7 10 7 10;
     -fx-font-size: 12px;
 }
+
+.view-toggle-button,
+.view-toggle-button-active {
+    -fx-background-radius: 8;
+    -fx-padding: 5 9 5 9;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.view-toggle-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D6E0EA;
+}
+
+.view-toggle-button:hover {
+    -fx-background-color: #2B3B4C;
+}
+
+.view-toggle-button-active {
+    -fx-background-color: #4B5563;
+    -fx-text-fill: white;
+}
