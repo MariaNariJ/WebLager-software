@@ -196,7 +196,7 @@
 
                         <!-- Centered arrow -->
                         <Label fx:id="shelfArrow"
-                               text="▼"
+                               text="▲"
                                styleClass="shelf-arrow"/>
                     </StackPane>
 

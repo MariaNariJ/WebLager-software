@@ -5,6 +5,7 @@ import dk.easv.be.Document;
 import dk.easv.dal.dao.BoxDAO;
 import dk.easv.dal.dao.DocumentDAO;
 import dk.easv.dal.dao.PageDAO;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -77,19 +77,20 @@ public class UserviewController {
     private TextField txtDocumentType;
     @FXML
     private TextField txtDate;
-
-    @FXML private ScrollPane previewScrollPane;
-
+    @FXML
+    private ScrollPane previewScrollPane;
     @FXML
     private Button listViewButton;
-
     @FXML
     private Button imageViewButton;
-
     private boolean imageViewMode = false;
-
     @FXML
     private Label scanStatusLabel;
+    @FXML
+    private VBox shelfContent;
+    @FXML
+    private Label shelfArrow;
+    private boolean shelfOpen = true;
 
     @FXML
     private void onListViewClicked() {
@@ -219,7 +220,7 @@ public class UserviewController {
         shelfOpen = false;
         shelfContent.setVisible(false);
         shelfContent.setManaged(false);
-        shelfArrow.setText("▼");
+        shelfArrow.setRotate(0); // ▲ = open
 
     }
 
@@ -575,16 +576,7 @@ public class UserviewController {
         );
     }
 
-
     // Bottom shelf
-    @FXML
-    private VBox shelfContent;
-
-    @FXML
-    private Label shelfArrow;
-
-    private boolean shelfOpen = false;
-
     @FXML
     private void toggleBottomShelf() {
 
@@ -593,7 +585,12 @@ public class UserviewController {
         shelfContent.setVisible(shelfOpen);
         shelfContent.setManaged(shelfOpen);
 
-        shelfArrow.setText(shelfOpen ? "▲" : "▼");
+        RotateTransition rt = new RotateTransition(Duration.millis(200), shelfArrow);
+
+        // Rotate relative instead of absolute
+        rt.setByAngle(shelfOpen ? -180 : 180);
+
+        rt.play();
     }
 
 }
