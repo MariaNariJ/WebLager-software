@@ -17,12 +17,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
+<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 
         <!-- MAIN RESPONSIVE CONTENT -->
-        <VBox spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="7.0">
+        <VBox fx:id="mainContent" spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="7.0">
 
             <children>
 
@@ -43,28 +43,19 @@
 
                                 <HBox alignment="CENTER_LEFT" spacing="8">
 
-                                    <Label styleClass="tree-title"
-                                           text="Files" />
+                                    <Label styleClass="tree-title" text="Files" />
 
-                                    <Label fx:id="fileCountLabel"
-                                           styleClass="count-pill"
-                                           text="0" />
+                                    <Label fx:id="fileCountLabel" styleClass="count-pill" text="0" />
 
                                     <Region HBox.hgrow="ALWAYS" />
 
-                                    <Button fx:id="listViewButton"
-                                            onAction="#onListViewClicked"
-                                            styleClass="view-toggle-button-active"
-                                            text="☷">
+                                    <Button fx:id="listViewButton" onAction="#onListViewClicked" styleClass="view-toggle-button-active" text="☷">
                                         <tooltip>
                                             <Tooltip text="List view" />
                                         </tooltip>
                                     </Button>
 
-                                    <Button fx:id="imageViewButton"
-                                            onAction="#onImageViewClicked"
-                                            styleClass="view-toggle-button"
-                                            text="▦">
+                                    <Button fx:id="imageViewButton" onAction="#onImageViewClicked" styleClass="view-toggle-button" text="▦">
                                         <tooltip>
                                             <Tooltip text="Image view" />
                                         </tooltip>
@@ -72,29 +63,17 @@
 
                                 </HBox>
 
-                                <ScrollPane fitToHeight="true"
-                                            fitToWidth="true"
-                                            hbarPolicy="NEVER"
-                                            styleClass="dark-scroll"
-                                            vbarPolicy="AS_NEEDED"
-                                            VBox.vgrow="ALWAYS">
+                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
 
                                     <content>
-                                        <VBox fx:id="fileListContainer"
-                                              alignment="TOP_CENTER"
-                                              spacing="8" />
+                                        <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8" />
                                     </content>
                                 </ScrollPane>
 
-                                <Button fx:id="btnFetchFiles"
-                                        onAction="#onFetchFilesClicked"
-                                        styleClass="primary-action"
-                                        text="+  Scan Next (F5)" />
+                                <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
 
                                 <VBox spacing="4" styleClass="scan-status">
-                                    <Label fx:id="scanStatusLabel"
-                                           styleClass="muted-text"
-                                           text="No files loaded" />
+                                    <Label fx:id="scanStatusLabel" styleClass="muted-text" text="No files loaded" />
                                 </VBox>
                             </children>
                         </VBox>
@@ -182,47 +161,41 @@
               </HBox>
 
                 <!-- BOTTOM SHELF -->
-                <VBox spacing="0" HBox.hgrow="ALWAYS" styleClass="panel">
+                <VBox spacing="0" styleClass="panel" HBox.hgrow="ALWAYS">
 
                     <!-- CLICKABLE HEADER -->
-                    <StackPane fx:id="shelfHeader"
-                               onMouseClicked="#toggleBottomShelf"
-                               styleClass="shelf-header">
+                    <StackPane fx:id="shelfHeader" onMouseClicked="#toggleBottomShelf" styleClass="shelf-header">
 
                         <!-- Left aligned title -->
                         <HBox alignment="CENTER_LEFT">
-                            <Label text="Document Overview" styleClass="shelf-title"/>
+                            <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="122.0" styleClass="shelf-title" text="Document Overview" />
                         </HBox>
 
                         <!-- Centered arrow -->
-                        <Label fx:id="shelfArrow"
-                               text="▲"
-                               styleClass="shelf-arrow"/>
+                        <Label fx:id="shelfArrow" prefHeight="18.0" prefWidth="12.0" styleClass="shelf-arrow" text="▲" />
                     </StackPane>
 
                     <!-- COLLAPSIBLE CONTENT -->
-                    <VBox fx:id="shelfContent"
-                          spacing="10"
-                          styleClass="shelf-content">
+                    <VBox fx:id="shelfContent" spacing="10" styleClass="shelf-content">
 
                         <HBox spacing="12">
 
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 1"/>
-                                <Label styleClass="muted-text" text="Files: 12"/>
-                                <Label styleClass="muted-text" text="Status: In Progress"/>
+                                <Label styleClass="section-title" text="Document 1" />
+                                <Label styleClass="muted-text" text="Files: 12" />
+                                <Label styleClass="muted-text" text="Status: In Progress" />
                             </VBox>
 
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 2"/>
-                                <Label styleClass="muted-text" text="Files: 18"/>
-                                <Label styleClass="muted-text" text="Status: Waiting for QA"/>
+                                <Label styleClass="section-title" text="Document 2" />
+                                <Label styleClass="muted-text" text="Files: 18" />
+                                <Label styleClass="muted-text" text="Status: Waiting for QA" />
                             </VBox>
 
                             <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 3"/>
-                                <Label styleClass="muted-text" text="Files: 15"/>
-                                <Label styleClass="muted-text" text="Status: Not Started"/>
+                                <Label styleClass="section-title" text="Document 3" />
+                                <Label styleClass="muted-text" text="Files: 15" />
+                                <Label styleClass="muted-text" text="Status: Not Started" />
                             </VBox>
 
                         </HBox>
@@ -268,6 +241,7 @@
                         </Label>
 
                         <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
+                                pickOnBounds="true">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
                             </tooltip>

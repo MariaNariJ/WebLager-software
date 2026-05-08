@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -92,6 +93,8 @@ public class UserviewController {
     @FXML
     private Label shelfArrow;
     private boolean shelfOpen = true;
+    @FXML
+    private VBox mainContent;
 
     @FXML
     private void onListViewClicked() {
@@ -146,8 +149,8 @@ public class UserviewController {
 
     private double rotationAngle = 0;
 
-    private boolean sidebarVisible = false;
-    private boolean sidebarLocked = false;
+    private boolean sidebarVisible = true;
+    private boolean sidebarLocked = true;
 
     // ================= INITIALIZE =================
     @FXML
@@ -166,6 +169,8 @@ public class UserviewController {
         sidebar.setOnMouseExited(e -> hideSidebar());
         sidebarTrigger.toFront();
         sidebar.toFront();
+        sidebarLockButton.setPickOnBounds(true);
+        sidebarLockButton.toFront();
 
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {filterFiles(newValue);
         });
@@ -526,11 +531,12 @@ public class UserviewController {
         }
     }
 
-    // ================= SIDEBAR =================
+
     private void showSidebar() {
         if (sidebarVisible) return;
 
         sidebarVisible = true;
+        sidebar.toFront();
 
         TranslateTransition transition = new TranslateTransition(Duration.millis(110), sidebar);
         transition.setToX(180);
@@ -552,13 +558,21 @@ public class UserviewController {
         sidebarLocked = !sidebarLocked;
 
         if (sidebarLocked) {
-            if (!sidebarLockButton.getStyleClass().contains("sidebar-icon-button-active")) {
-                sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
-            }
-            showSidebar();
+            sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
+
+            AnchorPane.setLeftAnchor(mainContent, 187.0);
+
+            sidebarVisible = true;
+            sidebar.setTranslateX(180);
+            sidebar.toFront();
+
         } else {
             sidebarLockButton.getStyleClass().remove("sidebar-icon-button-active");
-            hideSidebar();
+
+            AnchorPane.setLeftAnchor(mainContent, 8.0);
+
+            sidebarVisible = false;
+            sidebar.setTranslateX(0);
         }
     }
 

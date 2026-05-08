@@ -210,9 +210,18 @@ Error color:                 #FF3D32
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 22px;
     -fx-background-radius: 8;
-    -fx-padding: 4 8 4 8;
+    -fx-padding: 0;
     -fx-cursor: hand;
     -fx-border-color: transparent;
+
+    -fx-pref-width: 38px;
+    -fx-pref-height: 38px;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+
+    -fx-alignment: CENTER;
 }
 
 .sidebar-icon-button:hover {
