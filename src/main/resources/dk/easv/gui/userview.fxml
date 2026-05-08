@@ -168,11 +168,11 @@
 
                         <!-- Left aligned title -->
                         <HBox alignment="CENTER_LEFT">
-                            <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="122.0" styleClass="shelf-title" text="Document Overview" />
+                            <Label prefHeight="18.0" prefWidth="135.0" styleClass="shelf-title" text="Document Overview" />
                         </HBox>
 
                         <!-- Centered arrow -->
-                        <Label fx:id="shelfArrow" prefHeight="18.0" prefWidth="12.0" styleClass="shelf-arrow" text="▲" />
+                        <Label fx:id="shelfArrow" alignment="CENTER" prefHeight="18.0" prefWidth="28.0" styleClass="shelf-arrow" text="▲" />
                     </StackPane>
 
                     <!-- COLLAPSIBLE CONTENT -->
