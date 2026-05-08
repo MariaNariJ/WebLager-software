@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -141,7 +142,7 @@ public class UserviewController {
     private double zoomLevel = 1.0;
     private final double ZOOM_STEP = 0.1;
     private final double MIN_ZOOM = 0.2;
-    private final double MAX_ZOOM = 3.0;
+    private final double MAX_ZOOM = 4.0;
 
     private double rotationAngle = 0;
 
@@ -169,25 +170,9 @@ public class UserviewController {
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {filterFiles(newValue);
         });
 
-        // CTRL + scroll zoom
-        previewScrollPane.setOnScroll(event -> {
-            if (!event.isControlDown()) return;
-            if (currentImage == null) return;
+        zoomSetup();
 
-            double zoomFactor = (event.getDeltaY() > 0) ? 1.1 : 0.9;
-            double newZoom = zoomLevel * zoomFactor;
-
-            if (newZoom < MIN_ZOOM || newZoom > MAX_ZOOM) return;
-
-            zoomLevel = newZoom;
-            updateZoom();
-            updateZoomLabel();
-            updateViewingStatus();
-
-            event.consume();
-        });
-
-        // Double click reset
+        // Double-click reset
         previewImage.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 onResetZoom();
@@ -224,13 +209,47 @@ public class UserviewController {
 
     }
 
-    // ================= ZOOM =================
+    private void zoomSetup() {
+        previewScrollPane.addEventFilter(javafx.scene.input.ScrollEvent.SCROLL, event -> {
+            if (!event.isControlDown() || currentImage == null) return;
+            event.consume();
+
+            double oldZoom = zoomLevel;
+            zoomLevel = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoomLevel * (event.getDeltaY() > 0 ? 1.1 : 0.9)));
+            if (oldZoom == zoomLevel) return;
+
+            double f = zoomLevel / oldZoom;
+            Bounds view = previewScrollPane.getViewportBounds();
+            double contentW = previewScrollPane.getContent().getBoundsInParent().getWidth();
+            double contentH = previewScrollPane.getContent().getBoundsInParent().getHeight();
+
+            double viewCenterX = view.getWidth() / 2.0;
+            double viewCenterY = view.getHeight() / 2.0;
+
+            double targetX = (previewScrollPane.getHvalue() * Math.max(0, contentW - view.getWidth())) + viewCenterX;
+            double targetY = (previewScrollPane.getVvalue() * Math.max(0, contentH - view.getHeight())) + viewCenterY;
+
+            updateZoom();
+
+            previewScrollPane.applyCss();
+            previewScrollPane.layout();
+
+            double newW = previewScrollPane.getContent().getBoundsInParent().getWidth();
+            double newH = previewScrollPane.getContent().getBoundsInParent().getHeight();
+
+            double newHval = ((targetX * f) - viewCenterX) / Math.max(1, newW - view.getWidth());
+            double newVval = ((targetY * f) - viewCenterY) / Math.max(1, newH - view.getHeight());
+
+            previewScrollPane.setHvalue(Math.max(0, Math.min(1, newHval)));
+            previewScrollPane.setVvalue(Math.max(0, Math.min(1, newVval)));
+        });
+    }
+
     @FXML
     private void onZoomIn() {
-        if (zoomLevel < MAX_ZOOM) {
+        if (zoomLevel <= MAX_ZOOM) {
             zoomLevel += ZOOM_STEP;
             updateZoom();
-            updateZoomLabel();
         }
     }
 
@@ -239,19 +258,16 @@ public class UserviewController {
         if (zoomLevel > MIN_ZOOM) {
             zoomLevel -= ZOOM_STEP;
             updateZoom();
-            updateZoomLabel();
         }
     }
 
     @FXML
     private void onResetZoom() {
-        zoomLevel = 1.0;
+        zoomLevel = 0.7;
         updateZoom();
-        updateZoomLabel();
-    }
 
-    private void updateZoomLabel() {
-        zoomLabel.setText((int)(zoomLevel * 100) + "%");
+        previewScrollPane.setHvalue(0.5);
+        previewScrollPane.setVvalue(0.5);
     }
 
     private void updateZoom() {
@@ -260,13 +276,16 @@ public class UserviewController {
         previewImage.setImage(currentImage);
         previewImage.setPreserveRatio(true);
 
-        double baseWidth = previewScrollPane.getWidth();
-        double baseHeight = previewScrollPane.getHeight();
+        StackPane imageContainer = (StackPane) previewScrollPane.getContent();
+        imageContainer.setScaleX(1);
+        imageContainer.setScaleY(1);
+
+        double baseWidth = previewScrollPane.getViewportBounds().getWidth();
 
         previewImage.setFitWidth(baseWidth * zoomLevel);
-        previewImage.setFitHeight(baseHeight * zoomLevel);
 
         previewImage.setRotate(rotationAngle);
+        zoomLabel.setText((int)(zoomLevel * 100) + "%");
     }
 
     // ================= ROTATION =================
@@ -336,14 +355,12 @@ public class UserviewController {
 
             barcodeLabel.setText(page.getBarcode());
 
-            zoomLevel = 1.0;
+            zoomLevel = 0.7;
 
             // IMPORTANT: restore rotation
             rotationAngle = page.getRotation();
 
             updateZoom();
-            updateZoomLabel();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
