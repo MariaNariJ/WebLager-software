@@ -96,7 +96,7 @@
                                     <Button onAction="#onZoomIn" styleClass="small-button" text="+" />
                                 </HBox>
 
-                                <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                                <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" styleClass="dark-scroll" VBox.vgrow="ALWAYS">
                                     <content>
                                         <StackPane alignment="CENTER" minHeight="0" style="-fx-background-color: transparent;">
                                             <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" />

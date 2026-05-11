@@ -293,6 +293,47 @@ Error color:                 #FF3D32
     -fx-background-color: transparent;
 }
 
+.dark-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+}
+
+.dark-scroll .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 12;
+}
+
+.dark-scroll .scroll-bar .track {
+    -fx-background-color: #2D3D4F;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.dark-scroll .scroll-bar .thumb {
+    -fx-background-color: #5D7285;
+    -fx-background-radius: 8;
+}
+
+.dark-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: #7F95A8;
+}
+
+.dark-scroll .scroll-bar .increment-button,
+.dark-scroll .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.dark-scroll .scroll-bar .increment-arrow,
+.dark-scroll .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+.dark-scroll .corner {
+    -fx-background-color: transparent;
+}
+
 .section-title {
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
