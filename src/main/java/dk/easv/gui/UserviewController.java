@@ -382,7 +382,11 @@ public class UserviewController {
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
-            fileManager.proccesFilesFromApi(page -> {
+            // REAL API VERSION - keep this for later
+            // fileManager.proccesFilesFromApi(page -> {
+
+            // LOCAL TEST BOX VERSION
+            fileManager.processFilesFromLocalBox(page -> {
                 Platform.runLater(() -> {
                     scannedPages.add(page);
                     addPageToUI(page);
@@ -468,7 +472,7 @@ public class UserviewController {
 
             btn.setStyle("-fx-background-color: transparent; -fx-padding: 4 0 4 0;");
 
-            fileListContainer.getChildren().addFirst(btn);
+            fileListContainer.getChildren().add(btn);
 
         } catch (Exception e) {
             e.printStackTrace();

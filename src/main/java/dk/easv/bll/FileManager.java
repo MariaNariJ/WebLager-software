@@ -3,14 +3,14 @@ package dk.easv.bll;
 import dk.easv.be.Page;
 import dk.easv.dal.dao.PageDAO;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class FileManager {
@@ -24,8 +24,9 @@ public class FileManager {
     public void updatePageRotation(Page page) {
         pageDAO.updatePageRotation(page);
     }
-    // ================= PROCESS FILES =================
 
+
+    // This is the actual method from processing files form the API, which will be commented out later on
     public void proccesFilesFromApi(Consumer<Page> scannedPage) {
         boolean pageBarcode = false;
         int counter = 1;
@@ -58,6 +59,68 @@ public class FileManager {
                 } catch (Exception e) {
                     System.err.println("Error processing file: " + page.getPagePath());
                 }
+            }
+        }
+    }
+
+    // This method only acts as a support for showing how it will work in real life
+    public void processFilesFromLocalBox(Consumer<Page> scannedPage) {
+        File folder = new File("LocalBoxes/Box_001");
+
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.err.println("Local box folder not found: " + folder.getAbsolutePath());
+            return;
+        }
+
+        File[] files = folder.listFiles((dir, name) ->
+                name.toLowerCase().endsWith(".tif") ||
+                        name.toLowerCase().endsWith(".tiff")
+        );
+
+        if (files == null || files.length == 0) {
+            System.err.println("No TIFF files found in: " + folder.getAbsolutePath());
+            return;
+        }
+
+        Arrays.sort(files, Comparator.comparing(File::getName));
+
+        int pageNumber = 1;
+
+        for (File file : files) {
+            try {
+                BufferedImage image = ImageIO.read(file);
+
+                String barcode = null;
+
+                try {
+                    barcode = barcodeService.scanBarcode(image);
+                } catch (Exception ignored) {
+                }
+
+                Page page = new Page(
+                        String.valueOf(System.currentTimeMillis() + pageNumber),
+                        pageNumber,
+                        -1,
+                        file.getName(),
+                        file.getAbsolutePath(),
+                        0
+                );
+
+                page.setBarcode(barcode);
+
+                //This is not necessary since we are always passing it from the controller but for better practice!
+                if (scannedPage != null) {
+                    scannedPage.accept(page);
+                }
+
+                //Simulating the files fetching a bit slower so it feels closer to an actual API
+                Thread.sleep(200 + new Random().nextInt(250));
+
+                pageNumber++;
+
+            } catch (Exception e) {
+                System.err.println("Failed loading local TIFF: " + file.getName());
+                e.printStackTrace();
             }
         }
     }
