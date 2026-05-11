@@ -96,12 +96,33 @@
                                     <Button onAction="#onZoomIn" styleClass="small-button" text="+" />
                                 </HBox>
 
-                                <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" styleClass="dark-scroll" VBox.vgrow="ALWAYS">
+                                <ScrollPane fx:id="previewScrollPane"
+                                            fitToHeight="false"
+                                            fitToWidth="false"
+                                            pannable="true"
+                                            hbarPolicy="AS_NEEDED"
+                                            vbarPolicy="AS_NEEDED"
+                                            styleClass="dark-scroll"
+                                            VBox.vgrow="ALWAYS">
+
                                     <content>
-                                        <StackPane alignment="CENTER" minHeight="0" style="-fx-background-color: transparent;">
-                                            <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+
+                                        <StackPane alignment="CENTER"
+                                                   style="-fx-background-color: transparent;">
+
+                                            <children>
+
+                                                <ImageView fx:id="previewImage"
+                                                           preserveRatio="true"
+                                                           smooth="true"
+                                                           style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+
+                                            </children>
+
                                         </StackPane>
+
                                     </content>
+
                                 </ScrollPane>
 
                 <!-- TOOLBAR -->
@@ -109,7 +130,7 @@
                     <Button onAction="#onRotateLeft" styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
                     <Button onAction="#onRotateRight" styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
                     <Button onAction="#onFitToWidth" styleClass="toolbar-button" text="↔&#10;Fit Width" />
-                    <Button onAction="#onResetZoom" styleClass="toolbar-button" text="▣&#10;Actual Size" />
+                    <Button onAction="#onResetZoom" styleClass="toolbar-button" text="▣&#10;Reset Zoom" />
                     <Button onAction="#onNextFile" styleClass="toolbar-button" text="→&#10;Next File&#10;(D)" />
                     <Button onAction="#onPreviousFile" styleClass="toolbar-button" text="←&#10;Previous File&#10;(A)" />
                 </HBox>

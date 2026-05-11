@@ -139,10 +139,10 @@ public class UserviewController {
 
     private final Map<String, Runnable> keyBindings = new HashMap<>();
 
-    // ================= STATE =================
+    // STATE
     private Image currentImage;
 
-    // ================= ZOOM =================
+    // ZOOM
     private double zoomLevel = 1.0;
     private final double ZOOM_STEP = 0.1;
     private final double MIN_ZOOM = 0.2;
@@ -153,7 +153,7 @@ public class UserviewController {
     private boolean sidebarVisible = true;
     private boolean sidebarLocked = true;
 
-    // ================= INITIALIZE =================
+    // INITIALIZE
     @FXML
     public void initialize() {
 
@@ -269,7 +269,7 @@ public class UserviewController {
 
     @FXML
     private void onResetZoom() {
-        zoomLevel = 0.7;
+        zoomLevel = 1.0;
         updateZoom();
 
         previewScrollPane.setHvalue(0.5);
@@ -277,24 +277,39 @@ public class UserviewController {
     }
 
     private void updateZoom() {
+
         if (currentImage == null) return;
 
         previewImage.setImage(currentImage);
         previewImage.setPreserveRatio(true);
 
-        StackPane imageContainer = (StackPane) previewScrollPane.getContent();
-        imageContainer.setScaleX(1);
-        imageContainer.setScaleY(1);
+        double viewportWidth = previewScrollPane.getViewportBounds().getWidth();
+        double viewportHeight = previewScrollPane.getViewportBounds().getHeight();
 
-        double baseWidth = previewScrollPane.getViewportBounds().getWidth();
+        double imageWidth = currentImage.getWidth();
+        double imageHeight = currentImage.getHeight();
 
-        previewImage.setFitWidth(baseWidth * zoomLevel);
+        double widthRatio = viewportWidth / imageWidth;
+        double heightRatio = viewportHeight / imageHeight;
+
+        double baseScale = Math.min(widthRatio, heightRatio);
+
+        double finalScale = baseScale * zoomLevel;
+
+        previewImage.setFitWidth(imageWidth * finalScale);
+        previewImage.setFitHeight(imageHeight * finalScale);
 
         previewImage.setRotate(rotationAngle);
+
+        StackPane container = (StackPane) previewScrollPane.getContent();
+
+        container.setMinWidth(previewScrollPane.getViewportBounds().getWidth());
+        container.setMinHeight(previewScrollPane.getViewportBounds().getHeight());
+
         zoomLabel.setText((int)(zoomLevel * 100) + "%");
     }
 
-    // ================= ROTATION =================
+    // ROTATION
     @FXML
     private void onRotateLeft() {
         rotationAngle -= 90;
@@ -327,7 +342,7 @@ public class UserviewController {
         }
     }
 
-    // ================= NAVIGATION =================
+    // NAVIGATION
     @FXML
     private void onNextFile() {
         if (scannedPages == null || scannedPages.isEmpty()) return;
@@ -344,7 +359,7 @@ public class UserviewController {
         }
     }
 
-    // ================= SHOW PAGE =================
+    // SHOW PAGE
     private void showPage(int index) {
         if (scannedPages == null || scannedPages.isEmpty()) return;
         if (index < 0 || index >= scannedPages.size()) return;
@@ -361,9 +376,9 @@ public class UserviewController {
 
             barcodeLabel.setText(page.getBarcode());
 
-            zoomLevel = 0.7;
+            zoomLevel = 1.0;
 
-            // IMPORTANT: restore rotation
+            // Restores rotation
             rotationAngle = page.getRotation();
 
             updateZoom();
@@ -372,7 +387,7 @@ public class UserviewController {
         }
     }
 
-    // ================= FETCH =================
+    // FETCH
     @FXML
     public void onFetchFilesClicked() {
         fileListContainer.getChildren().clear();
@@ -511,10 +526,7 @@ public class UserviewController {
         }
     }
 
-
-
-
-    // ================= BACKGROUND DETECTION
+    // BACKGROUND DETECTION
     private boolean isBackground(int rgb) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
@@ -523,19 +535,19 @@ public class UserviewController {
         return (r > 200 && g > 200 && b > 200);
     }
 
-    // ================= HELPER =================
+    //HELPER
     private double clamp(double value) {
         if (value < 0) return 0;
         if (value > 1) return 1;
         return value;
     }
 
-    // ================= IMAGE =================
+    // IMAGE
     private BufferedImage cropBackground(BufferedImage image) {
         return image; // keep your original logic if needed
     }
 
-    // ================= FILTER =================
+    //  FILTER
     private void filterFiles(String query) {
 
         if (scannedPages == null) return;
@@ -614,7 +626,7 @@ public class UserviewController {
         }
     }
 
-    // ================= LOGOUT =================
+    // LOGOUT
     @FXML
     private void onLogOutClicked() {
         try {
