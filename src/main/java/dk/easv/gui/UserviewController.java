@@ -383,7 +383,11 @@ public class UserviewController {
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
-            fileManager.proccesFilesFromApi(page -> {
+            // REAL API VERSION - keep this for later
+            // fileManager.proccesFilesFromApi(page -> {
+
+            // LOCAL TEST BOX VERSION
+            fileManager.processFilesFromLocalBox(page -> {
                 Platform.runLater(() -> {
                     scannedPages.add(page);
                     addPageToUI(page);
@@ -446,7 +450,7 @@ public class UserviewController {
 
             int index = scannedPages.indexOf(page);
 
-            // ================= IMAGE VIEW MODE =================
+            // IMAGE VIEW MODE
             if (imageViewMode) {
 
                 BufferedImage img;
@@ -481,7 +485,7 @@ public class UserviewController {
                 btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
 
-            // ================= BUTTON STYLING =================
+            //BUTTON STYLING
             btn.setStyle(
                     "-fx-background-color: transparent;" +
                             "-fx-padding: 4 0 4 0;"
@@ -490,6 +494,7 @@ public class UserviewController {
             // ================= CLICK EVENT =================
             btn.setOnAction(e -> {
 
+            fileListContainer.getChildren().add(btn);
                 if (page.getBarcode() == null) {
                     barcodeLabel.setText("No barcode found");
                 } else {

@@ -251,7 +251,7 @@
                     <HBox alignment="CENTER_LEFT" spacing="10">
                         <Label styleClass="avatar" text="JD" />
                         <VBox spacing="0">
-                            <Label styleClass="top-user" text="johndoe" />
+                            <Label styleClass="top-user" text="Jakub Hlacik" />
                             <Label styleClass="top-role" text="User" />
                         </VBox>
                     </HBox>
