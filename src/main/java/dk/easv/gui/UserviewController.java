@@ -450,7 +450,7 @@ public class UserviewController {
 
             int index = scannedPages.indexOf(page);
 
-            // IMAGE VIEW MODE
+            //IMAGE VIEW MODE
             if (imageViewMode) {
 
                 BufferedImage img;
@@ -491,7 +491,7 @@ public class UserviewController {
                             "-fx-padding: 4 0 4 0;"
             );
 
-            // ================= CLICK EVENT =================
+            //CLICK EVENT
             btn.setOnAction(e -> {
 
             fileListContainer.getChildren().add(btn);
@@ -504,7 +504,7 @@ public class UserviewController {
                 showPage(index);
             });
 
-            fileListContainer.getChildren().add(0, btn);
+            fileListContainer.getChildren().add(btn);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -514,7 +514,7 @@ public class UserviewController {
 
 
 
-    // ================= BACKGROUND DETECTION =================
+    // ================= BACKGROUND DETECTION
     private boolean isBackground(int rgb) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
