@@ -118,7 +118,23 @@
                         </VBox>
 
                         <!-- METADATA PANEL -->
-                        <VBox minWidth="320.0" prefWidth="350.0" spacing="14" styleClass="panel">
+                        <ScrollPane fitToWidth="true"
+                                    fitToHeight="true"
+                                    hbarPolicy="NEVER"
+                                    styleClass="metadata-scroll"
+                                    minWidth="320.0"
+                                    prefWidth="350.0"
+                                    maxWidth="350.0"
+                                    VBox.vgrow="ALWAYS">
+
+                        <content>
+
+                            <VBox spacing="14"
+                                  prefWidth="320"
+                                  minWidth="320"
+                                  maxWidth="320"
+                                  styleClass="panel">
+
                             <padding>
                                 <Insets bottom="18" left="18" right="18" top="18" />
                             </padding>
@@ -126,7 +142,6 @@
                             <children>
                                 <HBox spacing="30">
                                     <Label styleClass="tab-active" text="Metadata" />
-                                  <Label styleClass="tab-inactive" text="Info" />
                               </HBox>
 
                               <Separator styleClass="dark-separator" />
@@ -137,26 +152,37 @@
                               <Label styleClass="field-label-dark" text="Box *" />
                       <TextField fx:id="txtBox" styleClass="dark-field" />
 
-                              <Label styleClass="field-label-dark" text="Document Name *" />
-                              <TextField fx:id="txtDocumentName" styleClass="dark-field" />
+                              <Label styleClass="field-label-dark" text="Profile *" />
+                              <TextField fx:id="txtProfile" styleClass="dark-field" />
 
-                              <Label styleClass="field-label-dark" text="Document Type" />
-                              <TextField fx:id="txtDocumentType" styleClass="dark-field" />
+                                <VBox fx:id="dynamicMetadataContainer"
+                                      spacing="10"
+                                      fillWidth="true"
+                                      maxWidth="Infinity"/>
+
+                              <Label styleClass="field-label-dark" text="Document Name" />
+                              <TextField fx:id="txtDocumentName" styleClass="dark-field" />
 
                               <Label styleClass="field-label-dark" text="Date *" />
                               <TextField fx:id="txtDate" styleClass="dark-field" />
 
-                              <Label styleClass="field-label-dark" text="Barcode" />
-                              <Label fx:id="barcodeLabel" styleClass="muted-text" text="No barcode found" />
+                                <Label styleClass="field-label-dark" text="Barcode" />
+                                <Label fx:id="barcodeLabel"
+                                       styleClass="muted-text"
+                                       text="No barcode found" />
 
-                              <Label opacity="0.0" styleClass="field-label-dark" text="Status" />
-                              <ComboBox maxWidth="1.7976931348623157E308" opacity="0.0" promptText="In Progress" styleClass="combo-dark" />
-                      <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                                <Region VBox.vgrow="ALWAYS" />
 
-              <Button minHeight="-Infinity" minWidth="-Infinity" onAction="#onSaveMetadataClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="💾  Save Metadata (F2)" />
-          </children>
-      </VBox>
+                                <Button onAction="#onSaveMetadataClicked"
+                                        prefHeight="38.0"
+                                        prefWidth="149.0"
+                                        styleClass="primary-action"
+                                        text="💾  Save Metadata (F2)" />
+                            </children>
+                        </VBox>
 
+                        </content>
+                        </ScrollPane>
                   </children>
               </HBox>
 
@@ -176,30 +202,9 @@
                     </StackPane>
 
                     <!-- COLLAPSIBLE CONTENT -->
-                    <VBox fx:id="shelfContent" spacing="10" styleClass="shelf-content">
-
-                        <HBox spacing="12">
-
-                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 1" />
-                                <Label styleClass="muted-text" text="Files: 12" />
-                                <Label styleClass="muted-text" text="Status: In Progress" />
-                            </VBox>
-
-                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 2" />
-                                <Label styleClass="muted-text" text="Files: 18" />
-                                <Label styleClass="muted-text" text="Status: Waiting for QA" />
-                            </VBox>
-
-                            <VBox prefWidth="190" spacing="6" styleClass="mini-card">
-                                <Label styleClass="section-title" text="Document 3" />
-                                <Label styleClass="muted-text" text="Files: 15" />
-                                <Label styleClass="muted-text" text="Status: Not Started" />
-                            </VBox>
-
-                        </HBox>
-                    </VBox>
+                    <VBox fx:id="shelfContent"
+                          spacing="10"
+                          styleClass="shelf-content"/>
 
                 </VBox>
 
