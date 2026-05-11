@@ -437,6 +437,10 @@ Error color:                 #FF3D32
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
     -fx-cursor: hand;
+
+    -fx-pref-height: 65px;
+    -fx-min-height: 65px;
+    -fx-alignment: center;
 }
 
 .toolbar-button:hover {

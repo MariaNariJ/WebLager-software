@@ -31,13 +31,14 @@ import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import static java.lang.StrictMath.clamp;
+
 
 public class UserviewController {
 
@@ -436,22 +437,34 @@ public class UserviewController {
 
     private void addPageToUI(Page page) {
         try {
+
             Button btn = new Button();
             btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
+
             btn.getStyleClass().add("file-name-label");
 
             int index = scannedPages.indexOf(page);
-            btn.setOnAction(e -> showPage(index));
 
+            // ================= IMAGE VIEW MODE =================
             if (imageViewMode) {
-                BufferedImage img = ImageIO.read(new File(page.getPagePath()));
+
+                BufferedImage img;
+
+                try {
+                    img = ImageIO.read(new File(page.getPagePath()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
                 if (img == null) return;
 
                 BufferedImage processed = cropBackground(img);
+
                 Image fxImage = SwingFXUtils.toFXImage(processed, null);
 
                 ImageView thumbnail = new ImageView(fxImage);
+
                 thumbnail.setFitWidth(120);
                 thumbnail.setFitHeight(160);
                 thumbnail.setPreserveRatio(true);
@@ -461,19 +474,39 @@ public class UserviewController {
 
                 btn.setGraphic(container);
                 btn.setContentDisplay(ContentDisplay.TOP);
+
             } else {
+
                 btn.setGraphic(null);
                 btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
 
-            btn.setStyle("-fx-background-color: transparent; -fx-padding: 4 0 4 0;");
+            // ================= BUTTON STYLING =================
+            btn.setStyle(
+                    "-fx-background-color: transparent;" +
+                            "-fx-padding: 4 0 4 0;"
+            );
 
-            fileListContainer.getChildren().addFirst(btn);
+            // ================= CLICK EVENT =================
+            btn.setOnAction(e -> {
+
+                if (page.getBarcode() == null) {
+                    barcodeLabel.setText("No barcode found");
+                } else {
+                    barcodeLabel.setText(page.getBarcode());
+                }
+
+                showPage(index);
+            });
+
+            fileListContainer.getChildren().add(0, btn);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
 
     // ================= BACKGROUND DETECTION =================

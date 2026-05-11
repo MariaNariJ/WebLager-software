@@ -98,16 +98,16 @@
 
                                 <ScrollPane fx:id="previewScrollPane" fitToHeight="true" fitToWidth="true" pannable="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                                     <content>
-                                        <StackPane alignment="CENTER" style="-fx-background-color: transparent;">
+                                        <StackPane alignment="CENTER" minHeight="0" style="-fx-background-color: transparent;">
                                             <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
                                         </StackPane>
                                     </content>
                                 </ScrollPane>
 
                 <!-- TOOLBAR -->
-                <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card">
-                    <Button styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
-                    <Button styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
+                <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card" prefHeight="80" minHeight="80" maxHeight="80">
+                    <Button onAction="#onRotateLeft" styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
+                    <Button onAction="#onRotateRight" styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
                     <Button onAction="#onFitToWidth" styleClass="toolbar-button" text="↔&#10;Fit Width" />
                     <Button onAction="#onResetZoom" styleClass="toolbar-button" text="▣&#10;Actual Size" />
                     <Button onAction="#onNextFile" styleClass="toolbar-button" text="→&#10;Next File&#10;(D)" />
