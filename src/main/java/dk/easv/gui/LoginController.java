@@ -47,6 +47,8 @@ public class LoginController {
     public void initialize() {
         //        CreateUser();
 
+        signInButton.setDefaultButton(true);
+
         backgroundLogo = new Image(
                 Objects.requireNonNull(
                         getClass().getResourceAsStream("/dk/easv/gui/assets/LogoBlue_Logoicon.png")

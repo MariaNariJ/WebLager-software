@@ -32,13 +32,14 @@ import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import static java.lang.StrictMath.clamp;
+
 
 public class UserviewController {
 
@@ -144,10 +145,10 @@ public class UserviewController {
 
     private final Map<String, Runnable> keyBindings = new HashMap<>();
 
-    // ================= STATE =================
+    // STATE
     private Image currentImage;
 
-    // ================= ZOOM =================
+    // ZOOM
     private double zoomLevel = 1.0;
     private final double ZOOM_STEP = 0.1;
     private final double MIN_ZOOM = 0.2;
@@ -158,7 +159,7 @@ public class UserviewController {
     private boolean sidebarVisible = true;
     private boolean sidebarLocked = true;
 
-    // ================= INITIALIZE =================
+    // INITIALIZE
     @FXML
     public void initialize() {
 
@@ -278,7 +279,7 @@ public class UserviewController {
 
     @FXML
     private void onResetZoom() {
-        zoomLevel = 0.7;
+        zoomLevel = 1.0;
         updateZoom();
 
         previewScrollPane.setHvalue(0.5);
@@ -286,24 +287,39 @@ public class UserviewController {
     }
 
     private void updateZoom() {
+
         if (currentImage == null) return;
 
         previewImage.setImage(currentImage);
         previewImage.setPreserveRatio(true);
 
-        StackPane imageContainer = (StackPane) previewScrollPane.getContent();
-        imageContainer.setScaleX(1);
-        imageContainer.setScaleY(1);
+        double viewportWidth = previewScrollPane.getViewportBounds().getWidth();
+        double viewportHeight = previewScrollPane.getViewportBounds().getHeight();
 
-        double baseWidth = previewScrollPane.getViewportBounds().getWidth();
+        double imageWidth = currentImage.getWidth();
+        double imageHeight = currentImage.getHeight();
 
-        previewImage.setFitWidth(baseWidth * zoomLevel);
+        double widthRatio = viewportWidth / imageWidth;
+        double heightRatio = viewportHeight / imageHeight;
+
+        double baseScale = Math.min(widthRatio, heightRatio);
+
+        double finalScale = baseScale * zoomLevel;
+
+        previewImage.setFitWidth(imageWidth * finalScale);
+        previewImage.setFitHeight(imageHeight * finalScale);
 
         previewImage.setRotate(rotationAngle);
+
+        StackPane container = (StackPane) previewScrollPane.getContent();
+
+        container.setMinWidth(previewScrollPane.getViewportBounds().getWidth());
+        container.setMinHeight(previewScrollPane.getViewportBounds().getHeight());
+
         zoomLabel.setText((int)(zoomLevel * 100) + "%");
     }
 
-    // ================= ROTATION =================
+    // ROTATION
     @FXML
     private void onRotateLeft() {
         rotationAngle -= 90;
@@ -336,7 +352,7 @@ public class UserviewController {
         }
     }
 
-    // ================= NAVIGATION =================
+    // NAVIGATION
     @FXML
     private void onNextFile() {
         if (scannedPages == null || scannedPages.isEmpty()) return;
@@ -353,7 +369,7 @@ public class UserviewController {
         }
     }
 
-    // ================= SHOW PAGE =================
+    // SHOW PAGE
     private void showPage(int index) {
         if (scannedPages == null || scannedPages.isEmpty()) return;
         if (index < 0 || index >= scannedPages.size()) return;
@@ -370,9 +386,9 @@ public class UserviewController {
 
             barcodeLabel.setText(page.getBarcode());
 
-            zoomLevel = 0.7;
+            zoomLevel = 1.0;
 
-            // IMPORTANT: restore rotation
+            // Restores rotation
             rotationAngle = page.getRotation();
 
             updateZoom();
@@ -381,7 +397,7 @@ public class UserviewController {
         }
     }
 
-    // ================= FETCH =================
+    // FETCH
     @FXML
     public void onFetchFilesClicked() {
         if (selectedProfile == null) {
@@ -396,7 +412,11 @@ public class UserviewController {
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
-            fileManager.proccesFilesFromApi(page -> {
+            // REAL API VERSION - keep this for later
+            // fileManager.proccesFilesFromApi(page -> {
+
+            // LOCAL TEST BOX VERSION
+            fileManager.processFilesFromLocalBox(page -> {
                 Platform.runLater(() -> {
                     scannedPages.add(page);
                     addPageToUI(page);
@@ -462,22 +482,34 @@ public class UserviewController {
 
     private void addPageToUI(Page page) {
         try {
+
             Button btn = new Button();
             btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
+
             btn.getStyleClass().add("file-name-label");
 
             int index = scannedPages.indexOf(page);
-            btn.setOnAction(e -> showPage(index));
 
+            //IMAGE VIEW MODE
             if (imageViewMode) {
-                BufferedImage img = ImageIO.read(new File(page.getPagePath()));
+
+                BufferedImage img;
+
+                try {
+                    img = ImageIO.read(new File(page.getPagePath()));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
                 if (img == null) return;
 
                 BufferedImage processed = cropBackground(img);
+
                 Image fxImage = SwingFXUtils.toFXImage(processed, null);
 
                 ImageView thumbnail = new ImageView(fxImage);
+
                 thumbnail.setFitWidth(120);
                 thumbnail.setFitHeight(160);
                 thumbnail.setPreserveRatio(true);
@@ -487,22 +519,40 @@ public class UserviewController {
 
                 btn.setGraphic(container);
                 btn.setContentDisplay(ContentDisplay.TOP);
+
             } else {
+
                 btn.setGraphic(null);
                 btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
 
-            btn.setStyle("-fx-background-color: transparent; -fx-padding: 4 0 4 0;");
+            //BUTTON STYLING
+            btn.setStyle(
+                    "-fx-background-color: transparent;" +
+                            "-fx-padding: 4 0 4 0;"
+            );
 
-            fileListContainer.getChildren().addFirst(btn);
+            //CLICK EVENT
+            btn.setOnAction(e -> {
+
+            fileListContainer.getChildren().add(btn);
+                if (page.getBarcode() == null) {
+                    barcodeLabel.setText("No barcode found");
+                } else {
+                    barcodeLabel.setText(page.getBarcode());
+                }
+
+                showPage(index);
+            });
+
+            fileListContainer.getChildren().add(btn);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    // ================= BACKGROUND DETECTION =================
+    // BACKGROUND DETECTION
     private boolean isBackground(int rgb) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
@@ -511,19 +561,19 @@ public class UserviewController {
         return (r > 200 && g > 200 && b > 200);
     }
 
-    // ================= HELPER =================
+    //HELPER
     private double clamp(double value) {
         if (value < 0) return 0;
         if (value > 1) return 1;
         return value;
     }
 
-    // ================= IMAGE =================
+    // IMAGE
     private BufferedImage cropBackground(BufferedImage image) {
         return image; // keep your original logic if needed
     }
 
-    // ================= FILTER =================
+    //  FILTER
     private void filterFiles(String query) {
 
         if (scannedPages == null) return;
@@ -602,7 +652,7 @@ public class UserviewController {
         }
     }
 
-    // ================= LOGOUT =================
+    // LOGOUT
     @FXML
     private void onLogOutClicked() {
         try {
