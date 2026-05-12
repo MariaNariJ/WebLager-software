@@ -1,7 +1,6 @@
 package dk.easv.gui;
 
-import dk.easv.be.Box;
-import dk.easv.be.Document;
+import dk.easv.be.*;
 import dk.easv.dal.dao.BoxDAO;
 import dk.easv.dal.dao.DocumentDAO;
 import dk.easv.dal.dao.PageDAO;
@@ -27,8 +26,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import dk.easv.bll.FileManager;
-import dk.easv.be.Page;
-import dk.easv.be.DocumentGroup;
 
 import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
@@ -111,7 +108,13 @@ public class UserviewController {
     private VBox mainContent;
     @FXML
     private Button btnSaveScan;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private Label userRoleLabel;
 
+    private User loggedInUser
+            ;
     @FXML
     private void onListViewClicked() {
         imageViewMode = false;
@@ -1027,6 +1030,12 @@ public class UserviewController {
         txtBox.setText(boxId);
 
         txtProfile.setText(profile);
+    }
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+
+        userNameLabel.setText(user.getName());
+        userRoleLabel.setText(user.getRole());
     }
 
 }

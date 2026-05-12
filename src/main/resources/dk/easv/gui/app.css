@@ -935,3 +935,36 @@ Error color:                 #FF3D32
 .metadata-scroll > .viewport {
     -fx-background-color: transparent;
 }
+
+.custom-dialog {
+    -fx-background-color: #354556;
+}
+
+.custom-dialog > *.button-bar > *.container {
+    -fx-background-color: #354556;
+}
+
+.custom-dialog .content {
+    -fx-background-color: #354556;
+}
+
+.custom-dialog .button {
+    -fx-background-color: #008FF7;
+    -fx-text-fill: white;
+    -fx-background-radius: 7;
+    -fx-font-weight: 800;
+    -fx-cursor: hand;
+}
+
+.custom-dialog .button:hover {
+    -fx-background-color: #0094EA;
+}
+.user-info-card {
+    -fx-background-color: #2C3E52;
+    -fx-background-radius: 12;
+
+    -fx-border-color: #3A4F66;
+    -fx-border-radius: 12;
+
+    -fx-padding: 14 16 14 16;
+}

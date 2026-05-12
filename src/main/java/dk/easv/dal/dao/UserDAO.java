@@ -1,6 +1,7 @@
 package dk.easv.dal.dao;
 
 import dk.easv.be.User;
+import dk.easv.bll.PasswordHasher;
 import dk.easv.dal.ConnectionManager;
 
 import java.sql.Connection;
@@ -66,5 +67,27 @@ public class UserDAO {
         }
 
         return users;
+    }
+    public void createUser(String name, String login, String plainPassword, String role) {
+        String sql = "INSERT INTO Users (role, login, password, salt, name) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = conMan.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String salt = PasswordHasher.generateSalt();
+            String hashedPassword = PasswordHasher.hashPassword(plainPassword, salt);
+
+            stmt.setString(1, role);
+            stmt.setString(2, login);
+            stmt.setString(3, hashedPassword);
+            stmt.setString(4, salt);
+            stmt.setString(5, name);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed creating user", e);
+        }
     }
 }

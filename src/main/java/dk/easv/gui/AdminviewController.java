@@ -16,26 +16,20 @@ import javafx.stage.Stage;
 
 public class AdminviewController {
 
-    @FXML
-    private Button logoutButton;
+    @FXML private Button logoutButton;
+    @FXML private Button usersButton;
+    @FXML private Button clientsButton;
+    @FXML private Button logsButton;
 
-    @FXML
-    private Button usersButton;
+    @FXML private Label adminTitleLabel;
+    @FXML private Label adminSubtitleLabel;
 
-    @FXML
-    private Button clientsButton;
+    @FXML private VBox adminContentArea;
 
-    @FXML
-    private Button logsButton;
+    @FXML private Label adminNameLabel;
+    @FXML private Label adminRoleLabel;
 
-    @FXML
-    private Label adminTitleLabel;
-
-    @FXML
-    private Label adminSubtitleLabel;
-
-    @FXML
-    private VBox adminContentArea;
+    private User loggedInUser;
 
     private final UserDAO userDAO = new UserDAO();
 
@@ -92,124 +86,122 @@ public class AdminviewController {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        topBar.getChildren().addAll(
-                searchField,
-                roleFilter,
-                spacer,
-                btnCreate
-        );
+        topBar.getChildren().addAll(searchField, roleFilter, spacer, btnCreate);
 
         TableView<User> userTable = new TableView<>();
         userTable.setPrefHeight(650);
-
-        TableColumn<User, String> nameCol =
-                new TableColumn<>("Name");
-
-        nameCol.setCellValueFactory(data ->
-                new SimpleStringProperty(
-                        data.getValue().getName()
-                )
-        );
-
-        nameCol.setPrefWidth(420);
-
-        TableColumn<User, String> loginCol =
-                new TableColumn<>("Login");
-
-        loginCol.setCellValueFactory(data ->
-                new SimpleStringProperty(
-                        data.getValue().getLogin()
-                )
-        );
-
-        loginCol.setPrefWidth(320);
-
-        TableColumn<User, String> roleCol =
-                new TableColumn<>("Role");
-
-        roleCol.setCellValueFactory(data ->
-                new SimpleStringProperty(
-                        data.getValue().getRole()
-                )
-        );
-
-        roleCol.setPrefWidth(160);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
-        userTable.getColumns().addAll(
-                nameCol,
-                roleCol,
-                loginCol
+        TableColumn<User, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getName()))
+        );
+        nameCol.setPrefWidth(420);
 
+        TableColumn<User, String> roleCol = new TableColumn<>("Role");
+        roleCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getRole()))
+        );
+        roleCol.setPrefWidth(160);
+
+        TableColumn<User, String> loginCol = new TableColumn<>("Login");
+        loginCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getLogin()))
+        );
+        loginCol.setPrefWidth(320);
+
+        userTable.getColumns().addAll(nameCol, roleCol, loginCol);
+
+        FilteredList<User> filteredUsers = new FilteredList<>(
+                FXCollections.observableArrayList(userDAO.getAllUsers()),
+                p -> true
         );
 
-        FilteredList<User> filteredUsers =
-                new FilteredList<>(
-                        FXCollections.observableArrayList(
-                                userDAO.getAllUsers()
-                        ),
-                        p -> true
-                );
-
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-
-            String search = newVal.toLowerCase();
-
-            filteredUsers.setPredicate(user -> {
-
-                boolean matchesSearch =
-                        user.getName().toLowerCase().contains(search)
-                                || user.getLogin().toLowerCase().contains(search);
-
-                String selectedRole = roleFilter.getValue();
-
-                boolean matchesRole =
-                        selectedRole.equals("All")
-                                || user.getRole().equalsIgnoreCase(selectedRole);
-
-                return matchesSearch && matchesRole;
-            });
+            applyUserFilter(filteredUsers, searchField, roleFilter);
         });
 
         roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
-
-            String search = searchField.getText().toLowerCase();
-
-            filteredUsers.setPredicate(user -> {
-
-                boolean matchesSearch =
-                        user.getName().toLowerCase().contains(search)
-                                || user.getLogin().toLowerCase().contains(search);
-
-                boolean matchesRole =
-                        newVal.equals("All")
-                                || user.getRole().equalsIgnoreCase(newVal);
-
-                return matchesSearch && matchesRole;
-            });
+            applyUserFilter(filteredUsers, searchField, roleFilter);
         });
 
         userTable.setItems(filteredUsers);
 
-        btnCreate.setOnAction(e -> {
+        btnCreate.setOnAction(e -> showCreateUserDialog(userTable));
 
-            TextInputDialog dialog = new TextInputDialog();
-
-            dialog.setTitle("Create User");
-            dialog.setHeaderText("Temporary create user placeholder");
-            dialog.setContentText("This will later open a proper create-user window.");
-
-            dialog.showAndWait();
-        });
-
-        wrapper.getChildren().addAll(
-                topBar,
-                userTable
-        );
-
+        wrapper.getChildren().addAll(topBar, userTable);
         VBox.setVgrow(userTable, Priority.ALWAYS);
 
         adminContentArea.getChildren().add(wrapper);
+    }
+
+    private void showCreateUserDialog(TableView<User> userTable) {
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Create User");
+
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+        );
+
+        dialogPane.getStyleClass().add("custom-dialog");
+
+        TextField txtName = new TextField();
+        txtName.setPromptText("Full name");
+        txtName.getStyleClass().add("dark-field");
+
+        TextField txtLogin = new TextField();
+        txtLogin.setPromptText("Login");
+        txtLogin.getStyleClass().add("dark-field");
+
+        PasswordField txtPassword = new PasswordField();
+        txtPassword.setPromptText("Password");
+        txtPassword.getStyleClass().add("dark-field");
+
+        ComboBox<String> roleBox = new ComboBox<>();
+        roleBox.getItems().addAll("User", "Admin");
+        roleBox.setValue("User");
+        roleBox.getStyleClass().add("dark-combo");
+        roleBox.setMaxWidth(Double.MAX_VALUE);
+
+        VBox content = new VBox(12);
+        content.getChildren().addAll(
+                createTitle("Create new user"),
+                createText("Fill in the employee information below."),
+                txtName,
+                txtLogin,
+                txtPassword,
+                roleBox
+        );
+
+        dialogPane.setContent(content);
+
+        ButtonType createButtonType = new ButtonType("Create User", ButtonBar.ButtonData.OK_DONE);
+        dialogPane.getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+        dialog.showAndWait().ifPresent(result -> {
+            if (result == createButtonType) {
+
+                String name = txtName.getText().trim();
+                String login = txtLogin.getText().trim();
+                String password = txtPassword.getText().trim();
+                String role = roleBox.getValue();
+
+                if (name.isEmpty() || login.isEmpty() || password.isEmpty() || role == null) {
+                    return;
+                }
+
+                userDAO.createUser(name, login, password, role);
+
+                userTable.setItems(
+                        FXCollections.observableArrayList(
+                                userDAO.getAllUsers()
+                        )
+                );
+            }
+        });
     }
 
     private void showClients() {
@@ -225,18 +217,9 @@ public class AdminviewController {
 
         VBox wrapper = new VBox(16);
 
-        Label title = new Label("Clients");
-        title.getStyleClass().add("section-title");
-
-        Label text = new Label(
-                "Client and profile management will be displayed here."
-        );
-
-        text.getStyleClass().add("muted-text");
-
         wrapper.getChildren().addAll(
-                title,
-                text
+                createTitle("Clients"),
+                createText("Client and profile management will be displayed here.")
         );
 
         adminContentArea.getChildren().add(wrapper);
@@ -255,25 +238,57 @@ public class AdminviewController {
 
         VBox wrapper = new VBox(16);
 
-        Label title = new Label("Logs");
-        title.getStyleClass().add("section-title");
-
-        Label text = new Label(
-                "System logs will be displayed here."
-        );
-
-        text.getStyleClass().add("muted-text");
-
         wrapper.getChildren().addAll(
-                title,
-                text
+                createTitle("Logs"),
+                createText("System logs will be displayed here.")
         );
 
         adminContentArea.getChildren().add(wrapper);
     }
 
-    private void setActiveButton(Button button) {
+    private void applyUserFilter(FilteredList<User> filteredUsers,
+                                 TextField searchField,
+                                 ComboBox<String> roleFilter) {
 
+        String search = searchField.getText() == null
+                ? ""
+                : searchField.getText().toLowerCase();
+
+        String selectedRole = roleFilter.getValue();
+
+        filteredUsers.setPredicate(user -> {
+
+            String name = safe(user.getName()).toLowerCase();
+            String login = safe(user.getLogin()).toLowerCase();
+            String role = safe(user.getRole());
+
+            boolean matchesSearch =
+                    name.contains(search) || login.contains(search);
+
+            boolean matchesRole =
+                    selectedRole.equals("All") || role.equalsIgnoreCase(selectedRole);
+
+            return matchesSearch && matchesRole;
+        });
+    }
+
+    private Label createTitle(String text) {
+        Label label = new Label(text);
+        label.getStyleClass().add("section-title");
+        return label;
+    }
+
+    private Label createText(String text) {
+        Label label = new Label(text);
+        label.getStyleClass().add("muted-text");
+        return label;
+    }
+
+    private String safe(String value) {
+        return value == null ? "" : value;
+    }
+
+    private void setActiveButton(Button button) {
         button.getStyleClass().remove("nav-button");
 
         if (!button.getStyleClass().contains("nav-button-active")) {
@@ -282,7 +297,6 @@ public class AdminviewController {
     }
 
     private void setInactiveButton(Button button) {
-
         button.getStyleClass().remove("nav-button-active");
 
         if (!button.getStyleClass().contains("nav-button")) {
@@ -292,19 +306,23 @@ public class AdminviewController {
 
     @FXML
     private void onLogOutClicked() {
-
         try {
-
             Parent root = FXMLLoader.load(
                     getClass().getResource("/dk/easv/gui/log-in.fxml")
             );
 
             Stage stage = (Stage) logoutButton.getScene().getWindow();
-
             stage.setScene(new Scene(root));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+
+        adminNameLabel.setText(user.getName());
+        adminRoleLabel.setText(user.getRole());
     }
 }
