@@ -31,9 +31,6 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private CheckBox rememberMeCheckBox;
-
-    @FXML
     private Button signInButton;
 
     @FXML
@@ -45,7 +42,7 @@ public class LoginController {
     private Image backgroundLogo;
 
     public void initialize() {
-        //        CreateUser();
+        //CreateUser();
 
         signInButton.setDefaultButton(true);
 
