@@ -296,10 +296,25 @@ Error color:                 #FF3D32
     -fx-font-weight: 700;
 }
 
-.file-name-label {
-    -fx-text-fill: #008FF7;
-    -fx-font-size: 12px;
-    -fx-font-weight: 700;
+.file-list-button {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0 4 0;
+
+    -fx-text-fill: #2EA8FF;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.file-list-button:hover {
+    -fx-text-fill: #58BBFF;
+}
+
+.file-list-button:pressed {
+    -fx-text-fill: #8FD3FF;
 }
 
 /* FIELDS */
@@ -563,6 +578,17 @@ Error color:                 #FF3D32
 
 .dark-scroll .content {
     -fx-background-color: transparent;
+}
+
+.preview-stack {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+
+
+.preview-scroll .viewport {
+    -fx-background-color: #2D3D4F;
 }
 
 .dark-scroll .scroll-bar:vertical {

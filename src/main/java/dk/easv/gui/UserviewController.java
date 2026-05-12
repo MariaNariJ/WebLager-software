@@ -306,8 +306,11 @@ public class UserviewController {
         previewImage.setImage(currentImage);
         previewImage.setPreserveRatio(true);
 
-        double viewportWidth = previewScrollPane.getViewportBounds().getWidth();
-        double viewportHeight = previewScrollPane.getViewportBounds().getHeight();
+        double viewportWidth =
+                previewScrollPane.getViewportBounds().getWidth();
+
+        double viewportHeight =
+                previewScrollPane.getViewportBounds().getHeight();
 
         double imageWidth = currentImage.getWidth();
         double imageHeight = currentImage.getHeight();
@@ -324,10 +327,13 @@ public class UserviewController {
 
         previewImage.setRotate(rotationAngle);
 
-        StackPane container = (StackPane) previewScrollPane.getContent();
+        StackPane container =
+                (StackPane) previewScrollPane.getContent();
 
-        container.setMinWidth(previewScrollPane.getViewportBounds().getWidth());
-        container.setMinHeight(previewScrollPane.getViewportBounds().getHeight());
+        container.setAlignment(Pos.CENTER);
+
+        container.setMinWidth(viewportWidth);
+        container.setMinHeight(viewportHeight);
 
         zoomLabel.setText((int)(zoomLevel * 100) + "%");
     }
@@ -610,8 +616,8 @@ public class UserviewController {
             btn.getStyleClass().remove("locked-file");
             btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
-
             btn.getStyleClass().add("file-name-label");
+            btn.getStyleClass().add("file-list-button");
 
             int index = scannedPages.indexOf(page);
 
@@ -649,12 +655,6 @@ public class UserviewController {
                 btn.setGraphic(null);
                 btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
             }
-
-            //BUTTON STYLING
-            btn.setStyle(
-                    "-fx-background-color: transparent;" +
-                            "-fx-padding: 4 0 4 0;"
-            );
 
             //CLICK EVENT
             btn.setOnAction(e -> {
