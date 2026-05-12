@@ -26,11 +26,12 @@ public class DocumentGroup {
     public String getTitle() {
         return title;
     }
-
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getBarcode() {
         return barcode;
     }
-
     public List<Page> getPages() {
         return pages;
     }
@@ -41,4 +42,5 @@ public class DocumentGroup {
     public void addPage(Page page) {
         pages.add(page);
     }
+
 }

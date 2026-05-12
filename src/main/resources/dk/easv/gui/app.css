@@ -935,3 +935,20 @@ Error color:                 #FF3D32
 .metadata-scroll > .viewport {
     -fx-background-color: transparent;
 }
+.barcode-display {
+    -fx-background-color: #4a5568;
+    -fx-background-radius: 8;
+
+    -fx-padding: 0 12 0 12;
+
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+
+    -fx-alignment: CENTER-LEFT;
+
+    -fx-min-height: 38px;
+    -fx-pref-height: 38px;
+
+    -fx-border-color: transparent;
+}

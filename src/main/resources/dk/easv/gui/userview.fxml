@@ -75,12 +75,14 @@
                                     <Button fx:id="btnFetchFiles"
                                             onAction="#onFetchFilesClicked"
                                             styleClass="primary-action"
-                                            text="+ Scan Next (F5)" />
+                                            text="Scan Next-F5"
+                                            prefWidth="140"/>
 
-                                    <Button fx:id="btnSaveScan"
-                                            onAction="#onSaveScanClicked"
+                                    <Button fx:id="btnSaveasDocument"
+                                            onAction="#onSaveasDocumentClicked"
                                             styleClass="primary-action"
-                                            text="Save Scan" />
+                                            text="Save as Document"
+                                            prefWidth="170"/>
 
                                 </HBox>
 
@@ -151,39 +153,33 @@
                         </VBox>
 
                         <!-- METADATA PANEL -->
-                        <ScrollPane fitToWidth="true"
-                                    fitToHeight="true"
-                                    hbarPolicy="NEVER"
-                                    styleClass="metadata-scroll"
-                                    minWidth="320.0"
-                                    prefWidth="350.0"
-                                    maxWidth="350.0"
-                                    VBox.vgrow="ALWAYS">
-
-                        <content>
-
-                            <VBox spacing="14"
-                                  prefWidth="320"
-                                  minWidth="320"
-                                  maxWidth="320"
-                                  styleClass="panel">
+                        <VBox spacing="10"
+                              minWidth="350"
+                              prefWidth="350"
+                              styleClass="panel">
 
                             <padding>
                                 <Insets bottom="18" left="18" right="18" top="18" />
                             </padding>
 
                             <children>
-                                <HBox spacing="30">
-                                    <Label styleClass="tab-active" text="Metadata" />
-                              </HBox>
+                                <!-- BOX INFORMATION -->
+                                <Label styleClass="tab-active"
+                                       text="Box Information" />
 
-                              <Separator styleClass="dark-separator" />
+                                <Separator styleClass="dark-separator" />
 
-                              <Label styleClass="field-label-dark" text="Client *" />
-                      <TextField fx:id="txtClient" styleClass="dark-field" />
+                                <Label styleClass="field-label-dark"
+                                       text="Client *" />
 
-                              <Label styleClass="field-label-dark" text="Box *" />
-                      <TextField fx:id="txtBox" styleClass="dark-field" />
+                                <TextField fx:id="txtClient"
+                                           styleClass="dark-field" />
+
+                                <Label styleClass="field-label-dark"
+                                       text="Box *" />
+
+                                <TextField fx:id="txtBox"
+                                           styleClass="dark-field" />
 
                                 <Label styleClass="field-label-dark"
                                        text="Active Scan Profile" />
@@ -197,16 +193,30 @@
                                       fillWidth="true"
                                       maxWidth="Infinity"/>
 
-                              <Label styleClass="field-label-dark" text="Document Name" />
-                              <TextField fx:id="txtDocumentName" styleClass="dark-field" />
+                                <!-- DOCUMENT INFORMATION -->
+                                <Label styleClass="tab-active"
+                                       text="Document Information" />
+
+                                <Separator styleClass="dark-separator" />
+
+                                <Label styleClass="field-label-dark" text="Document Name" />
+                                <TextField fx:id="txtDocumentName" styleClass="dark-field" />
 
                               <Label styleClass="field-label-dark" text="Date *" />
                               <TextField fx:id="txtDate" styleClass="dark-field" />
 
-                                <Label styleClass="field-label-dark" text="Barcode" />
-                                <Label fx:id="barcodeLabel"
-                                       styleClass="muted-text"
-                                       text="No barcode found" />
+                                <VBox spacing="8">
+
+                                    <Label text="Barcode"
+                                           styleClass="field-label-dark"/>
+
+                                    <Label fx:id="barcodeLabel"
+                                           styleClass="barcode-display"
+                                           maxWidth="Infinity"
+                                           text="No barcode found"/>
+
+                                </VBox>
+
 
                                 <Region VBox.vgrow="ALWAYS" />
 
@@ -218,8 +228,6 @@
                             </children>
                         </VBox>
 
-                        </content>
-                        </ScrollPane>
                   </children>
               </HBox>
 

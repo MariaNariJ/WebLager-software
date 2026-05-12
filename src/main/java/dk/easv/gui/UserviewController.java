@@ -110,7 +110,7 @@ public class UserviewController {
     @FXML
     private VBox mainContent;
     @FXML
-    private Button btnSaveScan;
+    private Button btnSaveasDocument;
 
     @FXML
     private void onListViewClicked() {
@@ -196,10 +196,12 @@ public class UserviewController {
         //Locked autofilled fields
         txtProfile.setEditable(false);
         txtClient.setEditable(false);
+        txtDate.setEditable(false);
+
 
         //Disabled at first
-        btnSaveScan.setDisable(true);
-        btnSaveScan.setOpacity(0.5);
+        btnSaveasDocument.setDisable(true);
+        btnSaveasDocument.setOpacity(0.5);
 
         // Double-click reset
         previewImage.setOnMouseClicked(event -> {
@@ -475,6 +477,18 @@ public class UserviewController {
                         barcodeLabel.setText(
                                 page.getBarcode()
                         );
+                        // Autofill document information
+                        txtDocumentName.setText(
+                                "DOC_" + page.getBarcode()
+                        );
+
+                        txtDate.setText(
+                                java.time.LocalDate.now()
+                                        .format(
+                                                java.time.format.DateTimeFormatter
+                                                        .ofPattern("dd-MM-yyyy")
+                                        )
+                        );
 
                         return;
                     }
@@ -492,8 +506,8 @@ public class UserviewController {
                         btnFetchFiles.setOpacity(0.5);
 
                         // Enable save button
-                        btnSaveScan.setDisable(false);
-                        btnSaveScan.setOpacity(1.0);
+                        btnSaveasDocument.setDisable(false);
+                        btnSaveasDocument.setOpacity(1.0);
 
                         scanStatusLabel.setText(
                                 "Document ready for metadata"
@@ -523,8 +537,8 @@ public class UserviewController {
 
                 scanning = false;
 
-                btnSaveScan.setDisable(false);
-                btnSaveScan.setOpacity(1.0);
+                btnSaveasDocument.setDisable(false);
+                btnSaveasDocument.setOpacity(1.0);
 
                 scanStatusLabel.setText(
                         "Ready to save document"
@@ -533,31 +547,51 @@ public class UserviewController {
         });
     }
     @FXML
-    private void onSaveScanClicked() {
+    private void onSaveasDocumentClicked() {
 
-        finishCurrentDocument();
+        try {
 
-        // Lock previous scanned files
-        for (javafx.scene.Node node : fileListContainer.getChildren()) {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("SaveDocument.fxml")
+            );
 
-            node.setDisable(true);
+            Parent root = loader.load();
 
-            if (!node.getStyleClass()
-                    .contains("locked-file")) {
+            SaveDocumentController controller =
+                    loader.getController();
 
-                node.getStyleClass().add("locked-file");
-            }
+            controller.setUserviewController(this);
+
+            Stage stage = new Stage();
+
+            Scene scene = new Scene(root);
+
+            stage.initStyle(StageStyle.TRANSPARENT);
+
+            scene.setFill(Color.TRANSPARENT);
+
+            stage.setScene(scene);
+
+            // Get button position on screen
+            Bounds bounds = btnSaveasDocument.localToScreen(
+                    btnSaveasDocument.getBoundsInLocal()
+            );
+
+            // Position popup above Save as Document button
+            double x = bounds.getMinX() - 110;
+            double y = bounds.getMinY() - 260;
+
+            stage.setX(x);
+            stage.setY(y);
+
+            stage.setResizable(false);
+
+            stage.show();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
-
-        btnSaveScan.setDisable(true);
-        btnSaveScan.setOpacity(0.5);
-
-        btnFetchFiles.setDisable(false);
-        btnFetchFiles.setOpacity(1.0);
-
-        scanStatusLabel.setText(
-                "Ready for next document"
-        );
     }
                 // Old logic
         /*Platform.runLater(() -> {
@@ -575,33 +609,51 @@ public class UserviewController {
 
     @FXML
     public void onSaveMetadataClicked() {
-        if (scannedPages.isEmpty()) {
-            return;
-        }
-        String Client = txtClient.getText();
-        String BoxName = txtBox.getText();
-        String DocumentName = txtDocumentName.getText();
-        String Date = txtDate.getText();
 
-        if (Client.isEmpty() || BoxName.isEmpty() || DocumentName.isEmpty() || Date.isEmpty()) {
+        if (currentDocument == null) {
             return;
         }
 
-        Box box = new Box(BoxName, Client);
+        String client = txtClient.getText();
+        String boxName = txtBox.getText();
+        String documentName = txtDocumentName.getText();
+        String date = txtDate.getText();
+
+        if (client.isEmpty() ||
+                boxName.isEmpty() ||
+                documentName.isEmpty() ||
+                date.isEmpty()) {
+            return;
+        }
+
+        Box box = new Box(boxName, client);
+
         int boxId = boxDAO.insertBox(box);
+
         Document document = new Document(
                 boxId,
-                scannedPages.getLast().getBarcode(),
-                java.sql.Date.valueOf(Date),
-                DocumentName,
+                currentDocument.getBarcode(),
+                java.sql.Date.valueOf(date),
+                documentName,
                 selectedProfile
         );
-        int documentId = documentDAO.insertDocument(document);
 
-        for (Page page : scannedPages) {
+        int documentId =
+                documentDAO.insertDocument(document);
+
+        for (Page page : currentDocument.getPages()) {
+
             page.setDocumentId(documentId);
-            System.out.println("Saving page with barcode: " + page.getBarcode() + " linked to document ID: " + documentId);
-            InputStream inputStream = fileManager.getFileStream(page);
+
+            System.out.println(
+                    "Saving page with barcode: "
+                            + page.getBarcode()
+                            + " linked to document ID: "
+                            + documentId
+            );
+
+            InputStream inputStream =
+                    fileManager.getFileStream(page);
 
             pageDAO.insertPage(page, inputStream);
         }
@@ -848,7 +900,7 @@ public class UserviewController {
 
         fileListContainer.getChildren().clear();
 
-        scannedPages = document.getPages();
+        scannedPages = new ArrayList<>(document.getPages());
 
         // Load pages into left sidebar
         for (int i = 0; i < scannedPages.size(); i++) {
@@ -885,8 +937,8 @@ public class UserviewController {
         btnFetchFiles.setDisable(false);
         btnFetchFiles.setOpacity(1.0);
 
-        btnSaveScan.setDisable(true);
-        btnSaveScan.setOpacity(0.5);
+        btnSaveasDocument.setDisable(true);
+        btnSaveasDocument.setOpacity(0.5);
 
         scanning = false;
 
@@ -973,7 +1025,6 @@ public class UserviewController {
     private void onSelectProfileClicked() {
 
         try {
-
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("SelectProfile.fxml")
             );
@@ -1020,13 +1071,50 @@ public class UserviewController {
             String profile) {
 
         selectedBox = boxId;
-
         selectedProfile = profile;
 
         // Update UI fields
         txtBox.setText(boxId);
-
         txtProfile.setText(profile);
     }
+
+    // Returns how many documents currently exist
+// Used for automatic default naming
+    public int getDocumentCount() {
+
+        return documentGroups.size();
+    }
+
+    // Saves the currently scanned document
+    public void saveCurrentDocument(String documentName) {
+
+        // Safety check
+        if (currentDocument == null) {
+            return;
+        }
+
+        // Apply chosen document name
+        currentDocument.setTitle(documentName);
+        // Update Document Information panel
+        txtDocumentName.setText(documentName);
+
+        // Finalize document and add to overview
+        finishCurrentDocument();
+
+        // Lock scanned files after saving
+        for (javafx.scene.Node node : fileListContainer.getChildren()) {
+
+            node.setDisable(true);
+
+            // Add locked styling only once
+            if (!node.getStyleClass()
+                    .contains("locked-file")) {
+
+                node.getStyleClass().add("locked-file");
+            }
+        }
+    }
+
+
 
 }
