@@ -266,10 +266,10 @@
                 </HBox>
 
                 <VBox spacing="10">
-                    <Button styleClass="nav-button-active" text="▣  Scanning" />
-                    <Button styleClass="nav-button" text="□  Documents" />
-                    <Button styleClass="nav-button" text="☑  QA" />
-                    <Button styleClass="nav-button" text="⇧  Export" />
+                    <Button styleClass="nav-button-active" text="Scanning" />
+                    <Button styleClass="nav-button" text="Documents" />
+                    <Button styleClass="nav-button" text="QA" />
+                    <Button styleClass="nav-button" text="Export" />
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />

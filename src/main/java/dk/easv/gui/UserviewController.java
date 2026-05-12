@@ -41,8 +41,6 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-
-
 public class UserviewController {
     private final BoxDAO boxDAO = new BoxDAO();
     private final DocumentDAO documentDAO = new DocumentDAO();
@@ -694,12 +692,12 @@ public class UserviewController {
         return value;
     }
 
-    // IMAGE
+    //IMAGE
     private BufferedImage cropBackground(BufferedImage image) {
         return image; // keep your original logic if needed
     }
 
-    //  FILTER
+    //FILTER
     private void filterFiles(String query) {
 
         if (scannedPages == null) return;

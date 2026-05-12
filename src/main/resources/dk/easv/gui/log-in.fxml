@@ -98,9 +98,7 @@
 
                         <HBox alignment="CENTER_LEFT">
                             <children>
-                                <CheckBox fx:id="rememberMeCheckBox"
-                                          styleClass="login-checkbox"
-                                          text="Remember me"/>
+
 
                                 <Region HBox.hgrow="ALWAYS"/>
                             </children>

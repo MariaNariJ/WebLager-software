@@ -31,9 +31,6 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private CheckBox rememberMeCheckBox;
-
-    @FXML
     private Button signInButton;
 
     @FXML
@@ -45,7 +42,7 @@ public class LoginController {
     private Image backgroundLogo;
 
     public void initialize() {
-        //        CreateUser();
+        //CreateUser();
 
         signInButton.setDefaultButton(true);
 
@@ -127,7 +124,7 @@ public class LoginController {
                         Stage stage = (Stage) usernameField.getScene().getWindow();
 
                         if (user.getRole().equals("Admin")) {
-                            //Change stage to Admin page view
+                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dk/easv/gui/adminview.fxml"))));
                             System.out.println("Logged in as Admin");
                         } else {
                             stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dk/easv/gui/userview.fxml"))));

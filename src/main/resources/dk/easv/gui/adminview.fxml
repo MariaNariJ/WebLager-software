@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.AdminviewController">
+
+    <children>
+
+        <!-- MAIN CONTENT -->
+        <VBox spacing="14.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="16.0">
+
+            <children>
+
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <VBox spacing="4">
+                            <children>
+                                <Label fx:id="adminTitleLabel" prefHeight="42.0" prefWidth="319.0" styleClass="brand-title" text="Users" />
+
+                                <Label fx:id="adminSubtitleLabel" styleClass="muted-text" text="Manage employee accounts and roles" />
+                            </children>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <Label styleClass="tab-active" text="Admin Panel" />
+                    </children>
+                </HBox>
+
+                <HBox spacing="12" />
+
+                <VBox fx:id="adminContentArea" spacing="10" styleClass="panel" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="18" left="18" right="18" top="18" />
+                    </padding>
+                </VBox>
+
+            </children>
+        </VBox>
+
+        <!-- ADMIN SIDEBAR -->
+        <VBox fx:id="sidebar" prefWidth="180" spacing="18" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <padding>
+                <Insets bottom="20" left="14" right="14" top="24" />
+            </padding>
+
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <ImageView fitWidth="32" preserveRatio="true">
+                        <image>
+                            <Image url="@assets/Logo_DarkMode_Blue.png" />
+                        </image>
+                    </ImageView>
+                    <Label styleClass="sidebar-logo-text" text="WebLager" />
+                </HBox>
+
+                <VBox spacing="10">
+                    <Button fx:id="usersButton" onAction="#onUsersClicked" styleClass="nav-button-active" text="Users" />
+
+                    <Button fx:id="clientsButton" onAction="#onClientsClicked" styleClass="nav-button" text="Clients" />
+
+                    <Button fx:id="logsButton" onAction="#onLogsClicked" styleClass="nav-button" text="Logs" />
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label styleClass="avatar" text="AD" />
+                    <VBox spacing="0">
+                        <Label styleClass="top-user" text="Maria N. Jensen" />
+                        <Label styleClass="top-role" text="Admin" />
+                    </VBox>
+                </HBox>
+
+                <Button fx:id="logoutButton" onAction="#onLogOutClicked" styleClass="nav-button" text="↩  Log out" />
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>
