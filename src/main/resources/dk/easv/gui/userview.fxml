@@ -70,7 +70,19 @@
                                     </content>
                                 </ScrollPane>
 
-                                <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" styleClass="primary-action" text="+  Scan Next (F5)" />
+                                <HBox spacing="10">
+
+                                    <Button fx:id="btnFetchFiles"
+                                            onAction="#onFetchFilesClicked"
+                                            styleClass="primary-action"
+                                            text="+ Scan Next (F5)" />
+
+                                    <Button fx:id="btnSaveScan"
+                                            onAction="#onSaveScanClicked"
+                                            styleClass="primary-action"
+                                            text="Save Scan" />
+
+                                </HBox>
 
                                 <VBox spacing="4" styleClass="scan-status">
                                     <Label fx:id="scanStatusLabel" styleClass="muted-text" text="No files loaded" />
@@ -173,8 +185,12 @@
                               <Label styleClass="field-label-dark" text="Box *" />
                       <TextField fx:id="txtBox" styleClass="dark-field" />
 
-                              <Label styleClass="field-label-dark" text="Profile *" />
-                              <TextField fx:id="txtProfile" styleClass="dark-field" />
+                                <Label styleClass="field-label-dark"
+                                       text="Active Scan Profile" />
+
+                                <TextField fx:id="txtProfile"
+                                           editable="false"
+                                           styleClass="dark-field" />
 
                                 <VBox fx:id="dynamicMetadataContainer"
                                       spacing="10"

@@ -22,7 +22,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import dk.easv.bll.FileManager;
 import dk.easv.be.Page;
@@ -42,17 +44,26 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class UserviewController {
-
     private final BoxDAO boxDAO = new BoxDAO();
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final PageDAO pageDAO = new PageDAO();
     private final FileManager fileManager = new FileManager();
-    private List<Page> scannedPages;
+
+    private List<Page> scannedPages = new ArrayList<>();
+
     private List<DocumentGroup> documentGroups = new ArrayList<>();
+
     private boolean scanning = false;
+
     private int currentIndex = -1;
+
     private DocumentGroup activeDocument = null;
+
     private String selectedProfile = null;
+
+    private String selectedBox = null;
+
+    private DocumentGroup currentDocument;
 
     @FXML
     private Label fileCountLabel;
@@ -85,8 +96,6 @@ public class UserviewController {
     @FXML
     private TextField txtDate;
     @FXML
-    private VBox dynamicMetadataContainer;
-    @FXML
     private ScrollPane previewScrollPane;
     @FXML
     private Button listViewButton;
@@ -102,6 +111,8 @@ public class UserviewController {
     private boolean shelfOpen = true;
     @FXML
     private VBox mainContent;
+    @FXML
+    private Button btnSaveScan;
 
     @FXML
     private void onListViewClicked() {
@@ -187,6 +198,10 @@ public class UserviewController {
         //Locked autofilled fields
         txtProfile.setEditable(false);
         txtClient.setEditable(false);
+
+        //Disabled at first
+        btnSaveScan.setDisable(true);
+        btnSaveScan.setOpacity(0.5);
 
         // Double-click reset
         previewImage.setOnMouseClicked(event -> {
@@ -397,54 +412,163 @@ public class UserviewController {
         }
     }
 
-    // FETCH
+    //FETCH
     @FXML
     public void onFetchFilesClicked() {
+
+        // Prevent scanning without profile
         if (selectedProfile == null) {
             onSelectProfileClicked();
             return;
         }
-        fileListContainer.getChildren().clear();
+
+        // Clear UI for next scan session
+
+        /*fileListContainer.getChildren().clear();
+
         scannedPages = new ArrayList<>();
 
+         */
+
         scanning = true;
+
         btnFetchFiles.setDisable(true);
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
+
             // REAL API VERSION - keep this for later
             // fileManager.proccesFilesFromApi(page -> {
 
             // LOCAL TEST BOX VERSION
-            fileManager.processFilesFromLocalBox(page -> {
+            fileManager.scanNextDocument(page -> {
+
                 Platform.runLater(() -> {
+
+                    // Add page to UI
                     scannedPages.add(page);
+
                     addPageToUI(page);
 
-                    fileCountLabel.setText(String.valueOf(scannedPages.size()));
+                    fileCountLabel.setText(
+                            String.valueOf(scannedPages.size())
+                    );
 
+                    // Check if page contains barcode
+                    boolean hasBarcode =
+                            page.getBarcode() != null &&
+                                    !page.getBarcode().isBlank();
+
+                    // FIRST barcode starts document
+                    if (hasBarcode && currentDocument == null) {
+
+                        currentDocument = new DocumentGroup(
+                                "Document " + (documentGroups.size() + 1),
+                                page.getBarcode()
+                        );
+
+                        currentDocument.addPage(page);
+
+                        barcodeLabel.setText(
+                                page.getBarcode()
+                        );
+
+                        return;
+                    }
+
+                    // SECOND barcode pauses scanning
+                    if (hasBarcode && currentDocument != null) {
+
+                        //documentGroups.add(currentDocument);
+                        //renderDocumentOverview();
+
+                        scanning = false;
+
+                        // Disable scanning
+                        btnFetchFiles.setDisable(true);
+                        btnFetchFiles.setOpacity(0.5);
+
+                        // Enable save button
+                        btnSaveScan.setDisable(false);
+                        btnSaveScan.setOpacity(1.0);
+
+                        scanStatusLabel.setText(
+                                "Document ready for metadata"
+                        );
+
+                        return;
+                    }
+
+                    // Normal pages added to document
+                    if (currentDocument != null) {
+
+                        currentDocument.addPage(page);
+                    }
+
+                    // Preview handling
                     if (currentIndex == -1) {
+
                         showPage(0);
+
                     } else {
+
                         updateViewingStatus();
                     }
                 });
             });
-        }).thenRun(() -> {
             Platform.runLater(() -> {
-                // Group scanned pages into documents
-                documentGroups = fileManager.groupPagesIntoDocuments(scannedPages);
-
-                // Refresh document overview UI
-                renderDocumentOverview();
-
-                btnFetchFiles.setDisable(false);
-                btnFetchFiles.setOpacity(1.0);
 
                 scanning = false;
+
+                btnSaveScan.setDisable(false);
+                btnSaveScan.setOpacity(1.0);
+
+                scanStatusLabel.setText(
+                        "Ready to save document"
+                );
             });
         });
     }
+    @FXML
+    private void onSaveScanClicked() {
+
+        finishCurrentDocument();
+
+        // Lock previous scanned files
+        for (javafx.scene.Node node : fileListContainer.getChildren()) {
+
+            node.setDisable(true);
+
+            if (!node.getStyleClass()
+                    .contains("locked-file")) {
+
+                node.getStyleClass().add("locked-file");
+            }
+        }
+
+        btnSaveScan.setDisable(true);
+        btnSaveScan.setOpacity(0.5);
+
+        btnFetchFiles.setDisable(false);
+        btnFetchFiles.setOpacity(1.0);
+
+        scanStatusLabel.setText(
+                "Ready for next document"
+        );
+    }
+                // Old logic
+        /*Platform.runLater(() -> {
+                   // Group scanned pages into documents
+                   documentGroups = fileManager.groupPagesIntoDocuments(scannedPages);
+
+                   // Refresh document overview UI
+                   renderDocumentOverview();
+
+                   btnFetchFiles.setDisable(false);
+                   btnFetchFiles.setOpacity(1.0);
+
+                   scanning = false;
+               });*/
 
     @FXML
     public void onSaveMetadataClicked() {
@@ -484,6 +608,8 @@ public class UserviewController {
         try {
 
             Button btn = new Button();
+            btn.setDisable(false);
+            btn.getStyleClass().remove("locked-file");
             btn.setMnemonicParsing(false);
             btn.setText(page.getPageName());
 
@@ -740,10 +866,53 @@ public class UserviewController {
         updateViewingStatus();
     }
 
+    private void finishCurrentDocument() {
+
+        if (currentDocument == null) {
+            return;
+        }
+
+        // Add finished document to overview
+        documentGroups.add(currentDocument);
+
+        renderDocumentOverview();
+
+        // Reset active document
+        currentDocument = null;
+
+        // Enable scanning again
+        btnFetchFiles.setDisable(false);
+        btnFetchFiles.setOpacity(1.0);
+
+        btnSaveScan.setDisable(true);
+        btnSaveScan.setOpacity(0.5);
+
+        scanning = false;
+
+        scanStatusLabel.setText(
+                "Ready for next document"
+        );
+
+        /*
+        // If next barcode already exists,
+        // create next document automatically
+        if (pendingBarcode != null) {
+
+            currentDocument = new DocumentGroup(
+                    "Document " + (documentGroups.size() + 1),
+                    pendingBarcode
+            );
+
+            pendingBarcode = null;
+        }*/
+    }
+
     /**
      * Displays grouped documents inside Document Overview.
      */
     private void renderDocumentOverview() {
+
+            shelfContent.getChildren().clear();
 
         // Remove old document cards but keep title/header
         if (shelfContent.getChildren().size() > 1) {
@@ -821,7 +990,12 @@ public class UserviewController {
 
             Stage stage = new Stage();
 
-            Scene scene = new Scene(root, 420, 520);
+            Scene scene = new Scene(root);
+
+            scene.setFill(null);
+
+            stage.initStyle(StageStyle.TRANSPARENT);
+            scene.setFill(Color.TRANSPARENT);
 
             stage.setScene(scene);
 
@@ -836,77 +1010,27 @@ public class UserviewController {
             e.printStackTrace();
         }
     }
-    public void setSelectedProfile(String profile) {
 
-        selectedProfile = profile;
-
-        txtProfile.setText(profile);
-
-        // Optional lock field
-        txtProfile.setEditable(false);
-
-        loadDynamicMetadataFields(profile);
-    }
-
-    private void loadDynamicMetadataFields(String profile) {
-
-        dynamicMetadataContainer.getChildren().clear();
-
-        switch (profile) {
-
-            case "Student Applications" -> {
-
-                dynamicMetadataContainer.getChildren().addAll(
-
-                        createMetadataField("Student ID"),
-                        createMetadataField("Programme"),
-                        createMetadataField("Semester"),
-                        createMetadataField("Application Date")
-                );
-            }
-
-            case "Exam Archive" -> {
-
-                dynamicMetadataContainer.getChildren().addAll(
-
-                        createMetadataField("Course"),
-                        createMetadataField("Semester"),
-                        createMetadataField("Exam Type")
-                );
-            }
-
-            case "HR & Staff" -> {
-
-                dynamicMetadataContainer.getChildren().addAll(
-
-                        createMetadataField("Employee ID"),
-                        createMetadataField("Department"),
-                        createMetadataField("Contract Type")
-                );
-            }
-        }
-    }
-    private VBox createMetadataField(String labelText) {
-
-        Label label = new Label(labelText);
-        label.getStyleClass().add("metadata-label");
-
-        TextField field = new TextField();
-        field.setMaxWidth(Double.MAX_VALUE);
-        field.getStyleClass().add("metadata-field");
-
-        VBox container = new VBox(6);
-
-        container.getChildren().addAll(label, field);
-
-        return container;
-    }
     public void setSelectedClient(String client) {
 
         txtClient.setText(client);
 
         // Optional lock field
         txtClient.setEditable(false);
+    }
+
+    public void setScanSetup(
+            String boxId,
+            String profile) {
+
+        selectedBox = boxId;
+
+        selectedProfile = profile;
+
+        // Update UI fields
+        txtBox.setText(boxId);
+
+        txtProfile.setText(profile);
     }
 
 }

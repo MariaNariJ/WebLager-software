@@ -21,6 +21,12 @@ public class FileManager {
 
     private final PageDAO pageDAO = new PageDAO();
 
+    // Keeps track of where scanning stopped
+    private int currentFileIndex = 0;
+
+    // Cached TIFF files from local box
+    private List<File> cachedFiles = new ArrayList<>();
+
     // ================= SAVE ROTATION =================
     public void updatePageRotation(Page page) {
         pageDAO.updatePageRotation(page);
@@ -176,5 +182,116 @@ public class FileManager {
         }
 
         return documentGroups;
+    }
+    private void loadLocalBoxFiles() {
+
+        if (!cachedFiles.isEmpty()) {
+            return;
+        }
+
+        File folder = new File("LocalBoxes/Box_001");
+
+        if (!folder.exists() || !folder.isDirectory()) {
+
+            System.err.println(
+                    "Local box folder not found"
+            );
+
+            return;
+        }
+
+        File[] files = folder.listFiles((dir, name) ->
+                name.toLowerCase().endsWith(".tif") ||
+                        name.toLowerCase().endsWith(".tiff")
+        );
+
+        if (files == null) {
+            return;
+        }
+
+        Arrays.sort(files, Comparator.comparing(File::getName));
+
+        cachedFiles = Arrays.asList(files);
+    }
+    public void scanNextDocument(
+            Consumer<Page> scannedPage) {
+
+        loadLocalBoxFiles();
+
+        if (currentFileIndex >= cachedFiles.size()) {
+
+            System.out.println("No more files");
+
+            return;
+        }
+
+        boolean firstBarcodeFound = false;
+
+        int pageNumber = 1;
+
+        while (currentFileIndex < cachedFiles.size()) {
+
+            File file = cachedFiles.get(currentFileIndex);
+
+            try {
+
+                BufferedImage image =
+                        ImageIO.read(file);
+
+                String barcode = null;
+
+                try {
+                    barcode =
+                            barcodeService.scanBarcode(image);
+                } catch (Exception ignored) {
+                }
+
+                Page page = new Page(
+                        String.valueOf(
+                                System.currentTimeMillis()
+                        ),
+                        pageNumber,
+                        -1,
+                        file.getName(),
+                        file.getAbsolutePath(),
+                        0
+                );
+
+                page.setBarcode(barcode);
+
+                // Detect document boundaries
+                boolean hasBarcode =
+                        barcode != null &&
+                                !barcode.isBlank();
+
+                // First barcode starts document
+                if (hasBarcode && !firstBarcodeFound) {
+
+                    firstBarcodeFound = true;
+                }
+
+                // Second barcode stops scanning
+                else if (hasBarcode) {
+
+                    break;
+                }
+
+                if (scannedPage != null) {
+                    scannedPage.accept(page);
+                }
+
+                currentFileIndex++;
+
+                pageNumber++;
+
+                Thread.sleep(200);
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+                currentFileIndex++;
+            }
+        }
     }
 }

@@ -7,15 +7,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class SelectProfileController {
 
     // Container holding all profile cards
     @FXML
     private VBox profileContainer;
 
+    // Client dropdown
     @FXML
     private ComboBox<String> clientComboBox;
+
+    // Box selection dropdown
+    @FXML
+    private ComboBox<String> boxComboBox;
 
     // Continue button from popup
     @FXML
@@ -31,8 +35,12 @@ public class SelectProfileController {
     private UserviewController userviewController;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     public void initialize() {
 
+        // Demo client
         clientComboBox.getItems().addAll(
                 "SEA - Syddansk Erhvervsakademi"
         );
@@ -41,8 +49,21 @@ public class SelectProfileController {
                 "SEA - Syddansk Erhvervsakademi"
         );
 
-        // Load demo SEA profiles
+        // Demo box IDs for testing scan sessions
+        boxComboBox.getItems().addAll(
+                "BOX_001",
+                "BOX_002",
+                "BOX_003"
+        );
+
+        // Default selected box
+        boxComboBox.setValue("BOX_001");
+
+        // Load demo scan profiles
         loadSEAProfiles();
+
+        // Continue button starts disabled until a profile is selected
+        continueButton.setDisable(true);
     }
 
     /**
@@ -56,25 +77,30 @@ public class SelectProfileController {
     }
 
     /**
-     * Loads demo profiles for SEA client.
+     * Loads demo scan profiles.
      */
     private void loadSEAProfiles() {
 
         profileContainer.getChildren().clear();
 
         addProfile(
-                "Student Applications",
-                "Admission papers and student records"
+                "Auto Rotate",
+                "Automatically straightens scanned pages"
         );
 
         addProfile(
-                "Exam Archive",
-                "Exams and grading documents"
+                "High Brightness",
+                "Brightens dark scanned documents"
         );
 
         addProfile(
-                "HR & Staff",
-                "Employee contracts and HR files"
+                "Archive Quality",
+                "High quality settings for long-term storage"
+        );
+
+        addProfile(
+                "Fast Scan",
+                "Optimized for speed and reduced file size"
         );
     }
 
@@ -125,13 +151,16 @@ public class SelectProfileController {
 
             // Save selected profile name
             selectedProfile = title;
+
+            // Enable continue button after selection
+            continueButton.setDisable(false);
         });
 
         profileContainer.getChildren().add(card);
     }
 
     /**
-     * Sends selected profile back to
+     * Sends selected scan setup back to
      * UserviewController and closes popup.
      */
     @FXML
@@ -147,8 +176,9 @@ public class SelectProfileController {
                 clientComboBox.getValue()
         );
 
-        // Send selected profile back
-        userviewController.setSelectedProfile(
+        // Send selected scan setup back
+        userviewController.setScanSetup(
+                boxComboBox.getValue(),
                 selectedProfile
         );
 
@@ -157,6 +187,11 @@ public class SelectProfileController {
                 .getScene()
                 .getWindow();
 
+        stage.close();
+    }
+    @FXML
+    private void onCancelClicked() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 }
