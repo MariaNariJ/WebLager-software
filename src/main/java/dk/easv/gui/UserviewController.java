@@ -147,8 +147,8 @@ public class UserviewController {
 
         fileListContainer.getChildren().clear();
 
-        for (Page page : scannedPages) {
-            addPageToUI(page);
+        for (int i = 0; i < scannedPages.size(); i++) {
+            addPageToUI(scannedPages.get(i), i);
         }
     }
 
@@ -427,12 +427,11 @@ public class UserviewController {
         }
 
         // Clear UI for next scan session
-
-        /*fileListContainer.getChildren().clear();
+        fileListContainer.getChildren().clear();
 
         scannedPages = new ArrayList<>();
 
-         */
+        currentIndex = -1;
 
         scanning = true;
 
@@ -452,7 +451,7 @@ public class UserviewController {
                     // Add page to UI
                     scannedPages.add(page);
 
-                    addPageToUI(page);
+                    addPageToUI(page, scannedPages.size() - 1);
 
                     fileCountLabel.setText(
                             String.valueOf(scannedPages.size())
@@ -608,7 +607,7 @@ public class UserviewController {
         }
     }
 
-    private void addPageToUI(Page page) {
+    private void addPageToUI(Page page, int index) {
         try {
 
             Button btn = new Button();
@@ -619,7 +618,6 @@ public class UserviewController {
             btn.getStyleClass().add("file-name-label");
             btn.getStyleClass().add("file-list-button");
 
-            int index = scannedPages.indexOf(page);
 
             //IMAGE VIEW MODE
             if (imageViewMode) {
@@ -659,7 +657,6 @@ public class UserviewController {
             //CLICK EVENT
             btn.setOnAction(e -> {
 
-            fileListContainer.getChildren().add(btn);
                 if (page.getBarcode() == null) {
                     barcodeLabel.setText("No barcode found");
                 } else {
@@ -708,13 +705,18 @@ public class UserviewController {
 
         // If empty it will show all
         if (search.isEmpty()) {
-            for (Page page : scannedPages) {
-                addPageToUI(page);
+
+            for (int i = 0; i < scannedPages.size(); i++) {
+
+                addPageToUI(scannedPages.get(i), i);
             }
+
             return;
         }
 
-        for (Page page : scannedPages) {
+        for (int i = 0; i < scannedPages.size(); i++) {
+
+            Page page = scannedPages.get(i);
 
             String fileName = page.getPageName() != null
                     ? page.getPageName().toLowerCase()
@@ -726,7 +728,8 @@ public class UserviewController {
 
             // partial match anywhere
             if (fileName.contains(search) || barcode.contains(search)) {
-                addPageToUI(page);
+
+                addPageToUI(page, i);
             }
         }
     }
@@ -848,8 +851,8 @@ public class UserviewController {
         scannedPages = document.getPages();
 
         // Load pages into left sidebar
-        for (Page page : scannedPages) {
-            addPageToUI(page);
+        for (int i = 0; i < scannedPages.size(); i++) {
+            addPageToUI(scannedPages.get(i), i);
         }
 
         // Show first page automatically
@@ -911,11 +914,6 @@ public class UserviewController {
     private void renderDocumentOverview() {
 
             shelfContent.getChildren().clear();
-
-        // Remove old document cards but keep title/header
-        if (shelfContent.getChildren().size() > 1) {
-            shelfContent.getChildren().remove(1, shelfContent.getChildren().size());
-        }
 
         // Container holding all document cards
         javafx.scene.layout.HBox documentRow =
