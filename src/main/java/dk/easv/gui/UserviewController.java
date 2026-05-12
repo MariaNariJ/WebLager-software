@@ -112,6 +112,14 @@ public class UserviewController {
     private Label userNameLabel;
     @FXML
     private Label userRoleLabel;
+    @FXML
+    private Button scanningButton;
+    @FXML
+    private Button qaButton;
+    @FXML
+    private Button exportButton;
+
+    private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 
     private User loggedInUser
             ;
@@ -238,6 +246,7 @@ public class UserviewController {
         shelfContent.setVisible(false);
         shelfContent.setManaged(false);
         shelfArrow.setRotate(0); // ▲ = open
+        scanningView.addAll(mainContent.getChildren());
 
     }
 
@@ -1036,6 +1045,61 @@ public class UserviewController {
 
         userNameLabel.setText(user.getName());
         userRoleLabel.setText(user.getRole());
+    }
+    @FXML
+    private void onScanningClicked() {
+        mainContent.getChildren().setAll(scanningView);
+
+        setActiveUserTab(scanningButton);
+        setInactiveUserTab(qaButton);
+        setInactiveUserTab(exportButton);
+    }
+
+    @FXML
+    private void onQaClicked() {
+        loadUserTab("user-qa.fxml");
+
+        setInactiveUserTab(scanningButton);
+        setActiveUserTab(qaButton);
+        setInactiveUserTab(exportButton);
+    }
+
+    @FXML
+    private void onExportClicked() {
+        loadUserTab("user-export.fxml");
+
+        setInactiveUserTab(scanningButton);
+        setInactiveUserTab(qaButton);
+        setActiveUserTab(exportButton);
+    }
+
+    private void loadUserTab(String fxmlFile) {
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/dk/easv/gui/" + fxmlFile)
+            );
+
+            mainContent.getChildren().setAll(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setActiveUserTab(Button button) {
+        button.getStyleClass().remove("nav-button");
+
+        if (!button.getStyleClass().contains("nav-button-active")) {
+            button.getStyleClass().add("nav-button-active");
+        }
+    }
+
+    private void setInactiveUserTab(Button button) {
+        button.getStyleClass().remove("nav-button-active");
+
+        if (!button.getStyleClass().contains("nav-button")) {
+            button.getStyleClass().add("nav-button");
+        }
     }
 
 }

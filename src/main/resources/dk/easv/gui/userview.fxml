@@ -266,10 +266,20 @@
                 </HBox>
 
                 <VBox spacing="10">
-                    <Button styleClass="nav-button-active" text="Scanning" />
-                    <Button styleClass="nav-button" text="Documents" />
-                    <Button styleClass="nav-button" text="QA" />
-                    <Button styleClass="nav-button" text="Export" />
+                    <Button fx:id="scanningButton"
+                            onAction="#onScanningClicked"
+                            styleClass="nav-button-active"
+                            text="Scanning" />
+
+                    <Button fx:id="qaButton"
+                            onAction="#onQaClicked"
+                            styleClass="nav-button"
+                            text="QA" />
+
+                    <Button fx:id="exportButton"
+                            onAction="#onExportClicked"
+                            styleClass="nav-button"
+                            text="Export" />
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />
@@ -282,7 +292,10 @@
                             </tooltip>
                         </Label>
 
-                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
+                        <Button fx:id="sidebarLockButton"
+                                onAction="#onSidebarLockClicked"
+                                styleClass="sidebar-icon-button"
+                                text="⧉"
                                 pickOnBounds="true">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
