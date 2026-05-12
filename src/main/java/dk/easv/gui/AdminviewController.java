@@ -126,6 +126,18 @@ public class AdminviewController {
         });
 
         userTable.setItems(filteredUsers);
+        userTable.setRowFactory(tableView -> {
+            TableRow<User> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    User selectedUser = row.getItem();
+                    showUserDetailsDialog(selectedUser);
+                }
+            });
+
+            return row;
+        });
 
         btnCreate.setOnAction(e -> showCreateUserDialog(userTable));
 
@@ -324,5 +336,45 @@ public class AdminviewController {
 
         adminNameLabel.setText(user.getName());
         adminRoleLabel.setText(user.getRole());
+    }
+    private void showUserDetailsDialog(User user) {
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("User Details");
+
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+        );
+
+        dialogPane.getStyleClass().add("custom-dialog");
+
+        dialogPane.setPrefWidth(500);
+        dialogPane.setPrefHeight(350);
+
+        VBox content = new VBox(18);
+
+        content.setPrefWidth(450);
+        content.setStyle("-fx-padding: 20;");
+
+        Label title = createTitle("User details");
+
+        Separator separator = new Separator();
+
+        VBox infoBox = new VBox(14);
+
+        Label name = createText("Name: " + safe(user.getName()));
+        Label role = createText("Role: " + safe(user.getRole()));
+        Label login = createText("Login: " + safe(user.getLogin()));
+        infoBox.getChildren().addAll(name, role, login);
+        content.getChildren().addAll(
+                title,
+                separator,
+                infoBox
+        );
+        dialogPane.setContent(content);
+        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+        dialog.showAndWait();
     }
 }
