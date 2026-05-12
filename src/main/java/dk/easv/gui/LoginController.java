@@ -98,6 +98,7 @@ public class LoginController {
     }
 
     public void btnSingIn() {
+
         String login = usernameField.getText().toLowerCase();
         String password = passwordField.getText();
 
@@ -110,6 +111,7 @@ public class LoginController {
         signInButton.setOpacity(0.6);
 
         CompletableFuture.supplyAsync(() -> {
+
             boolean isValid = passwordManager.checkPassword(login, password);
 
             if (isValid) {
@@ -117,43 +119,103 @@ public class LoginController {
             } else {
                 return null;
             }
-        }).thenAccept(user -> {
-            Platform.runLater(() -> {
-                if (user != null) {
-                    try {
-                        Stage stage = (Stage) usernameField.getScene().getWindow();
 
-                        if (user.getRole().equals("Admin")) {
-                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dk/easv/gui/adminview.fxml"))));
+        }).thenAccept(user -> {
+
+            Platform.runLater(() -> {
+
+                if (user != null) {
+
+                    try {
+
+                        Stage stage =
+                                (Stage) usernameField.getScene().getWindow();
+
+                        if (user.getRole().equalsIgnoreCase("Admin")) {
+
+                            FXMLLoader loader = new FXMLLoader(
+                                    Objects.requireNonNull(
+                                            getClass().getResource(
+                                                    "/dk/easv/gui/adminview.fxml"
+                                            )
+                                    )
+                            );
+
+                            stage.getScene().setRoot(loader.load());
+
+                            AdminviewController controller =
+                                    loader.getController();
+
+                            controller.setLoggedInUser(user);
+
                             System.out.println("Logged in as Admin");
+
                         } else {
-                            stage.getScene().setRoot(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dk/easv/gui/userview.fxml"))));
+
+                            FXMLLoader loader = new FXMLLoader(
+                                    Objects.requireNonNull(
+                                            getClass().getResource(
+                                                    "/dk/easv/gui/userview.fxml"
+                                            )
+                                    )
+                            );
+
+                            stage.getScene().setRoot(loader.load());
+
+                            UserviewController controller =
+                                    loader.getController();
+
+                            controller.setLoggedInUser(user);
+
                             System.out.println("Logged in as User");
                         }
 
                     } catch (Exception e) {
-                        System.err.println("Failed changing stage " + e.getMessage());
+
+                        System.err.println(
+                                "Failed changing stage " + e.getMessage()
+                        );
+
                         e.printStackTrace();
 
                         signInButton.setDisable(false);
                         signInButton.setOpacity(1);
                     }
-                } else {
-                    loginMessageLabel.setText("Wrong username or password");
-                    loginMessageLabel.getStyleClass().remove("login-subtitle");
-                    loginMessageLabel.getStyleClass().add("login-error-message");
 
-                    System.out.println("Wrong username or password");
+                } else {
+
+                    loginMessageLabel.setText(
+                            "Wrong username or password"
+                    );
+
+                    loginMessageLabel.getStyleClass()
+                            .remove("login-subtitle");
+
+                    loginMessageLabel.getStyleClass()
+                            .add("login-error-message");
+
+                    System.out.println(
+                            "Wrong username or password"
+                    );
+
                     signInButton.setDisable(false);
                     signInButton.setOpacity(1);
                 }
             });
+
         }).exceptionally(ex -> {
+
             Platform.runLater(() -> {
-                System.err.println("An error occurred during login: " + ex.getMessage());
+
+                System.err.println(
+                        "An error occurred during login: "
+                                + ex.getMessage()
+                );
+
                 signInButton.setDisable(false);
                 signInButton.setOpacity(1);
             });
+
             return null;
         });
     }

@@ -274,10 +274,20 @@
                 </HBox>
 
                 <VBox spacing="10">
-                    <Button styleClass="nav-button-active" text="Scanning" />
-                    <Button styleClass="nav-button" text="Documents" />
-                    <Button styleClass="nav-button" text="QA" />
-                    <Button styleClass="nav-button" text="Export" />
+                    <Button fx:id="scanningButton"
+                            onAction="#onScanningClicked"
+                            styleClass="nav-button-active"
+                            text="Scanning" />
+
+                    <Button fx:id="qaButton"
+                            onAction="#onQaClicked"
+                            styleClass="nav-button"
+                            text="QA" />
+
+                    <Button fx:id="exportButton"
+                            onAction="#onExportClicked"
+                            styleClass="nav-button"
+                            text="Export" />
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />
@@ -290,7 +300,10 @@
                             </tooltip>
                         </Label>
 
-                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" styleClass="sidebar-icon-button" text="⧉">
+                        <Button fx:id="sidebarLockButton"
+                                onAction="#onSidebarLockClicked"
+                                styleClass="sidebar-icon-button"
+                                text="⧉"
                                 pickOnBounds="true">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
@@ -298,11 +311,18 @@
                         </Button>
                     </HBox>
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label styleClass="avatar" text="JD" />
+                    <HBox alignment="CENTER_LEFT"
+                          spacing="10"
+                          styleClass="user-info-card">
+
                         <VBox spacing="0">
-                            <Label styleClass="top-user" text="Jakub Hlacik" />
-                            <Label styleClass="top-role" text="User" />
+                            <Label fx:id="userNameLabel"
+                                   styleClass="top-user"
+                                   text="User" />
+
+                            <Label fx:id="userRoleLabel"
+                                   styleClass="top-role"
+                                   text="User" />
                         </VBox>
                     </HBox>
                 </VBox>

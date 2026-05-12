@@ -1,7 +1,6 @@
 package dk.easv.gui;
 
-import dk.easv.be.Box;
-import dk.easv.be.Document;
+import dk.easv.be.*;
 import dk.easv.dal.dao.BoxDAO;
 import dk.easv.dal.dao.DocumentDAO;
 import dk.easv.dal.dao.PageDAO;
@@ -29,7 +28,6 @@ import javafx.util.Duration;
 import dk.easv.bll.FileManager;
 import dk.easv.be.Page;
 import dk.easv.be.DocumentGroup;
-
 import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -112,6 +110,22 @@ public class UserviewController {
     @FXML
     private Button btnSaveasDocument;
 
+    private Button btnSaveScan;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private Label userRoleLabel;
+    @FXML
+    private Button scanningButton;
+    @FXML
+    private Button qaButton;
+    @FXML
+    private Button exportButton;
+
+    private final List<javafx.scene.Node> scanningView = new ArrayList<>();
+
+    private User loggedInUser
+            ;
     @FXML
     private void onListViewClicked() {
         imageViewMode = false;
@@ -237,6 +251,7 @@ public class UserviewController {
         shelfContent.setVisible(false);
         shelfContent.setManaged(false);
         shelfArrow.setRotate(0); // ▲ = open
+        scanningView.addAll(mainContent.getChildren());
 
     }
 
@@ -1076,6 +1091,67 @@ public class UserviewController {
         // Update UI fields
         txtBox.setText(boxId);
         txtProfile.setText(profile);
+    }
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+
+        userNameLabel.setText(user.getName());
+        userRoleLabel.setText(user.getRole());
+    }
+    @FXML
+    private void onScanningClicked() {
+        mainContent.getChildren().setAll(scanningView);
+
+        setActiveUserTab(scanningButton);
+        setInactiveUserTab(qaButton);
+        setInactiveUserTab(exportButton);
+    }
+
+    @FXML
+    private void onQaClicked() {
+        loadUserTab("user-qa.fxml");
+
+        setInactiveUserTab(scanningButton);
+        setActiveUserTab(qaButton);
+        setInactiveUserTab(exportButton);
+    }
+
+    @FXML
+    private void onExportClicked() {
+        loadUserTab("user-export.fxml");
+
+        setInactiveUserTab(scanningButton);
+        setInactiveUserTab(qaButton);
+        setActiveUserTab(exportButton);
+    }
+
+    private void loadUserTab(String fxmlFile) {
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/dk/easv/gui/" + fxmlFile)
+            );
+
+            mainContent.getChildren().setAll(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setActiveUserTab(Button button) {
+        button.getStyleClass().remove("nav-button");
+
+        if (!button.getStyleClass().contains("nav-button-active")) {
+            button.getStyleClass().add("nav-button-active");
+        }
+    }
+
+    private void setInactiveUserTab(Button button) {
+        button.getStyleClass().remove("nav-button-active");
+
+        if (!button.getStyleClass().contains("nav-button")) {
+            button.getStyleClass().add("nav-button");
+        }
     }
 
     // Returns how many documents currently exist

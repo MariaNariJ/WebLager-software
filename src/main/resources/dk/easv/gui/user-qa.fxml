@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14"
+      styleClass="panel"
+      stylesheets="@app.css"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="dk.easv.gui.UserQaController">
+
+    <padding>
+        <Insets top="18" right="18" bottom="18" left="18"/>
+    </padding>
+
+    <children>
+        <Label text="QA" styleClass="brand-title"/>
+        <Label text="Quality assurance view will be displayed here." styleClass="muted-text"/>
+    </children>
+</VBox>

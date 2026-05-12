@@ -73,11 +73,10 @@
 
                 <Region VBox.vgrow="ALWAYS" />
 
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label styleClass="avatar" text="AD" />
-                    <VBox spacing="0">
-                        <Label styleClass="top-user" text="Maria N. Jensen" />
-                        <Label styleClass="top-role" text="Admin" />
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="user-info-card">
+                    <VBox spacing="2">
+                        <Label fx:id="adminNameLabel" text="Admin" styleClass="top-user"/>
+                        <Label fx:id="adminRoleLabel" text="Admin" styleClass="top-role"/>
                     </VBox>
                 </HBox>
 
