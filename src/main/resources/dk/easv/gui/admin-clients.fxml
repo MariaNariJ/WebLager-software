@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="clientsRoot"
+      spacing="16"
+      stylesheets="@app.css"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="dk.easv.gui.AdminClientsController">
+
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0"/>
+    </padding>
+
+</VBox>
