@@ -220,11 +220,29 @@
 
                                 <Region VBox.vgrow="ALWAYS" />
 
+                                <VBox spacing="14"
+                                      styleClass="status-card">
+
+                                    <Label text="Document Status"
+                                           styleClass="field-label-dark"/>
+
+                                    <HBox spacing="10" alignment="CENTER_LEFT">
+
+                                        <Label text="●"
+                                               styleClass="status-dot"/>
+
+                                        <Label fx:id="documentStatusLabel"
+                                               text="Ready for scanning"
+                                               styleClass="status-text"/>
+
+                                    </HBox>
+
+                                </VBox>
                                 <Button onAction="#onSaveMetadataClicked"
                                         prefHeight="38.0"
                                         prefWidth="149.0"
                                         styleClass="primary-action"
-                                        text="💾  Save Metadata (F2)" />
+                                        text="Ready for QA" />
                             </children>
                         </VBox>
 

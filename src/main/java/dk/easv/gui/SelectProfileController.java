@@ -6,6 +6,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextField;
 
 public class SelectProfileController {
 
@@ -13,13 +15,13 @@ public class SelectProfileController {
     @FXML
     private VBox profileContainer;
 
-    // Client dropdown
+    // Client field
     @FXML
-    private ComboBox<String> clientComboBox;
+    private TextField txtClient;
 
-    // Box selection dropdown
+    // Box field
     @FXML
-    private ComboBox<String> boxComboBox;
+    private TextField txtBox;
 
     // Continue button from popup
     @FXML
@@ -40,24 +42,13 @@ public class SelectProfileController {
     @FXML
     public void initialize() {
 
-        // Demo client
-        clientComboBox.getItems().addAll(
+        // Default client shown
+        txtClient.setText(
                 "SEA - Syddansk Erhvervsakademi"
         );
 
-        clientComboBox.setValue(
-                "SEA - Syddansk Erhvervsakademi"
-        );
-
-        // Demo box IDs for testing scan sessions
-        boxComboBox.getItems().addAll(
-                "BOX_001",
-                "BOX_002",
-                "BOX_003"
-        );
-
-        // Default selected box
-        boxComboBox.setValue("BOX_001");
+        // Default box value
+        txtBox.setText("BOX_001");
 
         // Load demo scan profiles
         loadSEAProfiles();
@@ -173,12 +164,12 @@ public class SelectProfileController {
 
         // Send selected client back
         userviewController.setSelectedClient(
-                clientComboBox.getValue()
+                txtClient.getText()
         );
 
         // Send selected scan setup back
         userviewController.setScanSetup(
-                boxComboBox.getValue(),
+                txtBox.getText(),
                 selectedProfile
         );
 

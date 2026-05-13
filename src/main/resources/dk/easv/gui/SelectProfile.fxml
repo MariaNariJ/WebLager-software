@@ -9,6 +9,7 @@
 
 <?import javafx.scene.layout.Region?>
 
+<?import javafx.scene.control.TextField?>
 <VBox spacing="10"
       prefWidth="440"
       prefHeight="500"
@@ -44,10 +45,10 @@
         <Label text="Box ID"
                styleClass="field-label-dark"/>
 
-        <ComboBox fx:id="boxComboBox"
-                  promptText="Select box"
-                  styleClass="combo-dark"
-                  prefWidth="400"/>
+        <TextField fx:id="txtBox"
+                   styleClass="combo-dark"
+                   promptText="Enter box ID..."
+                   prefWidth="420"/>
 
     </VBox>
 
@@ -58,9 +59,10 @@
         <Label text="Client"
                styleClass="field-label-dark"/>
 
-        <ComboBox fx:id="clientComboBox"
-                  styleClass="combo-dark"
-                  prefWidth="420"/>
+        <TextField fx:id="txtClient"
+                   editable="false"
+                   focusTraversable="false"
+                   styleClass="combo-dark" />
 
     </VBox>
 

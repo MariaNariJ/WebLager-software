@@ -985,3 +985,46 @@ Error color:                 #FF3D32
 
     -fx-padding: 14 16 14 16;
 }
+.status-card {
+    -fx-background-color: #334155;
+    -fx-background-radius: 12;
+    -fx-padding: 18;
+
+    -fx-min-height: 90;
+}
+
+.status-dot {
+    -fx-text-fill: #22c55e;
+    -fx-font-size: 18px;
+}
+
+.status-text {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+}
+.readonly-field {
+    -fx-background-color: #334155;
+    -fx-control-inner-background: #334155;
+
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #94a3b8;
+
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    -fx-border-color: transparent;
+
+    -fx-highlight-fill: transparent;
+    -fx-highlight-text-fill: white;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+.combo-dark:disabled,
+.combo-dark {
+    -fx-opacity: 1;
+}
+.combo-dark {
+    -fx-padding: 0 0 0 14;
+}
