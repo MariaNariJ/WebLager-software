@@ -1028,3 +1028,12 @@ Error color:                 #FF3D32
 .combo-dark {
     -fx-padding: 0 0 0 14;
 }
+.qa-warning-label {
+    -fx-text-fill: #9FB3C8;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+.qa-sent-button {
+    -fx-background-color: #4CD07D;
+    -fx-text-fill: white;
+}

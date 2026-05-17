@@ -121,6 +121,8 @@ public class UserviewController {
     private Button qaButton;
     @FXML
     private Button exportButton;
+    @FXML
+    private Label qaWarningLabel;
 
     private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 
@@ -437,6 +439,11 @@ public class UserviewController {
     @FXML
     public void onFetchFilesClicked() {
 
+        if (currentDocument != null) {
+
+            return;
+        }
+
         // Prevent scanning without profile
         if (selectedProfile == null) {
             onSelectProfileClicked();
@@ -623,7 +630,7 @@ public class UserviewController {
                });*/
 
     @FXML
-    public void onSaveMetadataClicked() {
+    public void onReadyForQAClicked() {
 
         if (currentDocument == null) {
             return;
@@ -638,40 +645,69 @@ public class UserviewController {
                 boxName.isEmpty() ||
                 documentName.isEmpty() ||
                 date.isEmpty()) {
+
             return;
         }
 
-        Box box = new Box(boxName, client);
+        // UI updates
+        qaWarningLabel.setVisible(false);
+        qaWarningLabel.setManaged(false);
 
-        int boxId = boxDAO.insertBox(box);
+        btnFetchFiles.setDisable(false);
+        btnFetchFiles.setOpacity(1.0);
 
-        Document document = new Document(
-                boxId,
-                currentDocument.getBarcode(),
-                java.sql.Date.valueOf(date),
-                documentName,
-                selectedProfile
+        scanStatusLabel.setText(
+                "Sending document to QA..."
         );
 
-        int documentId =
-                documentDAO.insertDocument(document);
+        CompletableFuture.runAsync(() -> {
 
-        for (Page page : currentDocument.getPages()) {
+            // Create box
+            Box box = new Box(boxName, client);
 
-            page.setDocumentId(documentId);
+            int boxId = boxDAO.insertBox(box);
 
-            System.out.println(
-                    "Saving page with barcode: "
-                            + page.getBarcode()
-                            + " linked to document ID: "
-                            + documentId
+            // Convert date
+            java.time.LocalDate parsedDate =
+                    java.time.LocalDate.parse(
+                            date,
+                            java.time.format.DateTimeFormatter
+                                    .ofPattern("dd-MM-yyyy")
+                    );
+
+            // Create document
+            Document document = new Document(
+                    boxId,
+                    currentDocument.getBarcode(),
+                    java.sql.Date.valueOf(parsedDate),
+                    documentName,
+                    selectedProfile
             );
 
-            InputStream inputStream =
-                    fileManager.getFileStream(page);
+            int documentId =
+                    documentDAO.insertDocument(document);
 
-            pageDAO.insertPage(page, inputStream);
-        }
+            // Save pages
+            for (Page page : currentDocument.getPages()) {
+
+                page.setDocumentId(documentId);
+
+                InputStream inputStream =
+                        fileManager.getFileStream(page);
+
+                pageDAO.insertPage(page, inputStream);
+            }
+
+            currentDocument = null;
+
+            // UI updates
+            Platform.runLater(() -> {
+
+                scanStatusLabel.setText(
+                        "Document sent to QA"
+                );
+            });
+        });
     }
 
     private void addPageToUI(Page page, int index) {
@@ -945,13 +981,6 @@ public class UserviewController {
 
         renderDocumentOverview();
 
-        // Reset active document
-        currentDocument = null;
-
-        // Enable scanning again
-        btnFetchFiles.setDisable(false);
-        btnFetchFiles.setOpacity(1.0);
-
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
 
@@ -960,6 +989,7 @@ public class UserviewController {
         scanStatusLabel.setText(
                 "Ready for next document"
         );
+    }
 
         /*
         // If next barcode already exists,
@@ -973,7 +1003,6 @@ public class UserviewController {
 
             pendingBarcode = null;
         }*/
-    }
 
     /**
      * Displays grouped documents inside Document Overview.
@@ -1176,6 +1205,10 @@ public class UserviewController {
 
         // Finalize document and add to overview
         finishCurrentDocument();
+
+        // Show QA warning
+        qaWarningLabel.setVisible(true);
+        qaWarningLabel.setManaged(true);
 
         // Lock scanned files after saving
         for (javafx.scene.Node node : fileListContainer.getChildren()) {

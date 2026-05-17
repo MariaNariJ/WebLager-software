@@ -70,6 +70,13 @@
                                     </content>
                                 </ScrollPane>
 
+                                <Label fx:id="qaWarningLabel"
+                                       text="⚠ Send current document to QA before scanning next document"
+                                       visible="false"
+                                       managed="false"
+                                       wrapText="true"
+                                       styleClass="qa-warning-label" />
+
                                 <HBox spacing="10">
 
                                     <Button fx:id="btnFetchFiles"
@@ -238,7 +245,7 @@
                                     </HBox>
 
                                 </VBox>
-                                <Button onAction="#onSaveMetadataClicked"
+                                <Button onAction="#onReadyForQAClicked"
                                         prefHeight="38.0"
                                         prefWidth="149.0"
                                         styleClass="primary-action"
