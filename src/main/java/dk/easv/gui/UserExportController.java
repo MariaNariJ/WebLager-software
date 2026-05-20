@@ -1,4 +1,5 @@
 package dk.easv.gui;
 
-public class UserExportController {
+public class
+UserExportController {
 }
