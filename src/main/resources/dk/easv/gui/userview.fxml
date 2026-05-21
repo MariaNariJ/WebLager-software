@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
+<AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 
@@ -249,7 +249,7 @@
                                         prefHeight="38.0"
                                         prefWidth="149.0"
                                         styleClass="primary-action"
-                                        text="Ready for QA" />
+                                        text="Save and send to QA" />
                             </children>
                         </VBox>
 
@@ -290,7 +290,7 @@
 
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fitWidth="32" preserveRatio="true">
+                    <ImageView fx:id="sidebarLogoImage" fitWidth="32" preserveRatio="true">
                         <image>
                             <Image url="@assets/Logo_DarkMode_Blue.png" />
                         </image>
@@ -319,11 +319,15 @@
 
                 <VBox spacing="12">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label styleClass="sidebar-icon" text="☀">
+                        <Button fx:id="themeToggleButton"
+                                onAction="#onThemeToggleClicked"
+                                styleClass="sidebar-icon-button"
+                                text="☀"
+                                pickOnBounds="true">
                             <tooltip>
                                 <Tooltip text="Switch theme" />
                             </tooltip>
-                        </Label>
+                        </Button>
 
                         <Button fx:id="sidebarLockButton"
                                 onAction="#onSidebarLockClicked"
