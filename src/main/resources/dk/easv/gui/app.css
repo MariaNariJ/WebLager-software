@@ -1219,3 +1219,65 @@ Error color:                 #FF3D32
 .export-text-field {
     -fx-padding: 10;
 }
+/* =========================
+   ADMIN USER DIALOGS
+========================= */
+
+.admin-dialog {
+    -fx-background-color: #354556;
+}
+
+.admin-dialog > *.button-bar > *.container {
+    -fx-background-color: #354556;
+}
+
+.admin-dialog .content {
+    -fx-background-color: #354556;
+    -fx-text-fill: #D6E0EA;
+}
+
+.admin-dialog .button {
+    -fx-background-color: #008FF7;
+    -fx-text-fill: white;
+
+    -fx-background-radius: 7;
+
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-max-height: 26px;
+
+    -fx-padding: 0 12 0 12;
+
+    -fx-cursor: hand;
+}
+
+.admin-dialog .button:hover {
+    -fx-background-color: #0094EA;
+}
+
+/* DELETE BUTTON */
+
+.admin-dialog .destructive-action {
+    -fx-background-color: #FF3D32;
+    -fx-text-fill: white;
+
+    -fx-background-radius: 7;
+
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-max-height: 26px;
+
+    -fx-padding: 0 12 0 12;
+
+    -fx-cursor: hand;
+}
+
+.admin-dialog .destructive-action:hover {
+    -fx-background-color: #EF4444;
+}

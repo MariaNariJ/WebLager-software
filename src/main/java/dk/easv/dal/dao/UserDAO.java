@@ -108,4 +108,57 @@ public class UserDAO {
             throw new RuntimeException("Failed updating user status", e);
         }
     }
+    public void updateUser(User user) {
+        String sql = "UPDATE Users SET name = ?, login = ?, role = ?, status = ? WHERE id = ?";
+
+        try (Connection conn = conMan.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getLogin());
+            stmt.setString(3, user.getRole());
+            stmt.setString(4, user.getStatus());
+            stmt.setInt(5, user.getId());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed updating user", e);
+        }
+    }
+
+    public void updateUserPassword(int userId, String newPassword) {
+        String sql = "UPDATE Users SET password = ?, salt = ? WHERE id = ?";
+
+        try {
+            String newSalt = PasswordHasher.generateSalt();
+            String hashedPassword = PasswordHasher.hashPassword(newPassword, newSalt);
+
+            try (Connection conn = conMan.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, hashedPassword);
+                stmt.setString(2, newSalt);
+                stmt.setInt(3, userId);
+
+                stmt.executeUpdate();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed updating password", e);
+        }
+    }
+    public void deleteUser(int userId) {
+        String sql = "DELETE FROM Users WHERE id = ?";
+
+        try (Connection conn = conMan.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed deleting user", e);
+        }
+    }
 }

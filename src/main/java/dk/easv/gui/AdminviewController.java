@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class AdminviewController {
 
@@ -384,7 +385,7 @@ public class AdminviewController {
     private void showUserDetailsDialog(User user) {
 
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("User Details");
+        dialog.initStyle(StageStyle.UNDECORATED);
 
         DialogPane dialogPane = dialog.getDialogPane();
 
@@ -392,40 +393,108 @@ public class AdminviewController {
                 getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
         );
 
-        dialogPane.getStyleClass().add("custom-dialog");
+        dialogPane.getStyleClass().add("admin-dialog");
 
-        dialogPane.setPrefWidth(500);
-        dialogPane.setPrefHeight(350);
+        dialogPane.setPrefWidth(360);
+        dialogPane.setPrefHeight(330);
 
-        VBox content = new VBox(18);
+        TextField txtName = new TextField(user.getName());
+        txtName.getStyleClass().add("dark-field");
 
-        content.setPrefWidth(450);
-        content.setStyle("-fx-padding: 20;");
+        TextField txtLogin = new TextField(user.getLogin());
+        txtLogin.getStyleClass().add("dark-field");
 
-        Label title = createTitle("User details");
+        ComboBox<String> roleBox = new ComboBox<>();
+        roleBox.getItems().addAll("User", "Admin");
+        roleBox.setValue(user.getRole());
+        roleBox.getStyleClass().add("dark-combo");
+        roleBox.setMaxWidth(Double.MAX_VALUE);
 
-        Separator separator = new Separator();
+        ComboBox<String> statusBox = new ComboBox<>();
+        statusBox.getItems().addAll("Active", "Inactive");
+        statusBox.setValue(user.getStatus());
+        statusBox.getStyleClass().add("dark-combo");
+        statusBox.setMaxWidth(Double.MAX_VALUE);
 
-        VBox infoBox = new VBox(14);
+        PasswordField txtNewPassword = new PasswordField();
+        txtNewPassword.setPromptText("New password - leave empty to keep current");
+        txtNewPassword.getStyleClass().add("dark-field");
 
-        Label name = createText("Name: " + safe(user.getName()));
-        Label role = createText("Role: " + safe(user.getRole()));
-        Label login = createText("Login: " + safe(user.getLogin()));
-        Label status = createText("Status: " + safe(user.getStatus()));
+        ButtonType deleteButtonType = new ButtonType("Delete User", ButtonBar.ButtonData.LEFT);
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
 
-        infoBox.getChildren().addAll(name, role, login, status);
+        dialogPane.getButtonTypes().addAll(deleteButtonType, ButtonType.CLOSE, updateButtonType);
+
+        VBox content = new VBox(12);
+        content.setPrefWidth(320);
+        content.setStyle("-fx-padding: 18;");
 
         content.getChildren().addAll(
-                title,
-                separator,
-                infoBox
+                createTitle("User details"),
+                createText("Edit user information or reset the password."),
+                txtName,
+                txtLogin,
+                roleBox,
+                statusBox,
+                txtNewPassword
         );
 
         dialogPane.setContent(content);
 
-        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+        Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
+        deleteButton.getStyleClass().add("destructive-action");
 
-        dialog.showAndWait();
+        dialog.showAndWait().ifPresent(result -> {
+
+            if (result == updateButtonType) {
+
+                user.setName(txtName.getText().trim());
+                user.setLogin(txtLogin.getText().trim());
+                user.setRole(roleBox.getValue());
+                user.setStatus(statusBox.getValue());
+
+                userDAO.updateUser(user);
+
+                String newPassword = txtNewPassword.getText().trim();
+
+                if (!newPassword.isEmpty()) {
+                    userDAO.updateUserPassword(user.getId(), newPassword);
+                }
+
+                showUsers();
+            }
+
+            if (result == deleteButtonType) {
+
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.initStyle(StageStyle.UNDECORATED);
+                confirm.setGraphic(null);
+                confirm.setHeaderText("Are you sure?");
+                confirm.setContentText("This will permanently delete " + user.getName() + ".");
+
+                DialogPane confirmPane = confirm.getDialogPane();
+
+                confirmPane.getStylesheets().add(
+                        getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                );
+
+                confirmPane.getStyleClass().add("admin-dialog");
+                confirmPane.setPrefWidth(380);
+
+                Button okButton = (Button) confirmPane.lookupButton(ButtonType.OK);
+                okButton.setText("Delete");
+                okButton.getStyleClass().add("destructive-action");
+
+                Button cancelButton = (Button) confirmPane.lookupButton(ButtonType.CANCEL);
+                cancelButton.setText("Cancel");
+
+                confirm.showAndWait().ifPresent(confirmResult -> {
+                    if (confirmResult == ButtonType.OK) {
+                        userDAO.deleteUser(user.getId());
+                        showUsers();
+                    }
+                });
+            }
+        });
     }
-
 }
