@@ -26,8 +26,9 @@ public class UserDAO {
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String salt = rs.getString("salt");
+                String status = rs.getString("status");
 
-                return new User(id, role, name, login, password, salt);
+                return new User(id, role, name, login, password, salt, status);
             } else {
                 //No user was found
                 return null;
@@ -56,7 +57,8 @@ public class UserDAO {
                         rs.getString("name"),
                         rs.getString("login"),
                         rs.getString("password"),
-                        rs.getString("salt")
+                        rs.getString("salt"),
+                        rs.getString("status")
                 );
 
                 users.add(user);
@@ -69,7 +71,7 @@ public class UserDAO {
         return users;
     }
     public void createUser(String name, String login, String plainPassword, String role) {
-        String sql = "INSERT INTO Users (role, login, password, salt, name) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (role, login, password, salt, name, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conMan.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -82,12 +84,28 @@ public class UserDAO {
             stmt.setString(3, hashedPassword);
             stmt.setString(4, salt);
             stmt.setString(5, name);
-
+            stmt.setString(6, "Active");
             stmt.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed creating user", e);
+        }
+    }
+    public void updateUserStatus(int userId, String status) {
+        String sql = "UPDATE Users SET status = ? WHERE id = ?";
+
+        try (Connection conn = conMan.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+            stmt.setInt(2, userId);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed updating user status", e);
         }
     }
 }

@@ -126,6 +126,17 @@ public class LoginController {
 
                 if (user != null) {
 
+                    if ("Inactive".equalsIgnoreCase(user.getStatus())) {
+                        loginMessageLabel.setText("Your account is inactive. Please contact an admin.");
+                        loginMessageLabel.getStyleClass().remove("login-subtitle");
+                        loginMessageLabel.getStyleClass().add("login-error-message");
+
+                        signInButton.setDisable(false);
+                        signInButton.setOpacity(1);
+
+                        return;
+                    }
+
                     try {
 
                         Stage stage =
