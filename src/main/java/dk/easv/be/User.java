@@ -7,14 +7,16 @@ public class User {
     private String login;
     private String password;
     private String salt;
+    private String status;
 
-    public User(int id, String role, String name, String login, String password, String salt) {
+    public User(int id, String role, String name, String login, String password, String salt , String status) {
         this.id = id;
         this.role = role;
         this.name = name;
         this.login = login;
         this.password = password;
         this.salt = salt;
+        this.status = status;
     }
 
     public int getId() {
@@ -60,4 +62,8 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    public String getStatus() {return status; }
+
+    public void setStatus(String status) { this.status = status; }
 }

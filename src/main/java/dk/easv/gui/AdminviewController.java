@@ -111,8 +111,13 @@ public class AdminviewController {
                 new SimpleStringProperty(safe(data.getValue().getLogin()))
         );
         loginCol.setPrefWidth(320);
+        TableColumn<User, String> statusCol = new TableColumn<>("Status");
+        statusCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getStatus()))
+        );
+        statusCol.setPrefWidth(160);
 
-        userTable.getColumns().addAll(nameCol, roleCol, loginCol);
+        userTable.getColumns().addAll(nameCol, roleCol, loginCol, statusCol);
 
         FilteredList<User> filteredUsers = new FilteredList<>(
                 FXCollections.observableArrayList(userDAO.getAllUsers()),
@@ -130,6 +135,43 @@ public class AdminviewController {
         userTable.setItems(filteredUsers);
         userTable.setRowFactory(tableView -> {
             TableRow<User> row = new TableRow<>();
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem setActive = new MenuItem("Set as Active");
+            MenuItem setInactive = new MenuItem("Set as Inactive");
+
+            setActive.setOnAction(event -> {
+                User selectedUser = row.getItem();
+
+                if (selectedUser == null) {
+                    return;
+                }
+
+                userDAO.updateUserStatus(selectedUser.getId(), "Active");
+                selectedUser.setStatus("Active");
+                userTable.refresh();
+            });
+
+            setInactive.setOnAction(event -> {
+                User selectedUser = row.getItem();
+
+                if (selectedUser == null) {
+                    return;
+                }
+
+                userDAO.updateUserStatus(selectedUser.getId(), "Inactive");
+                selectedUser.setStatus("Inactive");
+                userTable.refresh();
+            });
+
+            contextMenu.getItems().addAll(setActive, setInactive);
+
+            row.contextMenuProperty().bind(
+                    javafx.beans.binding.Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu)
+            );
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
@@ -369,14 +411,20 @@ public class AdminviewController {
         Label name = createText("Name: " + safe(user.getName()));
         Label role = createText("Role: " + safe(user.getRole()));
         Label login = createText("Login: " + safe(user.getLogin()));
-        infoBox.getChildren().addAll(name, role, login);
+        Label status = createText("Status: " + safe(user.getStatus()));
+
+        infoBox.getChildren().addAll(name, role, login, status);
+
         content.getChildren().addAll(
                 title,
                 separator,
                 infoBox
         );
+
         dialogPane.setContent(content);
+
         dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+
         dialog.showAndWait();
     }
 
