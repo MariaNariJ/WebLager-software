@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.shape.Circle?>
 <AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
@@ -70,13 +71,6 @@
                                     </content>
                                 </ScrollPane>
 
-                                <Label fx:id="qaWarningLabel"
-                                       text="⚠ Send current document to QA before scanning next document"
-                                       visible="false"
-                                       managed="false"
-                                       wrapText="true"
-                                       styleClass="qa-warning-label" />
-
                                 <HBox spacing="10">
 
                                     <Button fx:id="btnFetchFiles"
@@ -88,7 +82,7 @@
                                     <Button fx:id="btnSaveasDocument"
                                             onAction="#onSaveasDocumentClicked"
                                             styleClass="primary-action"
-                                            text="Save as Document"
+                                            text="Save Document"
                                             prefWidth="170"/>
 
                                 </HBox>
@@ -160,9 +154,11 @@
                         </VBox>
 
                         <!-- METADATA PANEL -->
-                        <VBox spacing="10"
-                              minWidth="350"
-                              prefWidth="350"
+                        <VBox spacing="12"
+                              minWidth="300"
+                              prefWidth="320"
+                              maxWidth="380"
+                              fillWidth="true"
                               styleClass="panel">
 
                             <padding>
@@ -176,24 +172,25 @@
 
                                 <Separator styleClass="dark-separator" />
 
-                                <Label styleClass="field-label-dark"
+                                <Label styleClass="info-label"
                                        text="Client *" />
 
                                 <TextField fx:id="txtClient"
-                                           styleClass="dark-field" />
+                                           styleClass="dark-field"/>
 
-                                <Label styleClass="field-label-dark"
+
+                                <Label styleClass="info-label"
                                        text="Box *" />
 
                                 <TextField fx:id="txtBox"
-                                           styleClass="dark-field" />
+                                           styleClass="dark-field"/>
 
-                                <Label styleClass="field-label-dark"
-                                       text="Active Scan Profile" />
+                                <Label styleClass="info-label"
+                                       text="Active Scan Profile *" />
 
                                 <TextField fx:id="txtProfile"
                                            editable="false"
-                                           styleClass="dark-field" />
+                                           styleClass="dark-field"/>
 
                                 <VBox fx:id="dynamicMetadataContainer"
                                       spacing="10"
@@ -206,16 +203,19 @@
 
                                 <Separator styleClass="dark-separator" />
 
-                                <Label styleClass="field-label-dark" text="Document Name" />
-                                <TextField fx:id="txtDocumentName" styleClass="dark-field" />
+                                <Label styleClass="info-label"
+                                       text="Document Name" />
+                                <TextField fx:id="txtDocumentName" styleClass="dark-field"/>
 
-                              <Label styleClass="field-label-dark" text="Date *" />
-                              <TextField fx:id="txtDate" styleClass="dark-field" />
+                                <Label styleClass="info-label"
+                                       text="Date *" />
+                              <TextField fx:id="txtDate" styleClass="dark-field"/>
+
 
                                 <VBox spacing="8">
 
                                     <Label text="Barcode"
-                                           styleClass="field-label-dark"/>
+                                           styleClass="info-label"/>
 
                                     <Label fx:id="barcodeLabel"
                                            styleClass="barcode-display"
@@ -227,16 +227,26 @@
 
                                 <Region VBox.vgrow="ALWAYS" />
 
+                                <VBox fx:id="qaWarningBox"
+                                      visible="false"
+                                      managed="false"
+                                      styleClass="qa-warning-box">
+
+                                    <Label fx:id="qaWarningLabel"
+                                           text="⚠ Send current document to QA before scanning next"
+                                           wrapText="true"
+                                           styleClass="qa-warning-label"/>
+                                </VBox>
                                 <VBox spacing="14"
                                       styleClass="status-card">
 
                                     <Label text="Document Status"
-                                           styleClass="field-label-dark"/>
+                                           styleClass="info-label"/>
 
                                     <HBox spacing="10" alignment="CENTER_LEFT">
 
-                                        <Label text="●"
-                                               styleClass="status-dot"/>
+                                        <Circle radius="4"
+                                                styleClass="status-dot"/>
 
                                         <Label fx:id="documentStatusLabel"
                                                text="Ready for scanning"
@@ -245,7 +255,8 @@
                                     </HBox>
 
                                 </VBox>
-                                <Button onAction="#onReadyForQAClicked"
+                                <Button fx:id="btnReadyForQA"
+                                        onAction="#onReadyForQAClicked"
                                         prefHeight="38.0"
                                         prefWidth="149.0"
                                         styleClass="primary-action"

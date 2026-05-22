@@ -109,7 +109,7 @@ public class UserviewController {
     private VBox mainContent;
     @FXML
     private Button btnSaveasDocument;
-
+    @FXML
     private Button btnSaveScan;
     @FXML
     private Label userNameLabel;
@@ -119,6 +119,12 @@ public class UserviewController {
     private Button scanningButton;
     @FXML
     private Button qaButton;
+    @FXML
+    private VBox qaWarningBox;
+    @FXML
+    private Button btnReadyForQA;
+    @FXML
+    private Label documentStatusLabel;
     @FXML
     private Button exportButton;
     @FXML
@@ -525,11 +531,22 @@ public class UserviewController {
                                 "Document " + (documentGroups.size() + 1),
                                 page.getBarcode()
                         );
+                        documentStatusLabel.setText("Ready for scanning");
+                        btnReadyForQA.setText("Save and send to QA");
+                        btnReadyForQA.setDisable(false);
+                        btnReadyForQA.setOpacity(1.0);
+
+                        // Update status
+                        documentStatusLabel.setText("Waiting for QA");
+                        scanStatusLabel.setText("Awaiting QA");
+
+                        btnReadyForQA.setOpacity(1.0);
 
                         currentDocument.addPage(page);
 
                         barcodeLabel.setText(
                                 page.getBarcode()
+
                         );
                         // Autofill document information
                         txtDocumentName.setText(
@@ -682,8 +699,8 @@ public class UserviewController {
         }
 
         // UI updates
-        qaWarningLabel.setVisible(false);
-        qaWarningLabel.setManaged(false);
+        qaWarningBox.setVisible(false);
+        qaWarningBox.setManaged(false);
 
         btnFetchFiles.setDisable(false);
         btnFetchFiles.setOpacity(1.0);
@@ -738,6 +755,23 @@ public class UserviewController {
                 scanStatusLabel.setText(
                         "Document sent to QA"
                 );
+                documentStatusLabel.setText("Sent to QA");
+
+                btnSaveasDocument.setDisable(true);
+                btnSaveasDocument.setOpacity(0.5);
+
+                btnFetchFiles.setDisable(false);
+                btnFetchFiles.setOpacity(1.0);
+
+                scanning = false;
+
+                // Hide QA warning
+                qaWarningBox.setVisible(false);
+                qaWarningBox.setManaged(false);
+
+                // Update button state
+                btnReadyForQA.setDisable(true);
+                btnReadyForQA.setOpacity(0.7);
             });
         });
     }
@@ -1019,7 +1053,7 @@ public class UserviewController {
         scanning = false;
 
         scanStatusLabel.setText(
-                "Ready for next document"
+                "Awaiting QA"
         );
     }
 
@@ -1054,7 +1088,7 @@ public class UserviewController {
 
             // Document title
             Label docTitle = new Label(document.getTitle());
-            docTitle.getStyleClass().add("section-title");
+            docTitle.getStyleClass().add("overview-title");
 
             // Page count
             Label pages = new Label(
@@ -1239,8 +1273,16 @@ public class UserviewController {
         finishCurrentDocument();
 
         // Show QA warning
-        qaWarningLabel.setVisible(true);
-        qaWarningLabel.setManaged(true);
+        qaWarningBox.setVisible(true);
+        qaWarningBox.setManaged(true);
+
+        // Reset QA button state
+        btnReadyForQA.setText("Save and send to QA");
+        btnReadyForQA.setDisable(false);
+        btnReadyForQA.setOpacity(1.0);
+
+        // Update status
+        scanStatusLabel.setText("Awaiting QA");
 
         // Lock scanned files after saving
         for (javafx.scene.Node node : fileListContainer.getChildren()) {
