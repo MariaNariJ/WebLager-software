@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.animation.TranslateTransition;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import dk.easv.bll.FileManager;
@@ -127,6 +128,8 @@ public class UserviewController {
     private Button btnReadyForQA;
     @FXML
     private Label documentStatusLabel;
+    @FXML
+    private Label fileIndicatorLabel;
     @FXML
     private Button exportButton;
     @FXML
@@ -553,7 +556,12 @@ public class UserviewController {
 
         currentIndex = index;
         Page page = scannedPages.get(index);
-
+        fileIndicatorLabel.setText(
+                "File " +
+                        (currentIndex + 1) +
+                        " of " +
+                        scannedPages.size()
+        );
         try {
             BufferedImage original = ImageIO.read(new File(page.getPagePath()));
             if (original == null) return;
@@ -632,6 +640,13 @@ public class UserviewController {
                                 "Document " + (documentGroups.size() + 1),
                                 page.getBarcode()
                         );
+
+                        // Autofill suggested document name
+                        txtDocumentName.clear();
+
+                        txtDocumentName.setPromptText(
+                                "Document " + (documentGroups.size() + 1)
+                        );
                         documentStatusLabel.setText("Ready for scanning");
                         btnReadyForQA.setText("Save and send to QA");
                         btnReadyForQA.setDisable(false);
@@ -694,15 +709,6 @@ public class UserviewController {
                         currentDocument.addPage(page);
                     }
 
-                    // Preview handling
-                    if (currentIndex == -1) {
-
-                        showPage(0);
-
-                    } else {
-
-                        updateViewingStatus();
-                    }
                 });
             });
             Platform.runLater(() -> {
@@ -715,6 +721,10 @@ public class UserviewController {
                 scanStatusLabel.setText(
                         "Ready to save document"
                 );
+                if (!scannedPages.isEmpty()) {
+
+                    showPage(0);
+                }
             });
         });
     }
@@ -789,6 +799,13 @@ public class UserviewController {
         String client = txtClient.getText();
         String boxName = txtBox.getText();
         String documentName = txtDocumentName.getText();
+
+        if (documentName == null || documentName.trim().isEmpty()) {
+
+            documentName =
+                    txtDocumentName.getPromptText();
+        }
+        final String finalDocumentName = documentName;
         String date = txtDate.getText();
 
         if (client.isEmpty() ||
@@ -830,7 +847,7 @@ public class UserviewController {
                     boxId,
                     currentDocument.getBarcode(),
                     java.sql.Date.valueOf(parsedDate),
-                    documentName,
+                    finalDocumentName,
                     selectedProfile
             );
 
@@ -1388,7 +1405,12 @@ public class UserviewController {
         }
 
         // Apply chosen document name
+        if (documentName == null || documentName.trim().isEmpty()) {
+            documentName =
+                    "Document " + (documentGroups.size() + 1);
+        }
         currentDocument.setTitle(documentName);
+
         // Update Document Information panel
         txtDocumentName.setText(documentName);
 
