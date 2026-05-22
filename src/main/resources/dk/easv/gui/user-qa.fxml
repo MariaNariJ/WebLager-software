@@ -1,22 +1,301 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="14"
-      styleClass="panel"
-      stylesheets="@app.css"
-      xmlns="http://javafx.com/javafx/25"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="dk.easv.gui.UserQaController">
-
-    <padding>
-        <Insets top="18" right="18" bottom="18" left="18"/>
-    </padding>
+<AnchorPane prefHeight="820.0"
+            prefWidth="1440.0"
+            styleClass="app-root"
+            stylesheets="@app.css"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dk.easv.gui.UserQaController">
 
     <children>
-        <Label text="QA" styleClass="brand-title"/>
-        <Label text="Quality assurance view will be displayed here." styleClass="muted-text"/>
+
+        <!-- MAIN CONTENT -->
+        <VBox spacing="18"
+              fillWidth="true"
+              VBox.vgrow="ALWAYS"
+              AnchorPane.topAnchor="16.0"
+              AnchorPane.bottomAnchor="16.0"
+              AnchorPane.leftAnchor="16.0"
+              AnchorPane.rightAnchor="16.0">
+
+            <children>
+
+                <!-- HEADER -->
+                <VBox spacing="4">
+
+                    <children>
+
+                        <Label text="QA"
+                               styleClass="brand-title"/>
+
+                        <Label text="Review and approve scanned documents before export."
+                               styleClass="muted-text"/>
+
+                    </children>
+
+                </VBox>
+
+                <!-- MAIN QA PANEL -->
+                <HBox spacing="22"
+                      styleClass="qa-main-panel"
+                      VBox.vgrow="ALWAYS"
+                      HBox.hgrow="ALWAYS"
+                      maxWidth="Infinity">
+
+                    <children>
+
+                        <!-- LEFT SIDE -->
+                        <VBox spacing="16"
+                              prefWidth="320"
+                              minWidth="320"
+                              maxWidth="320">
+
+                            <children>
+
+                                <Label text="Documents Waiting for QA"
+                                       styleClass="qa-section-title"/>
+
+                                <!-- DOCUMENT CARD -->
+                                <VBox spacing="10"
+                                      styleClass="qa-document-card qa-document-card-selected">
+
+                                    <padding>
+                                        <Insets top="18"
+                                                right="18"
+                                                bottom="18"
+                                                left="18"/>
+                                    </padding>
+
+                                    <children>
+
+                                        <Label text="Invoice_2026_001"
+                                               styleClass="qa-document-title"/>
+
+                                        <Label text="Pages: 5"
+                                               styleClass="muted-text"/>
+
+                                        <Label text="Barcode: 4743442"
+                                               styleClass="muted-text"/>
+
+                                    </children>
+
+                                </VBox>
+
+                                <!-- DOCUMENT CARD -->
+                                <VBox spacing="10"
+                                      styleClass="qa-document-card">
+
+                                    <padding>
+                                        <Insets top="18"
+                                                right="18"
+                                                bottom="18"
+                                                left="18"/>
+                                    </padding>
+
+                                    <children>
+
+                                        <Label text="Contract_2026_014"
+                                               styleClass="qa-document-title"/>
+
+                                        <Label text="Pages: 2"
+                                               styleClass="muted-text"/>
+
+                                        <Label text="Barcode: 4839201"
+                                               styleClass="muted-text"/>
+
+                                    </children>
+
+                                </VBox>
+
+                            </children>
+
+                        </VBox>
+
+                        <!-- CENTER -->
+                        <VBox spacing="16"
+                              HBox.hgrow="ALWAYS"
+                              VBox.vgrow="ALWAYS"
+                              maxWidth="Infinity">
+
+                            <children>
+
+                                <Label text="Document Preview"
+                                       styleClass="qa-section-title"/>
+
+                                <!-- PREVIEW -->
+                                <VBox spacing="18"
+                                      alignment="TOP_CENTER"
+                                      styleClass="qa-preview-pane"
+                                      VBox.vgrow="ALWAYS"
+                                      maxWidth="Infinity">
+
+                                    <padding>
+                                        <Insets top="18"
+                                                right="18"
+                                                bottom="18"
+                                                left="18"/>
+                                    </padding>
+
+                                    <children>
+
+                                        <!-- TOP BAR -->
+                                        <HBox alignment="CENTER_LEFT">
+
+                                            <children>
+
+                                                <Label text="Page 1 of 5"
+                                                       styleClass="muted-text"/>
+
+                                                <Region HBox.hgrow="ALWAYS"/>
+
+                                                <Button text="-"/>
+
+                                                <Label text="100%"
+                                                       styleClass="qa-section-title"/>
+
+                                                <Button text="+"/>
+
+                                            </children>
+
+                                        </HBox>
+
+                                        <!-- DOCUMENT PAPER -->
+                                        <VBox spacing="12"
+                                              alignment="CENTER"
+                                              styleClass="qa-paper-preview"
+                                              prefWidth="340"
+                                              prefHeight="500">
+
+                                            <children>
+
+                                                <Label text="Document Preview"
+                                                       styleClass="muted-text"/>
+
+                                                <Label text="Invoice_2026_001"
+                                                       styleClass="qa-document-title"/>
+
+                                                <Label text="Scanned document will appear here"
+                                                       styleClass="muted-text"/>
+
+                                            </children>
+
+                                        </VBox>
+
+                                    </children>
+
+                                </VBox>
+
+                            </children>
+
+                        </VBox>
+
+                        <!-- RIGHT SIDE -->
+                        <VBox spacing="18"
+                              prefWidth="320"
+                              minWidth="320"
+                              maxWidth="320">
+
+                            <children>
+
+                                <Label text="QA Actions"
+                                       styleClass="qa-section-title"/>
+
+                                <!-- STATUS -->
+                                <VBox spacing="10"
+                                      styleClass="qa-action-card">
+
+                                    <padding>
+                                        <Insets top="16"
+                                                right="16"
+                                                bottom="16"
+                                                left="16"/>
+                                    </padding>
+
+                                    <children>
+
+                                        <Label text="Document Status"
+                                               styleClass="info-label"/>
+
+                                        <HBox spacing="8">
+
+                                            <children>
+
+                                                <Label text="•"
+                                                       styleClass="status-dot"/>
+
+                                                <Label text="Waiting for Approval"
+                                                       styleClass="status-text"/>
+
+                                            </children>
+
+                                        </HBox>
+
+                                    </children>
+
+                                </VBox>
+
+                                <!-- SELECTED DOCUMENT -->
+                                <VBox spacing="12"
+                                      styleClass="qa-action-card">
+
+                                    <padding>
+                                        <Insets top="16"
+                                                right="16"
+                                                bottom="16"
+                                                left="16"/>
+                                    </padding>
+
+                                    <children>
+
+                                        <Label text="Selected Document"
+                                               styleClass="info-label"/>
+
+                                        <Label text="Invoice_2026_001"
+                                               styleClass="qa-document-title"/>
+
+                                        <Label text="5 pages"
+                                               styleClass="muted-text"/>
+
+                                        <Label text="Barcode: 4743442"
+                                               styleClass="muted-text"/>
+
+                                    </children>
+
+                                </VBox>
+
+                                <Region VBox.vgrow="ALWAYS"/>
+
+                                <!-- BUTTONS -->
+                                <Button text="Approve Document"
+                                        styleClass="qa-approve-button"
+                                        maxWidth="Infinity"/>
+
+                                <Button text="Reject Document"
+                                        styleClass="qa-reject-button"
+                                        maxWidth="Infinity"/>
+
+                            </children>
+
+                        </VBox>
+
+                    </children>
+
+                </HBox>
+
+            </children>
+
+        </VBox>
+
     </children>
-</VBox>
+
+</AnchorPane>

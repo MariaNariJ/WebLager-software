@@ -1,9 +1,7 @@
 package dk.easv.gui;
 
-import dk.easv.be.Client;
 import dk.easv.be.User;
-import dk.easv.dal.dao.ClientDAO;
-import dk.easv.dal.dao.UserDAO;
+import dk.easv.bll.UserManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -26,7 +24,6 @@ public class AdminviewController {
 
     @FXML private Label adminTitleLabel;
     @FXML private Label adminSubtitleLabel;
-
     @FXML private VBox adminContentArea;
 
     @FXML private Label adminNameLabel;
@@ -34,7 +31,7 @@ public class AdminviewController {
 
     private User loggedInUser;
 
-    private final UserDAO userDAO = new UserDAO();
+    private final UserManager userManager = new UserManager();
 
     @FXML
     private void initialize() {
@@ -83,13 +80,19 @@ public class AdminviewController {
         roleFilter.getStyleClass().add("dark-combo");
         roleFilter.setPrefWidth(120);
 
+        ComboBox<String> statusFilter = new ComboBox<>();
+        statusFilter.getItems().addAll("Active", "Inactive", "All");
+        statusFilter.setValue("Active");
+        statusFilter.getStyleClass().add("dark-combo");
+        statusFilter.setPrefWidth(120);
+
         Button btnCreate = new Button("+ Create User");
         btnCreate.getStyleClass().add("primary-action");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        topBar.getChildren().addAll(searchField, roleFilter, spacer, btnCreate);
+        topBar.getChildren().addAll(searchField, roleFilter, statusFilter, spacer, btnCreate);
 
         TableView<User> userTable = new TableView<>();
         userTable.setPrefHeight(650);
@@ -112,6 +115,7 @@ public class AdminviewController {
                 new SimpleStringProperty(safe(data.getValue().getLogin()))
         );
         loginCol.setPrefWidth(320);
+
         TableColumn<User, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(data ->
                 new SimpleStringProperty(safe(data.getValue().getStatus()))
@@ -121,19 +125,26 @@ public class AdminviewController {
         userTable.getColumns().addAll(nameCol, roleCol, loginCol, statusCol);
 
         FilteredList<User> filteredUsers = new FilteredList<>(
-                FXCollections.observableArrayList(userDAO.getAllUsers()),
+                FXCollections.observableArrayList(userManager.getAllUsers()),
                 p -> true
         );
 
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            applyUserFilter(filteredUsers, searchField, roleFilter);
-        });
+        searchField.textProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
 
-        roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
-            applyUserFilter(filteredUsers, searchField, roleFilter);
-        });
+        roleFilter.valueProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
+
+        statusFilter.valueProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
+
+        applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
 
         userTable.setItems(filteredUsers);
+
         userTable.setRowFactory(tableView -> {
             TableRow<User> row = new TableRow<>();
 
@@ -149,9 +160,10 @@ public class AdminviewController {
                     return;
                 }
 
-                userDAO.updateUserStatus(selectedUser.getId(), "Active");
+                userManager.updateUserStatus(selectedUser.getId(), "Active");
                 selectedUser.setStatus("Active");
                 userTable.refresh();
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
             });
 
             setInactive.setOnAction(event -> {
@@ -161,9 +173,10 @@ public class AdminviewController {
                     return;
                 }
 
-                userDAO.updateUserStatus(selectedUser.getId(), "Inactive");
+                userManager.updateUserStatus(selectedUser.getId(), "Inactive");
                 selectedUser.setStatus("Inactive");
                 userTable.refresh();
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
             });
 
             contextMenu.getItems().addAll(setActive, setInactive);
@@ -176,15 +189,14 @@ public class AdminviewController {
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    User selectedUser = row.getItem();
-                    showUserDetailsDialog(selectedUser);
+                    showUserDetailsDialog(row.getItem());
                 }
             });
 
             return row;
         });
 
-        btnCreate.setOnAction(e -> showCreateUserDialog(userTable));
+        btnCreate.setOnAction(e -> showCreateUserDialog());
 
         wrapper.getChildren().addAll(topBar, userTable);
         VBox.setVgrow(userTable, Priority.ALWAYS);
@@ -192,7 +204,7 @@ public class AdminviewController {
         adminContentArea.getChildren().add(wrapper);
     }
 
-    private void showCreateUserDialog(TableView<User> userTable) {
+    private void showCreateUserDialog() {
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Create User");
@@ -250,13 +262,8 @@ public class AdminviewController {
                     return;
                 }
 
-                userDAO.createUser(name, login, password, role);
-
-                userTable.setItems(
-                        FXCollections.observableArrayList(
-                                userDAO.getAllUsers()
-                        )
-                );
+                userManager.createUser(name, login, password, role);
+                showUsers();
             }
         });
     }
@@ -305,19 +312,22 @@ public class AdminviewController {
 
     private void applyUserFilter(FilteredList<User> filteredUsers,
                                  TextField searchField,
-                                 ComboBox<String> roleFilter) {
+                                 ComboBox<String> roleFilter,
+                                 ComboBox<String> statusFilter) {
 
         String search = searchField.getText() == null
                 ? ""
                 : searchField.getText().toLowerCase();
 
         String selectedRole = roleFilter.getValue();
+        String selectedStatus = statusFilter.getValue();
 
         filteredUsers.setPredicate(user -> {
 
             String name = safe(user.getName()).toLowerCase();
             String login = safe(user.getLogin()).toLowerCase();
             String role = safe(user.getRole());
+            String status = safe(user.getStatus());
 
             boolean matchesSearch =
                     name.contains(search) || login.contains(search);
@@ -325,7 +335,10 @@ public class AdminviewController {
             boolean matchesRole =
                     selectedRole.equals("All") || role.equalsIgnoreCase(selectedRole);
 
-            return matchesSearch && matchesRole;
+            boolean matchesStatus =
+                    selectedStatus.equals("All") || status.equalsIgnoreCase(selectedStatus);
+
+            return matchesSearch && matchesRole && matchesStatus;
         });
     }
 
@@ -382,6 +395,7 @@ public class AdminviewController {
         adminNameLabel.setText(user.getName());
         adminRoleLabel.setText(user.getRole());
     }
+
     private void showUserDetailsDialog(User user) {
 
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -453,12 +467,12 @@ public class AdminviewController {
                 user.setRole(roleBox.getValue());
                 user.setStatus(statusBox.getValue());
 
-                userDAO.updateUser(user);
+                userManager.updateUser(user);
 
                 String newPassword = txtNewPassword.getText().trim();
 
                 if (!newPassword.isEmpty()) {
-                    userDAO.updateUserPassword(user.getId(), newPassword);
+                    userManager.updateUserPassword(user.getId(), newPassword);
                 }
 
                 showUsers();
@@ -490,7 +504,7 @@ public class AdminviewController {
 
                 confirm.showAndWait().ifPresent(confirmResult -> {
                     if (confirmResult == ButtonType.OK) {
-                        userDAO.deleteUser(user.getId());
+                        userManager.deleteUser(user.getId());
                         showUsers();
                     }
                 });
