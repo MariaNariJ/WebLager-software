@@ -296,6 +296,8 @@ Error color:                 #FF3D32
     -fx-font-weight: 700;
 }
 
+
+
 .file-list-button {
     -fx-background-color: transparent;
     -fx-padding: 4 0 4 0;
@@ -490,10 +492,61 @@ Error color:                 #FF3D32
     -fx-pref-height: 65px;
     -fx-min-height: 65px;
     -fx-alignment: center;
+    -fx-padding: 8 4 8 4;
 }
 
 .toolbar-button:hover {
     -fx-text-fill: #008FF7;
+}
+
+.rotation-indicator {
+
+    -fx-text-fill: #D6E0EA;
+
+    -fx-font-size: 13px;
+
+    -fx-font-family: "Montserrat";
+
+    -fx-font-weight: 700;
+
+    -fx-padding: 2 0 6 0;
+}
+
+/* Toolbar graphic labels */
+
+.toolbar-icon {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+    -fx-font-family: "Montserrat";
+}
+
+.toolbar-label {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+    -fx-font-family: "Montserrat";
+}
+
+.toolbar-keybind {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+    -fx-font-family: "Montserrat";
+}
+
+/* Hover color for toolbar labels */
+
+.toolbar-button:hover .toolbar-icon,
+.toolbar-button:hover .toolbar-label,
+.toolbar-button:hover .toolbar-keybind {
+
+    -fx-text-fill: #008FF7;
+}
+.rotation-indicator {
+    -fx-text-fill: #008FF7;
+    -fx-font-size: 12px;
+    -fx-font-family: "Montserrat";
+    -fx-font-weight: 700;
+
+    -fx-padding: 2 0 6 0;
 }
 
 /* TABS */
