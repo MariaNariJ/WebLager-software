@@ -1272,9 +1272,7 @@ Error color:                 #FF3D32
 .export-text-field {
     -fx-padding: 10;
 }
-/* =========================
-   ADMIN USER DIALOGS
-========================= */
+/*ADMIN USER DIALOGS */
 
 .admin-dialog {
     -fx-background-color: #354556;
@@ -1334,3 +1332,55 @@ Error color:                 #FF3D32
 .admin-dialog .destructive-action:hover {
     -fx-background-color: #EF4444;
 }
+
+/* Shortcut Overlay */
+
+.shortcut-popup {
+    -fx-background-color: #32465a;
+    -fx-background-radius: 16;
+
+    -fx-border-color: #3ea6ff;
+    -fx-border-radius: 16;
+    -fx-border-width: 1.5;
+
+    -fx-padding: 22;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.45),
+            24,
+            0.3,
+            0,
+            4
+    );
+}
+
+.shortcut-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.shortcut-row {
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 20;
+}
+
+.shortcut-row Label {
+    -fx-text-fill: #dce6f2;
+    -fx-font-size: 14px;
+}
+
+.shortcut-key {
+    -fx-background-color: #42576d;
+    -fx-background-radius: 8;
+
+    -fx-padding: 6 12 6 12;
+
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+    -fx-min-width: 100;
+    -fx-alignment: CENTER;
+}
+

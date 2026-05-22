@@ -526,5 +526,96 @@
         <!-- SIDEBAR HOVER TRIGGER -->
         <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefWidth="20" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
+        <!-- GLOBAL SHORTCUT OVERLAY -->
+        <StackPane fx:id="shortcutOverlay"
+                   visible="false"
+                   managed="false"
+                   alignment="CENTER"
+                   AnchorPane.topAnchor="0.0"
+                   AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0">
+
+            <!-- Background dim -->
+            <Pane style="-fx-background-color: rgba(0,0,0,0.25);" />
+
+            <!-- Popup -->
+            <VBox spacing="12"
+                  alignment="TOP_CENTER"
+                  maxWidth="700"
+                  prefWidth="700"
+                  maxHeight="420"
+                  styleClass="shortcut-popup">
+
+                <Label text="Keyboard Shortcuts"
+                       styleClass="shortcut-title"/>
+
+            <HBox spacing="40" alignment="TOP_CENTER">
+
+                <!-- LEFT COLUMN -->
+                <VBox spacing="8">
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="I"
+                               styleClass="shortcut-key"/>
+                        <Label text="Toggle Shortcut Help"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="Q / Ctrl+Q"
+                               styleClass="shortcut-key"/>
+                        <Label text="Rotate Left"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="E / Ctrl+E"
+                               styleClass="shortcut-key"/>
+                        <Label text="Rotate Right"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="R"
+                               styleClass="shortcut-key"/>
+                        <Label text="Reset Rotation"/>
+                    </HBox>
+
+                </VBox>
+
+                <!-- RIGHT COLUMN -->
+                <VBox spacing="8">
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="0"
+                               styleClass="shortcut-key"/>
+                        <Label text="Reset Zoom"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="F"
+                               styleClass="shortcut-key"/>
+                        <Label text="Fit Width"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="D"
+                               styleClass="shortcut-key"/>
+                        <Label text="Next File"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="A"
+                               styleClass="shortcut-key"/>
+                        <Label text="Previous File"/>
+                    </HBox>
+
+                </VBox>
+
+            </HBox>
+
+            </VBox>
+
+        </StackPane>
+
+
     </children>
 </AnchorPane>

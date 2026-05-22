@@ -80,6 +80,8 @@ public class UserviewController {
     @FXML
     private Label zoomLabel;
     @FXML
+    private StackPane shortcutOverlay;
+    @FXML
     private Button btnFetchFiles;
     @FXML
     private TextField txtClient;
@@ -128,6 +130,7 @@ public class UserviewController {
     @FXML
     private Button themeToggleButton;
     private boolean lightMode = false;
+    private boolean shortcutVisible = false;
     private static final String DARK_CSS = "/dk/easv/gui/app.css";
     private static final String LIGHT_CSS = "/dk/easv/gui/lightmode.css";
 
@@ -190,6 +193,14 @@ public class UserviewController {
         refreshFileList();
     }
 
+    private void toggleShortcutOverlay() {
+
+        shortcutVisible = !shortcutVisible;
+
+        shortcutOverlay.setVisible(shortcutVisible);
+        shortcutOverlay.setManaged(shortcutVisible);
+    }
+
     private void refreshFileList() {
         if (scannedPages == null) return;
 
@@ -230,10 +241,14 @@ public class UserviewController {
         keyBindings.put("e", this::onRotateRight);
         keyBindings.put("r", this::onResetRotation);
 
+        keyBindings.put("i", this::toggleShortcutOverlay);
+
         keyBindings.put("f", this::onFitToWidth);
 
         keyBindings.put("d", this::onNextFile);
         keyBindings.put("a", this::onPreviousFile);
+
+        keyBindings.put("l", this::onSidebarLockClicked);
 
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());
@@ -976,6 +991,8 @@ public class UserviewController {
         transition.setToX(0);
         transition.play();
     }
+
+    //Sidebar
 
     @FXML
     private void onSidebarLockClicked() {
