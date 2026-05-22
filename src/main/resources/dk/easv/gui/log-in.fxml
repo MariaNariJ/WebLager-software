@@ -112,7 +112,7 @@
 
                         <VBox alignment="CENTER" spacing="0.0">
                             <children>
-                                <Label styleClass="version-label" text="Version 1.0.0"/>
+                                <Label styleClass="version-label" text="Version 6.7"/>
                             </children>
                         </VBox>
                     </children>

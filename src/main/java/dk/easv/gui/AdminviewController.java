@@ -1,9 +1,7 @@
 package dk.easv.gui;
 
-import dk.easv.be.Client;
 import dk.easv.be.User;
-import dk.easv.dal.dao.ClientDAO;
-import dk.easv.dal.dao.UserDAO;
+import dk.easv.bll.UserManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -15,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class AdminviewController {
 
@@ -25,7 +24,6 @@ public class AdminviewController {
 
     @FXML private Label adminTitleLabel;
     @FXML private Label adminSubtitleLabel;
-
     @FXML private VBox adminContentArea;
 
     @FXML private Label adminNameLabel;
@@ -33,7 +31,7 @@ public class AdminviewController {
 
     private User loggedInUser;
 
-    private final UserDAO userDAO = new UserDAO();
+    private final UserManager userManager = new UserManager();
 
     @FXML
     private void initialize() {
@@ -82,13 +80,19 @@ public class AdminviewController {
         roleFilter.getStyleClass().add("dark-combo");
         roleFilter.setPrefWidth(120);
 
+        ComboBox<String> statusFilter = new ComboBox<>();
+        statusFilter.getItems().addAll("Active", "Inactive", "All");
+        statusFilter.setValue("Active");
+        statusFilter.getStyleClass().add("dark-combo");
+        statusFilter.setPrefWidth(120);
+
         Button btnCreate = new Button("+ Create User");
         btnCreate.getStyleClass().add("primary-action");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        topBar.getChildren().addAll(searchField, roleFilter, spacer, btnCreate);
+        topBar.getChildren().addAll(searchField, roleFilter, statusFilter, spacer, btnCreate);
 
         TableView<User> userTable = new TableView<>();
         userTable.setPrefHeight(650);
@@ -112,36 +116,87 @@ public class AdminviewController {
         );
         loginCol.setPrefWidth(320);
 
-        userTable.getColumns().addAll(nameCol, roleCol, loginCol);
+        TableColumn<User, String> statusCol = new TableColumn<>("Status");
+        statusCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getStatus()))
+        );
+        statusCol.setPrefWidth(160);
+
+        userTable.getColumns().addAll(nameCol, roleCol, loginCol, statusCol);
 
         FilteredList<User> filteredUsers = new FilteredList<>(
-                FXCollections.observableArrayList(userDAO.getAllUsers()),
+                FXCollections.observableArrayList(userManager.getAllUsers()),
                 p -> true
         );
 
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            applyUserFilter(filteredUsers, searchField, roleFilter);
-        });
+        searchField.textProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
 
-        roleFilter.valueProperty().addListener((obs, oldVal, newVal) -> {
-            applyUserFilter(filteredUsers, searchField, roleFilter);
-        });
+        roleFilter.valueProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
+
+        statusFilter.valueProperty().addListener((obs, oldVal, newVal) ->
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter)
+        );
+
+        applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
 
         userTable.setItems(filteredUsers);
+
         userTable.setRowFactory(tableView -> {
             TableRow<User> row = new TableRow<>();
 
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem setActive = new MenuItem("Set as Active");
+            MenuItem setInactive = new MenuItem("Set as Inactive");
+
+            setActive.setOnAction(event -> {
+                User selectedUser = row.getItem();
+
+                if (selectedUser == null) {
+                    return;
+                }
+
+                userManager.updateUserStatus(selectedUser.getId(), "Active");
+                selectedUser.setStatus("Active");
+                userTable.refresh();
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
+            });
+
+            setInactive.setOnAction(event -> {
+                User selectedUser = row.getItem();
+
+                if (selectedUser == null) {
+                    return;
+                }
+
+                userManager.updateUserStatus(selectedUser.getId(), "Inactive");
+                selectedUser.setStatus("Inactive");
+                userTable.refresh();
+                applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
+            });
+
+            contextMenu.getItems().addAll(setActive, setInactive);
+
+            row.contextMenuProperty().bind(
+                    javafx.beans.binding.Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu)
+            );
+
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
-                    User selectedUser = row.getItem();
-                    showUserDetailsDialog(selectedUser);
+                    showUserDetailsDialog(row.getItem());
                 }
             });
 
             return row;
         });
 
-        btnCreate.setOnAction(e -> showCreateUserDialog(userTable));
+        btnCreate.setOnAction(e -> showCreateUserDialog());
 
         wrapper.getChildren().addAll(topBar, userTable);
         VBox.setVgrow(userTable, Priority.ALWAYS);
@@ -149,7 +204,7 @@ public class AdminviewController {
         adminContentArea.getChildren().add(wrapper);
     }
 
-    private void showCreateUserDialog(TableView<User> userTable) {
+    private void showCreateUserDialog() {
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Create User");
@@ -207,13 +262,8 @@ public class AdminviewController {
                     return;
                 }
 
-                userDAO.createUser(name, login, password, role);
-
-                userTable.setItems(
-                        FXCollections.observableArrayList(
-                                userDAO.getAllUsers()
-                        )
-                );
+                userManager.createUser(name, login, password, role);
+                showUsers();
             }
         });
     }
@@ -262,19 +312,22 @@ public class AdminviewController {
 
     private void applyUserFilter(FilteredList<User> filteredUsers,
                                  TextField searchField,
-                                 ComboBox<String> roleFilter) {
+                                 ComboBox<String> roleFilter,
+                                 ComboBox<String> statusFilter) {
 
         String search = searchField.getText() == null
                 ? ""
                 : searchField.getText().toLowerCase();
 
         String selectedRole = roleFilter.getValue();
+        String selectedStatus = statusFilter.getValue();
 
         filteredUsers.setPredicate(user -> {
 
             String name = safe(user.getName()).toLowerCase();
             String login = safe(user.getLogin()).toLowerCase();
             String role = safe(user.getRole());
+            String status = safe(user.getStatus());
 
             boolean matchesSearch =
                     name.contains(search) || login.contains(search);
@@ -282,7 +335,10 @@ public class AdminviewController {
             boolean matchesRole =
                     selectedRole.equals("All") || role.equalsIgnoreCase(selectedRole);
 
-            return matchesSearch && matchesRole;
+            boolean matchesStatus =
+                    selectedStatus.equals("All") || status.equalsIgnoreCase(selectedStatus);
+
+            return matchesSearch && matchesRole && matchesStatus;
         });
     }
 
@@ -339,10 +395,11 @@ public class AdminviewController {
         adminNameLabel.setText(user.getName());
         adminRoleLabel.setText(user.getRole());
     }
+
     private void showUserDetailsDialog(User user) {
 
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("User Details");
+        dialog.initStyle(StageStyle.UNDECORATED);
 
         DialogPane dialogPane = dialog.getDialogPane();
 
@@ -350,34 +407,108 @@ public class AdminviewController {
                 getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
         );
 
-        dialogPane.getStyleClass().add("custom-dialog");
+        dialogPane.getStyleClass().add("admin-dialog");
 
-        dialogPane.setPrefWidth(500);
-        dialogPane.setPrefHeight(350);
+        dialogPane.setPrefWidth(360);
+        dialogPane.setPrefHeight(330);
 
-        VBox content = new VBox(18);
+        TextField txtName = new TextField(user.getName());
+        txtName.getStyleClass().add("dark-field");
 
-        content.setPrefWidth(450);
-        content.setStyle("-fx-padding: 20;");
+        TextField txtLogin = new TextField(user.getLogin());
+        txtLogin.getStyleClass().add("dark-field");
 
-        Label title = createTitle("User details");
+        ComboBox<String> roleBox = new ComboBox<>();
+        roleBox.getItems().addAll("User", "Admin");
+        roleBox.setValue(user.getRole());
+        roleBox.getStyleClass().add("dark-combo");
+        roleBox.setMaxWidth(Double.MAX_VALUE);
 
-        Separator separator = new Separator();
+        ComboBox<String> statusBox = new ComboBox<>();
+        statusBox.getItems().addAll("Active", "Inactive");
+        statusBox.setValue(user.getStatus());
+        statusBox.getStyleClass().add("dark-combo");
+        statusBox.setMaxWidth(Double.MAX_VALUE);
 
-        VBox infoBox = new VBox(14);
+        PasswordField txtNewPassword = new PasswordField();
+        txtNewPassword.setPromptText("New password - leave empty to keep current");
+        txtNewPassword.getStyleClass().add("dark-field");
 
-        Label name = createText("Name: " + safe(user.getName()));
-        Label role = createText("Role: " + safe(user.getRole()));
-        Label login = createText("Login: " + safe(user.getLogin()));
-        infoBox.getChildren().addAll(name, role, login);
+        ButtonType deleteButtonType = new ButtonType("Delete User", ButtonBar.ButtonData.LEFT);
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+
+        dialogPane.getButtonTypes().addAll(deleteButtonType, ButtonType.CLOSE, updateButtonType);
+
+        VBox content = new VBox(12);
+        content.setPrefWidth(320);
+        content.setStyle("-fx-padding: 18;");
+
         content.getChildren().addAll(
-                title,
-                separator,
-                infoBox
+                createTitle("User details"),
+                createText("Edit user information or reset the password."),
+                txtName,
+                txtLogin,
+                roleBox,
+                statusBox,
+                txtNewPassword
         );
-        dialogPane.setContent(content);
-        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
-        dialog.showAndWait();
-    }
 
+        dialogPane.setContent(content);
+
+        Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
+        deleteButton.getStyleClass().add("destructive-action");
+
+        dialog.showAndWait().ifPresent(result -> {
+
+            if (result == updateButtonType) {
+
+                user.setName(txtName.getText().trim());
+                user.setLogin(txtLogin.getText().trim());
+                user.setRole(roleBox.getValue());
+                user.setStatus(statusBox.getValue());
+
+                userManager.updateUser(user);
+
+                String newPassword = txtNewPassword.getText().trim();
+
+                if (!newPassword.isEmpty()) {
+                    userManager.updateUserPassword(user.getId(), newPassword);
+                }
+
+                showUsers();
+            }
+
+            if (result == deleteButtonType) {
+
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.initStyle(StageStyle.UNDECORATED);
+                confirm.setGraphic(null);
+                confirm.setHeaderText("Are you sure?");
+                confirm.setContentText("This will permanently delete " + user.getName() + ".");
+
+                DialogPane confirmPane = confirm.getDialogPane();
+
+                confirmPane.getStylesheets().add(
+                        getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                );
+
+                confirmPane.getStyleClass().add("admin-dialog");
+                confirmPane.setPrefWidth(380);
+
+                Button okButton = (Button) confirmPane.lookupButton(ButtonType.OK);
+                okButton.setText("Delete");
+                okButton.getStyleClass().add("destructive-action");
+
+                Button cancelButton = (Button) confirmPane.lookupButton(ButtonType.CANCEL);
+                cancelButton.setText("Cancel");
+
+                confirm.showAndWait().ifPresent(confirmResult -> {
+                    if (confirmResult == ButtonType.OK) {
+                        userManager.deleteUser(user.getId());
+                        showUsers();
+                    }
+                });
+            }
+        });
+    }
 }

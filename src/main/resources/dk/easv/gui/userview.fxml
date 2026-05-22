@@ -106,6 +106,8 @@
                                     <Label styleClass="blue-text" text="File 1 of 45" />
                                     <Label styleClass="muted-text" text="(Ref: 1)" />
                                     <Region HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="rotationIndicator" styleClass="rotation-indicator" text="0°"/>
+                                    <Region HBox.hgrow="ALWAYS" />
                                     <Button onAction="#onZoomOut" styleClass="small-button" text="−" />
                                     <Label fx:id="zoomLabel" styleClass="section-title" text="100%" />
                                     <Button onAction="#onZoomIn" styleClass="small-button" text="+" />
@@ -140,15 +142,176 @@
 
                                 </ScrollPane>
 
-                <!-- TOOLBAR -->
-                <HBox alignment="CENTER" spacing="20" styleClass="toolbar-card" prefHeight="80" minHeight="80" maxHeight="80">
-                    <Button onAction="#onRotateLeft" styleClass="toolbar-button" text="↺&#10;Rotate Left&#10;(Q)" />
-                    <Button onAction="#onRotateRight" styleClass="toolbar-button" text="↻&#10;Rotate Right&#10;(E)" />
-                    <Button onAction="#onFitToWidth" styleClass="toolbar-button" text="↔&#10;Fit Width" />
-                    <Button onAction="#onResetZoom" styleClass="toolbar-button" text="▣&#10;Reset Zoom" />
-                    <Button onAction="#onNextFile" styleClass="toolbar-button" text="→&#10;Next File&#10;(D)" />
-                    <Button onAction="#onPreviousFile" styleClass="toolbar-button" text="←&#10;Previous File&#10;(A)" />
-                </HBox>
+                                <!-- TOOLBAR -->
+                                <HBox alignment="CENTER"
+                                      spacing="2"
+                                      prefHeight="105"
+                                      minHeight="105"
+                                      maxHeight="105"
+                                      styleClass="toolbar-card">
+
+                                    <!-- Rotate Left -->
+                                    <Button onAction="#onRotateLeft"
+                                            styleClass="toolbar-button"
+                                            prefWidth="110"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="↺"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Rotate Left"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(Q or Crtl+Q)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Rotate Right -->
+                                    <Button onAction="#onRotateRight"
+                                            styleClass="toolbar-button"
+                                            prefWidth="110"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="↻"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Rotate Right"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(E or Crtl+E)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Reset Rotation -->
+                                    <Button onAction="#onResetRotation"
+                                            styleClass="toolbar-button"
+                                            prefWidth="125"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="⟲"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Reset Rotation"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(R)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Reset Zoom -->
+                                    <Button onAction="#onResetZoom"
+                                            styleClass="toolbar-button"
+                                            prefWidth="115"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="▣"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Reset Zoom"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(0)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Fit Width -->
+                                    <Button onAction="#onFitToWidth"
+                                            styleClass="toolbar-button"
+                                            prefWidth="110"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="↔"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Fit Width"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(F)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Next File -->
+                                    <Button onAction="#onNextFile"
+                                            styleClass="toolbar-button"
+                                            prefWidth="105"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="→"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Next File"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(D)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                    <!-- Previous File -->
+                                    <Button onAction="#onPreviousFile"
+                                            styleClass="toolbar-button"
+                                            prefWidth="120"
+                                            prefHeight="80">
+
+                                        <graphic>
+                                            <VBox alignment="CENTER" spacing="2">
+
+                                                <Label text="←"
+                                                       styleClass="toolbar-icon"/>
+
+                                                <Label text="Previous File"
+                                                       styleClass="toolbar-label"/>
+
+                                                <Label text="(A)"
+                                                       styleClass="toolbar-keybind"/>
+
+                                            </VBox>
+                                        </graphic>
+
+                                    </Button>
+
+                                </HBox>
 
                             </children>
                         </VBox>

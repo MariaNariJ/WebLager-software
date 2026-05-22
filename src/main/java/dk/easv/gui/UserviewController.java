@@ -218,6 +218,7 @@ public class UserviewController {
     private final double MAX_ZOOM = 4.0;
 
     private double rotationAngle = 0;
+    private final double GRANULAR_ROTATION_STEP = 1;
 
     private boolean sidebarVisible = true;
     private boolean sidebarLocked = true;
@@ -230,10 +231,15 @@ public class UserviewController {
         keyBindings.put("+", this::onZoomIn);
         keyBindings.put("-", this::onZoomOut);
         keyBindings.put("0", this::onResetZoom);
-        keyBindings.put("d", this::onNextFile);
-        keyBindings.put("a", this::onPreviousFile);
+
         keyBindings.put("q", this::onRotateLeft);
         keyBindings.put("e", this::onRotateRight);
+        keyBindings.put("r", this::onResetRotation);
+
+        keyBindings.put("f", this::onFitToWidth);
+
+        keyBindings.put("d", this::onNextFile);
+        keyBindings.put("a", this::onPreviousFile);
 
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
         sidebar.setOnMouseExited(e -> hideSidebar());
@@ -273,7 +279,23 @@ public class UserviewController {
 
                 String key = event.getText().toLowerCase();
 
+                // Granular rotation with CTRL
+                if (event.isControlDown()) {
+
+                    if (key.equals("q")) {
+                        rotateGranularLeft();
+                        return;
+                    }
+
+                    if (key.equals("e")) {
+                        rotateGranularRight();
+                        return;
+                    }
+                }
+
+                // Normal keybindings
                 Runnable action = keyBindings.get(key);
+
                 if (action != null) {
                     action.run();
                 }
@@ -398,19 +420,69 @@ public class UserviewController {
     // ROTATION
     @FXML
     private void onRotateLeft() {
+
         rotationAngle -= 90;
+
         normalizeRotation();
 
+        updateRotationIndicator();
+
         saveRotation();
+
         updateZoom();
     }
 
     @FXML
     private void onRotateRight() {
+
         rotationAngle += 90;
+
         normalizeRotation();
 
+        updateRotationIndicator();
+
         saveRotation();
+
+        updateZoom();
+    }
+
+    @FXML
+    private void onResetRotation() {
+
+        rotationAngle = 0;
+
+        updateRotationIndicator();
+
+        saveRotation();
+
+        updateZoom();
+    }
+
+    @FXML
+    private void rotateGranularLeft() {
+
+        rotationAngle -= GRANULAR_ROTATION_STEP;
+
+        normalizeRotation();
+
+        updateRotationIndicator();
+
+        saveRotation();
+
+        updateZoom();
+    }
+
+    @FXML
+    private void rotateGranularRight() {
+
+        rotationAngle += GRANULAR_ROTATION_STEP;
+
+        normalizeRotation();
+
+        updateRotationIndicator();
+
+        saveRotation();
+
         updateZoom();
     }
 
@@ -426,6 +498,20 @@ public class UserviewController {
             // Persist to DB
             fileManager.updatePageRotation(page);
         }
+    }
+
+    @FXML
+    private Label rotationIndicator;
+
+    private void updateRotationIndicator() {
+
+        double displayAngle = rotationAngle;
+
+        if (displayAngle > 180) {
+            displayAngle -= 360;
+        }
+
+        rotationIndicator.setText((int) displayAngle + "°");
     }
 
     // NAVIGATION
@@ -960,7 +1046,27 @@ public class UserviewController {
         }
     }
 
+    @FXML
     public void onFitToWidth(ActionEvent actionEvent) {
+        fitToWidth();
+    }
+
+    private void onFitToWidth() {
+        fitToWidth();
+    }
+
+    private void fitToWidth() {
+
+        if (currentImage == null) return;
+
+        double viewportWidth =
+                previewScrollPane.getViewportBounds().getWidth();
+
+        double imageWidth = currentImage.getWidth();
+
+        zoomLevel = viewportWidth / imageWidth;
+
+        updateZoom();
     }
 
     private void updateViewingStatus() {
