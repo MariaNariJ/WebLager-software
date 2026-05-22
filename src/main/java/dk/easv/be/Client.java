@@ -8,16 +8,19 @@ public class Client {
     private String name;
     private int profilesCount;
     private Timestamp lastUpdated;
+    private String status;
 
     public Client(int clientId,
                   String name,
                   int profilesCount,
-                  Timestamp lastUpdated) {
+                  Timestamp lastUpdated,
+                  String status) {
 
         this.clientId = clientId;
         this.name = name;
         this.profilesCount = profilesCount;
         this.lastUpdated = lastUpdated;
+        this.status = status;
     }
 
     public int getClientId() {
@@ -34,5 +37,12 @@ public class Client {
 
     public Timestamp getLastUpdated() {
         return lastUpdated;
+    }
+
+    public String getStatus() {
+         return status;}
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

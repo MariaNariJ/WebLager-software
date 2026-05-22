@@ -20,7 +20,8 @@ public class ClientDAO {
         SELECT client_id,
         name,
         profiles_count,
-        last_updated
+        last_updated,
+        status
         FROM Clients
         ORDER BY name
         """;
@@ -34,7 +35,8 @@ public class ClientDAO {
                         rs.getInt("client_id"),
                         rs.getString("name"),
                         rs.getInt("profiles_count"),
-                        rs.getTimestamp("last_updated")
+                        rs.getTimestamp("last_updated"),
+                        rs.getString("status")
                 ));
             }
 
@@ -46,16 +48,34 @@ public class ClientDAO {
         return clients;
     }
     public void createClient(String name) {
-        String sql = "INSERT INTO Clients (name, profiles_count, last_updated) VALUES (?, 0, GETDATE())";
+        String sql = "INSERT INTO Clients (name, profiles_count, last_updated, status) VALUES (?, 0, GETDATE(), ?)";
 
         try (Connection con = conMan.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, name);
+            ps.setString(2, "Active");
+
             ps.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("Failed creating client: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+    public void updateClientStatus(int clientId, String status) {
+        String sql = "UPDATE Clients SET status = ?, last_updated = GETDATE() WHERE client_id = ?";
+
+        try (Connection con = conMan.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, status);
+            ps.setInt(2, clientId);
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("Failed updating client status: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

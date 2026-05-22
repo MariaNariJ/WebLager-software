@@ -1,7 +1,7 @@
 package dk.easv.gui;
 
 import dk.easv.be.Client;
-import dk.easv.dal.dao.ClientDAO;
+import dk.easv.bll.ClientManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -15,7 +15,7 @@ public class AdminClientsController {
     @FXML
     private VBox clientsRoot;
 
-    private final ClientDAO clientDAO = new ClientDAO();
+    private final ClientManager clientManager = new ClientManager();
 
     @FXML
     private void initialize() {
@@ -36,13 +36,19 @@ public class AdminClientsController {
         searchField.getStyleClass().add("dark-field");
         searchField.setPrefWidth(300);
 
+        ComboBox<String> statusFilter = new ComboBox<>();
+        statusFilter.getItems().addAll("Active", "Inactive", "All");
+        statusFilter.setValue("Active");
+        statusFilter.getStyleClass().add("dark-combo");
+        statusFilter.setPrefWidth(120);
+
         Button btnCreateClient = new Button("+ Create Client");
         btnCreateClient.getStyleClass().add("primary-action");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        topBar.getChildren().addAll(searchField, spacer, btnCreateClient);
+        topBar.getChildren().addAll(searchField, statusFilter, spacer, btnCreateClient);
 
         TableView<Client> clientsTable = new TableView<>();
         clientsTable.setPrefHeight(650);
@@ -70,28 +76,80 @@ public class AdminClientsController {
         );
         lastUpdatedCol.setPrefWidth(220);
 
+        TableColumn<Client, String> statusCol = new TableColumn<>("Status");
+        statusCol.setCellValueFactory(data ->
+                new SimpleStringProperty(safe(data.getValue().getStatus()))
+        );
+        statusCol.setPrefWidth(160);
+
         clientsTable.getColumns().addAll(
                 clientNameCol,
                 profilesCol,
-                lastUpdatedCol
+                lastUpdatedCol,
+                statusCol
         );
 
         FilteredList<Client> filteredClients = new FilteredList<>(
-                FXCollections.observableArrayList(clientDAO.getAllClients()),
+                FXCollections.observableArrayList(clientManager.getAllClients()),
                 p -> true
         );
 
         searchField.textProperty().addListener((obs, oldValue, newValue) -> {
-            String search = newValue == null ? "" : newValue.toLowerCase();
-
-            filteredClients.setPredicate(client ->
-                    safe(client.getName()).toLowerCase().contains(search)
-            );
+            applyClientFilter(filteredClients, searchField, statusFilter);
         });
+
+        statusFilter.valueProperty().addListener((obs, oldValue, newValue) -> {
+            applyClientFilter(filteredClients, searchField, statusFilter);
+        });
+
+        applyClientFilter(filteredClients, searchField, statusFilter);
 
         clientsTable.setItems(filteredClients);
 
-        btnCreateClient.setOnAction(e -> showCreateClientDialog(clientsTable));
+        clientsTable.setRowFactory(tableView -> {
+            TableRow<Client> row = new TableRow<>();
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem setActive = new MenuItem("Set as Active");
+            MenuItem setInactive = new MenuItem("Set as Inactive");
+
+            setActive.setOnAction(event -> {
+                Client selectedClient = row.getItem();
+
+                if (selectedClient == null) {
+                    return;
+                }
+
+                clientManager.updateClientStatus(selectedClient.getClientId(), "Active");
+                selectedClient.setStatus("Active");
+                clientsTable.refresh();
+            });
+
+            setInactive.setOnAction(event -> {
+                Client selectedClient = row.getItem();
+
+                if (selectedClient == null) {
+                    return;
+                }
+
+                clientManager.updateClientStatus(selectedClient.getClientId(), "Inactive");
+                selectedClient.setStatus("Inactive");
+                clientsTable.refresh();
+            });
+
+            contextMenu.getItems().addAll(setActive, setInactive);
+
+            row.contextMenuProperty().bind(
+                    javafx.beans.binding.Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu)
+            );
+
+            return row;
+        });
+
+        btnCreateClient.setOnAction(e -> showCreateClientDialog());
 
         wrapper.getChildren().addAll(topBar, clientsTable);
         VBox.setVgrow(clientsTable, Priority.ALWAYS);
@@ -99,7 +157,7 @@ public class AdminClientsController {
         clientsRoot.getChildren().add(wrapper);
     }
 
-    private void showCreateClientDialog(TableView<Client> clientsTable) {
+    private void showCreateClientDialog() {
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Create Client");
@@ -140,13 +198,8 @@ public class AdminClientsController {
                     return;
                 }
 
-                clientDAO.createClient(clientName);
-
-                clientsTable.setItems(
-                        FXCollections.observableArrayList(
-                                clientDAO.getAllClients()
-                        )
-                );
+                clientManager.createClient(clientName);
+                showClients();
             }
         });
     }
@@ -165,5 +218,28 @@ public class AdminClientsController {
 
     private String safe(String value) {
         return value == null ? "" : value;
+    }
+
+    private void applyClientFilter(FilteredList<Client> filteredClients,
+                                   TextField searchField,
+                                   ComboBox<String> statusFilter) {
+
+        String search = searchField.getText() == null
+                ? ""
+                : searchField.getText().toLowerCase();
+
+        String selectedStatus = statusFilter.getValue();
+
+        filteredClients.setPredicate(client -> {
+
+            boolean matchesSearch =
+                    safe(client.getName()).toLowerCase().contains(search);
+
+            boolean matchesStatus =
+                    selectedStatus.equals("All")
+                            || safe(client.getStatus()).equalsIgnoreCase(selectedStatus);
+
+            return matchesSearch && matchesStatus;
+        });
     }
 }

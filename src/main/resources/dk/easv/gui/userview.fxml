@@ -88,7 +88,7 @@
                                     <Button fx:id="btnSaveasDocument"
                                             onAction="#onSaveasDocumentClicked"
                                             styleClass="primary-action"
-                                            text="Save as Document"
+                                            text="Save Document"
                                             prefWidth="170"/>
 
                                 </HBox>
