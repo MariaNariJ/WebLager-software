@@ -11,7 +11,7 @@
       alignment="TOP_LEFT"
       prefWidth="340"
       prefHeight="180"
-      stylesheets="@app.css"
+      stylesheets="@css/app.css,@css/userview.css"
       styleClass="profile-popup"
       xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -37,6 +37,7 @@
                styleClass="field-label-dark"/>
 
         <TextField fx:id="txtDocumentName"
+                   styleClass="dark-field"
                    promptText="Document 1"/>
     </VBox>
 

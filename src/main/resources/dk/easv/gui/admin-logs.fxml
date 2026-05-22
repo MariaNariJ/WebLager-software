@@ -8,7 +8,8 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
+            stylesheets="@css/app.css,@css/admin.css"
+            fx:controller="dk.easv.gui.AdminLogsController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

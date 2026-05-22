@@ -137,8 +137,8 @@ public class UserviewController {
     private Button themeToggleButton;
     private boolean lightMode = false;
     private boolean shortcutVisible = false;
-    private static final String DARK_CSS = "/dk/easv/gui/app.css";
-    private static final String LIGHT_CSS = "/dk/easv/gui/lightmode.css";
+    private static final String DARK_CSS = "/dk/easv/gui/css/app.css";
+    private static final String LIGHT_CSS = "/dk/easv/gui/css/lightmode.css";
 
     @FXML
     private void onThemeToggleClicked() {

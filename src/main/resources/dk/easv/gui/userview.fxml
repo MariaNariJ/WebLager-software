@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.shape.Circle?>
-<AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
+<AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@css/app.css,@css/userview.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
 

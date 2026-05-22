@@ -173,7 +173,11 @@ public class AdminClientsController {
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(
-                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
+        );
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
         );
 
         dialogPane.getStyleClass().add("custom-dialog");
@@ -196,6 +200,12 @@ public class AdminClientsController {
                 new ButtonType("Create Client", ButtonBar.ButtonData.OK_DONE);
 
         dialogPane.getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+        Button createButton = (Button) dialogPane.lookupButton(createButtonType);
+        createButton.getStyleClass().add("dialog-primary-button");
+
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.getStyleClass().add("dialog-secondary-button");
 
         dialog.showAndWait().ifPresent(result -> {
             if (result == createButtonType) {
@@ -292,9 +302,13 @@ public class AdminClientsController {
             DialogPane confirmPane = confirm.getDialogPane();
 
             confirmPane.getStylesheets().add(
-                    getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                    getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
             );
 
+
+            confirmPane.getStylesheets().add(
+                    getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
+            );
             confirmPane.getStyleClass().add("admin-dialog");
 
             Button okButton = (Button) confirmPane.lookupButton(ButtonType.OK);
@@ -303,6 +317,7 @@ public class AdminClientsController {
 
             Button cancelButton = (Button) confirmPane.lookupButton(ButtonType.CANCEL);
             cancelButton.setText("Cancel");
+            cancelButton.getStyleClass().add("dialog-secondary-button");
 
             confirm.showAndWait().ifPresent(result -> {
                 if (result == ButtonType.OK) {
@@ -355,7 +370,11 @@ public class AdminClientsController {
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(
-                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
+        );
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
         );
 
         dialogPane.getStyleClass().add("custom-dialog");
@@ -385,6 +404,12 @@ public class AdminClientsController {
 
         dialogPane.getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
 
+        Button createButton = (Button) dialogPane.lookupButton(createButtonType);
+        createButton.getStyleClass().add("dialog-primary-button");
+
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.getStyleClass().add("dialog-secondary-button");
+
         dialog.showAndWait().ifPresent(result -> {
             if (result == createButtonType) {
 
@@ -408,7 +433,11 @@ public class AdminClientsController {
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(
-                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
+        );
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
         );
 
         dialogPane.getStyleClass().add("custom-dialog");
@@ -445,6 +474,12 @@ public class AdminClientsController {
 
         Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
         deleteButton.getStyleClass().add("destructive-action");
+
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.getStyleClass().add("dialog-secondary-button");
+
+        Button updateButton = (Button) dialogPane.lookupButton(updateButtonType);
+        updateButton.getStyleClass().add("dialog-primary-button");
 
         dialog.showAndWait().ifPresent(result -> {
 

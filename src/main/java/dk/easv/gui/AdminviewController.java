@@ -212,9 +212,13 @@ public class AdminviewController {
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(
-                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
         );
 
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
+        );
         dialogPane.getStyleClass().add("custom-dialog");
 
         TextField txtName = new TextField();
@@ -404,9 +408,13 @@ public class AdminviewController {
         DialogPane dialogPane = dialog.getDialogPane();
 
         dialogPane.getStylesheets().add(
-                getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
         );
 
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
+        );
         dialogPane.getStyleClass().add("admin-dialog");
 
         dialogPane.setPrefWidth(360);
@@ -458,6 +466,12 @@ public class AdminviewController {
         Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
         deleteButton.getStyleClass().add("destructive-action");
 
+        Button closeButton = (Button) dialogPane.lookupButton(ButtonType.CLOSE);
+        closeButton.getStyleClass().add("dialog-secondary-button");
+
+        Button updateButton = (Button) dialogPane.lookupButton(updateButtonType);
+        updateButton.getStyleClass().add("dialog-primary-button");
+
         dialog.showAndWait().ifPresent(result -> {
 
             if (result == updateButtonType) {
@@ -489,9 +503,13 @@ public class AdminviewController {
                 DialogPane confirmPane = confirm.getDialogPane();
 
                 confirmPane.getStylesheets().add(
-                        getClass().getResource("/dk/easv/gui/app.css").toExternalForm()
+                        getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
                 );
 
+
+                confirmPane.getStylesheets().add(
+                        getClass().getResource("/dk/easv/gui/css/admin.css").toExternalForm()
+                );
                 confirmPane.getStyleClass().add("admin-dialog");
                 confirmPane.setPrefWidth(380);
 

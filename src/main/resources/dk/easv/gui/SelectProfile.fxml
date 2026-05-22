@@ -14,7 +14,7 @@
       prefWidth="440"
       prefHeight="500"
       alignment="TOP_LEFT"
-      stylesheets="@app.css"
+      stylesheets="@css/app.css,@css/userview.css"
       styleClass="profile-popup"
       fx:controller="dk.easv.gui.SelectProfileController"
       xmlns="http://javafx.com/javafx/25"
