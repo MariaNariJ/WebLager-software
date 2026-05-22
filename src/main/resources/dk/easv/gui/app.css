@@ -1334,3 +1334,41 @@ Error color:                 #FF3D32
 .admin-dialog .destructive-action:hover {
     -fx-background-color: #EF4444;
 }
+.admin-profile-card {
+    -fx-background-color: #2D3D4F;
+    -fx-background-radius: 10;
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 10;
+    -fx-padding: 14;
+    -fx-cursor: hand;
+}
+
+.admin-profile-card:hover {
+    -fx-background-color: #3A4F66;
+}
+
+.admin-profile-title {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+}
+
+.admin-profile-description {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+}
+.destructive-action {
+    -fx-background-color: #FF3D32;
+    -fx-text-fill: white;
+    -fx-background-radius: 7;
+    -fx-font-weight: 800;
+    -fx-font-size: 13px;
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-padding: 0 14 0 14;
+    -fx-cursor: hand;
+}
+
+.destructive-action:hover {
+    -fx-background-color: #EF4444;
+}
