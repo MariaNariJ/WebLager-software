@@ -41,4 +41,9 @@ public class ClientManager {
     public void deleteProfile(int profileId, int clientId) {
         clientDAO.deleteProfile(profileId, clientId);
     }
+
+    public List<String> getAllActiveClientNames() {
+
+        return clientDAO.getAllClientNames();
+    }
 }

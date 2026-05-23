@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.Region?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
 <VBox spacing="10"
       prefWidth="440"
       prefHeight="500"
@@ -38,6 +39,20 @@
 
     </VBox>
 
+    <!-- CLIENT -->
+
+    <VBox spacing="14">
+
+        <Label text="Client"
+               styleClass="field-label-dark"/>
+
+        <ComboBox fx:id="clientComboBox"
+                  editable="true"
+                  promptText="Search client..."
+                  styleClass="combo-dark"
+                  prefWidth="420"/>
+    </VBox>
+
     <!-- BOX -->
 
     <VBox spacing="6">
@@ -52,21 +67,18 @@
 
     </VBox>
 
-    <!-- CLIENT -->
+    <Region prefHeight="10"/>
 
-    <VBox spacing="14">
+    <VBox spacing="6">
 
-        <Label text="Client"
+        <Label text="Profile"
                styleClass="field-label-dark"/>
 
-        <TextField fx:id="txtClient"
-                   editable="false"
-                   focusTraversable="false"
-                   styleClass="combo-dark" />
+        <TextField fx:id="txtProfileSearch"
+                   promptText="Search profile..."
+                   styleClass="combo-dark"/>
 
     </VBox>
-
-    <Region prefHeight="10"/>
 
     <VBox fx:id="profileContainer"
           spacing="8"/>
