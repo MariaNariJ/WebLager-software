@@ -1,0 +1,172 @@
+/* EXPORT SHARED CARDS */
+
+.export-card {
+    -fx-background-color: rgba(255,255,255,0.03);
+    -fx-background-radius: 12;
+    -fx-padding: 18;
+    -fx-border-color: rgba(255,255,255,0.08);
+    -fx-border-radius: 12;
+}
+
+.export-card:hover {
+    -fx-border-color: #4DA3FF;
+}
+
+/* EXPORT WINDOW */
+
+.export-root {
+    -fx-background-color: #465160;
+    -fx-padding: 8;
+}
+
+.export-header-panel {
+    -fx-background-color: #354556;
+    -fx-background-radius: 12;
+    -fx-padding: 22;
+
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 12;
+}
+
+.export-title {
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.export-subtitle {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 14px;
+}
+
+.export-section {
+    -fx-background-color: #354556;
+    -fx-background-radius: 12;
+
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 12;
+
+    -fx-padding: 16;
+}
+
+.export-section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #008FF7;
+}
+
+.export-option-card {
+    -fx-background-color: #2D3D4F;
+    -fx-background-radius: 10;
+
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 10;
+
+    -fx-padding: 18;
+}
+
+.export-card-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.export-card-text {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 13px;
+}
+
+.export-info-box {
+    -fx-background-color: #2D3D4F;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+}
+
+.export-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.export-button {
+    -fx-background-color: #008FF7;
+    -fx-text-fill: white;
+
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+
+    -fx-background-radius: 10;
+    -fx-padding: 12 28;
+
+    -fx-cursor: hand;
+}
+
+.export-button:hover {
+    -fx-background-color: #0094EA;
+}
+
+.export-secondary-button {
+    -fx-background-color: #697489;
+    -fx-text-fill: white;
+
+    -fx-background-radius: 8;
+    -fx-padding: 10 18;
+
+    -fx-cursor: hand;
+}
+
+.export-secondary-button:hover {
+    -fx-background-color: #4B5563;
+}
+
+.export-combo-box,
+.export-text-field {
+    -fx-background-color: #465160;
+
+    -fx-text-fill: white;
+
+    -fx-background-radius: 8;
+
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 8;
+}
+
+.export-combo-box .list-cell {
+    -fx-background-color: #465160;
+    -fx-text-fill: white;
+}
+
+.export-text-field {
+    -fx-padding: 10;
+}
+
+.export-info-title {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.export-info-text {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+}
+
+.export-checkbox {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+}
+
+.export-checkbox .box {
+    -fx-background-color: #465160;
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.export-checkbox:selected .box {
+    -fx-border-color: #008FF7;
+}
+
+.export-checkbox:selected .mark {
+    -fx-background-color: #008FF7;
+}
