@@ -43,31 +43,32 @@ Error color:                 #FF3D32
 
 .brand-title {
     -fx-text-fill: white;
-    -fx-font-size: 34px;
-    -fx-font-weight: 800;
+    -fx-font-size: 21px;
+    -fx-font-weight: 700;
 }
 
 .login-title {
     -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: 700;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
 }
 
 .login-subtitle {
     -fx-text-fill: #A9B7C6;
-    -fx-font-size: 14px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .login-error-message {
     -fx-text-fill: #FF3D32;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .field-label {
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .login-field {
@@ -78,10 +79,11 @@ Error color:                 #FF3D32
     -fx-border-width: 1;
     -fx-text-fill: white;
     -fx-prompt-text-fill: #D6E0EA;
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
     -fx-padding: 0 16 0 16;
     -fx-pref-height: 46px;
-}
+
+    -fx-font-weight: 400;}
 
 .login-field:focused {
     -fx-border-color: #008FF7;
@@ -89,8 +91,9 @@ Error color:                 #FF3D32
 
 .login-checkbox {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 13px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .login-checkbox .box {
     -fx-background-color: transparent;
@@ -112,8 +115,8 @@ Error color:                 #FF3D32
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-text-fill: #008FF7;
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
     -fx-padding: 0;
 }
 
@@ -124,8 +127,8 @@ Error color:                 #FF3D32
 .primary-button {
     -fx-background-color: #008FF7;
     -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
     -fx-background-radius: 14;
     -fx-cursor: hand;
     -fx-pref-height: 50px;
@@ -137,8 +140,9 @@ Error color:                 #FF3D32
 
 .version-label {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 12px;
-}
+    -fx-font-size: 10px;
+
+    -fx-font-weight: 400;}
 
 .center-logo-image {
     -fx-opacity: 1;
@@ -163,8 +167,8 @@ Error color:                 #FF3D32
 
 .sidebar-logo-text {
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 22px;
-    -fx-font-weight: 800;
+    -fx-font-size: 21px;
+    -fx-font-weight: 700;
 }
 
 .nav-button,
@@ -174,8 +178,8 @@ Error color:                 #FF3D32
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 0 0 16;
     -fx-background-radius: 8;
-    -fx-font-size: 14px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
     -fx-cursor: hand;
 }
 
@@ -262,14 +266,15 @@ Error color:                 #FF3D32
 
 .top-user {
     -fx-text-fill: white;
-    -fx-font-size: 13px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .top-role {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 11px;
-}
+    -fx-font-size: 10px;
+
+    -fx-font-weight: 400;}
 
 .panel {
     -fx-background-color: #354556;
@@ -281,8 +286,8 @@ Error color:                 #FF3D32
 
 .section-title {
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
 }
 .overview-title {
     -fx-text-fill: white;
@@ -293,12 +298,13 @@ Error color:                 #FF3D32
 .muted-text {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
-}
+
+    -fx-font-weight: 400;}
 
 .blue-text {
     -fx-text-fill: #008FF7;
-    -fx-font-size: 13px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 
@@ -309,8 +315,8 @@ Error color:                 #FF3D32
 
     -fx-text-fill: #2EA8FF;
 
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 
     -fx-border-color: transparent;
     -fx-cursor: hand;
@@ -339,12 +345,13 @@ Error color:                 #FF3D32
     -fx-text-fill: #FFFFFF;
     -fx-prompt-text-fill: #D6E0EA;
 
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
 
     -fx-pref-height: 36px;
 
     -fx-padding: 0 12 0 12;
-}
+
+    -fx-font-weight: 400;}
 
 .combo-dark,
 .dark-combo {
@@ -374,8 +381,8 @@ Error color:                 #FF3D32
 
 .field-label-dark {
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 13px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 /* BUTTONS */
@@ -384,10 +391,11 @@ Error color:                 #FF3D32
     -fx-background-color: #008FF7;
     -fx-text-fill: white;
     -fx-background-radius: 7;
-    -fx-font-weight: 800;
+    -fx-font-weight: 500;
     -fx-pref-height: 38px;
     -fx-cursor: hand;
-}
+
+    -fx-font-size: 12px;}
 
 .primary-action:hover {
     -fx-background-color: #0094EA;
@@ -397,17 +405,19 @@ Error color:                 #FF3D32
     -fx-background-color: #2D3D4F;
     -fx-text-fill: white;
     -fx-background-radius: 6;
-    -fx-font-weight: 800;
-}
+    -fx-font-weight: 500;
+
+    -fx-font-size: 12px;}
 
 .view-toggle-button,
 .view-toggle-button-active {
     -fx-background-radius: 8;
     -fx-padding: 5 9 5 9;
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
     -fx-cursor: hand;
     -fx-border-color: transparent;
-}
+
+    -fx-font-weight: 500;}
 
 .view-toggle-button {
     -fx-background-color: transparent;
@@ -427,14 +437,15 @@ Error color:                 #FF3D32
 
 .tab-active {
     -fx-text-fill: #008FF7;
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .tab-inactive {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 14px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .dark-separator .line {
     -fx-border-color: #2B3B4C;
@@ -573,8 +584,8 @@ Error color:                 #FF3D32
 
 .status-text {
     -fx-text-fill: #E2EAF4;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .readonly-field {
@@ -593,6 +604,6 @@ Error color:                 #FF3D32
 
 .info-label {
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }

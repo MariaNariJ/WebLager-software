@@ -29,15 +29,16 @@
 }
 
 .export-title {
-    -fx-font-size: 34px;
-    -fx-font-weight: bold;
+    -fx-font-size: 21px;
+    -fx-font-weight: 700;
     -fx-text-fill: white;
 }
 
 .export-subtitle {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 14px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .export-section {
     -fx-background-color: #354556;
@@ -51,7 +52,7 @@
 
 .export-section-title {
     -fx-font-size: 18px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
     -fx-text-fill: #008FF7;
 }
 
@@ -67,14 +68,15 @@
 
 .export-card-title {
     -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
 }
 
 .export-card-text {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 13px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .export-info-box {
     -fx-background-color: #2D3D4F;
@@ -84,16 +86,16 @@
 
 .export-label {
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .export-button {
     -fx-background-color: #008FF7;
     -fx-text-fill: white;
 
-    -fx-font-size: 15px;
-    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 
     -fx-background-radius: 10;
     -fx-padding: 12 28;
@@ -142,19 +144,21 @@
 
 .export-info-title {
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .export-info-text {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
-}
+
+    -fx-font-weight: 400;}
 
 .export-checkbox {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
-}
+
+    -fx-font-weight: 400;}
 
 .export-checkbox .box {
     -fx-background-color: #465160;
