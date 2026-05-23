@@ -27,7 +27,7 @@ public class FileManager {
     // Cached TIFF files from local box
     private List<File> cachedFiles = new ArrayList<>();
 
-    // ================= SAVE ROTATION =================
+    //SAVE ROTATION
     public void updatePageRotation(Page page) {
         pageDAO.updatePageRotation(page);
     }

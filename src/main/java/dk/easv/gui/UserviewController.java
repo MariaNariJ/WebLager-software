@@ -297,6 +297,8 @@ public class UserviewController {
                 // Granular rotation with CTRL
                 if (event.isControlDown()) {
 
+                    // ROTATION SHORTCUTS
+
                     if (key.equals("q")) {
                         rotateGranularLeft();
                         return;
@@ -306,9 +308,31 @@ public class UserviewController {
                         rotateGranularRight();
                         return;
                     }
+
+                    // TIFF REORDER SHORTCUTS
+
+                    if (event.getCode() == javafx.scene.input.KeyCode.UP) {
+                        moveSelectedFileUp();
+                        return;
+                    }
+
+                    if (event.getCode() == javafx.scene.input.KeyCode.DOWN) {
+                        moveSelectedFileDown();
+                        return;
+                    }
                 }
 
-                // Normal keybindings
+                // NORMAL TIFF NAVIGATION
+
+                if (event.getCode() == javafx.scene.input.KeyCode.UP) {
+                    onPreviousFile();
+                    return;
+                }
+
+                if (event.getCode() == javafx.scene.input.KeyCode.DOWN) {
+                    onNextFile();
+                    return;
+                }
                 Runnable action = keyBindings.get(key);
 
                 if (action != null) {
@@ -316,6 +340,7 @@ public class UserviewController {
                 }
             });
         });
+
         // Sidebar locked and visible by default
         sidebar.setTranslateX(180);
 
@@ -544,6 +569,40 @@ public class UserviewController {
         if (currentIndex > 0) {
             showPage(currentIndex - 1);
         }
+    }
+
+
+
+    @FXML
+    private void moveSelectedFileUp() {
+
+        if (scannedPages == null || scannedPages.isEmpty()) return;
+
+        if (currentIndex <= 0) return;
+
+        Collections.swap(scannedPages, currentIndex, currentIndex - 1);
+
+        currentIndex--;
+
+        refreshFileList();
+
+        showPage(currentIndex);
+    }
+
+    @FXML
+    private void moveSelectedFileDown() {
+
+        if (scannedPages == null || scannedPages.isEmpty()) return;
+
+        if (currentIndex >= scannedPages.size() - 1) return;
+
+        Collections.swap(scannedPages, currentIndex, currentIndex + 1);
+
+        currentIndex++;
+
+        refreshFileList();
+
+        showPage(currentIndex);
     }
 
     // SHOW PAGE

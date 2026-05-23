@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.Region?>
 <AnchorPane stylesheets="@app.css"
             styleClass="export-root"
             xmlns="http://javafx.com/javafx/25"
@@ -24,7 +24,7 @@
 
     <children>
 
-        <VBox spacing="18"
+        <VBox spacing="10"
               fillWidth="true"
               AnchorPane.topAnchor="12.0"
               AnchorPane.bottomAnchor="12.0"
@@ -33,14 +33,15 @@
 
             <children>
 
-                <VBox spacing="6"
+                <!-- HEADER -->
+                <VBox spacing="4"
                       styleClass="export-header-panel">
 
                     <padding>
-                        <Insets top="18"
-                                right="18"
-                                bottom="18"
-                                left="18"/>
+                        <Insets top="12"
+                                right="16"
+                                bottom="12"
+                                left="16"/>
                     </padding>
 
                     <children>
@@ -55,22 +56,24 @@
 
                 </VBox>
 
+                <!-- SCROLLABLE CONTENT -->
                 <ScrollPane fitToWidth="true"
                             fitToHeight="true"
                             hbarPolicy="NEVER"
-                            vbarPolicy="AS_NEEDED"
-                            pannable="true"
+                            vbarPolicy="NEVER"
+                            pannable="false"
                             styleClass="dark-scroll"
                             VBox.vgrow="ALWAYS">
 
                     <content>
 
-                        <VBox spacing="18"
+                        <VBox spacing="10"
                               fillWidth="true">
 
                             <children>
 
-                                <VBox spacing="14"
+                                <!-- SECTION 1 -->
+                                <VBox spacing="8"
                                       styleClass="export-section">
 
                                     <children>
@@ -78,8 +81,8 @@
                                         <Label text="1. What do you want to export?"
                                                styleClass="export-section-title"/>
 
-                                        <GridPane hgap="18"
-                                                  vgap="18">
+                                        <GridPane hgap="12"
+                                                  vgap="6">
 
                                             <columnConstraints>
 
@@ -91,7 +94,10 @@
 
                                             <children>
 
-                                                <VBox spacing="12"
+                                                <!-- CARD 1 -->
+                                                <VBox spacing="8"
+                                                      prefHeight="160"
+                                                      maxHeight="160"
                                                       styleClass="export-option-card"
                                                       GridPane.columnIndex="0"
                                                       maxWidth="Infinity">
@@ -113,7 +119,7 @@
                                                                wrapText="true"
                                                                styleClass="export-card-text"/>
 
-                                                        <VBox spacing="4"
+                                                        <VBox spacing="2"
                                                               styleClass="export-info-box">
 
                                                             <children>
@@ -132,7 +138,10 @@
 
                                                 </VBox>
 
-                                                <VBox spacing="12"
+                                                <!-- CARD 2 -->
+                                                <VBox spacing="8"
+                                                      prefHeight="160"
+                                                      maxHeight="160"
                                                       styleClass="export-option-card"
                                                       GridPane.columnIndex="1"
                                                       maxWidth="Infinity">
@@ -164,7 +173,10 @@
 
                                                 </VBox>
 
-                                                <VBox spacing="12"
+                                                <!-- CARD 3 -->
+                                                <VBox spacing="8"
+                                                      prefHeight="160"
+                                                      maxHeight="160"
                                                       styleClass="export-option-card"
                                                       GridPane.columnIndex="2"
                                                       maxWidth="Infinity">
@@ -187,7 +199,7 @@
                                                                wrapText="true"
                                                                styleClass="export-card-text"/>
 
-                                                        <VBox spacing="4"
+                                                        <VBox spacing="2"
                                                               styleClass="export-info-box">
 
                                                             <children>
@@ -218,7 +230,8 @@
 
                                 </VBox>
 
-                                <VBox spacing="14"
+                                <!-- SECTION 2 -->
+                                <VBox spacing="8"
                                       styleClass="export-section">
 
                                     <children>
@@ -226,18 +239,18 @@
                                         <Label text="2. Export settings"
                                                styleClass="export-section-title"/>
 
-                                        <HBox spacing="24">
+                                        <HBox spacing="18">
 
                                             <children>
 
-                                                <VBox spacing="8">
+                                                <VBox spacing="4">
 
                                                     <children>
 
                                                         <Label text="Export Format"
                                                                styleClass="export-label"/>
 
-                                                        <ComboBox prefWidth="260"
+                                                        <ComboBox prefWidth="240"
                                                                   promptText="TIFF (Multi-page)"/>
 
                                                         <Label text="Each document will be exported as a multi-page TIFF file."
@@ -248,14 +261,14 @@
 
                                                 </VBox>
 
-                                                <VBox spacing="8">
+                                                <VBox spacing="4">
 
                                                     <children>
 
                                                         <Label text="File Naming"
                                                                styleClass="export-label"/>
 
-                                                        <ComboBox prefWidth="260"
+                                                        <ComboBox prefWidth="240"
                                                                   promptText="Document Name"/>
 
                                                         <Label text="Files will be named using the document name."
@@ -274,7 +287,8 @@
 
                                 </VBox>
 
-                                <VBox spacing="14"
+                                <!-- SECTION 3 -->
+                                <VBox spacing="4"
                                       styleClass="export-section">
 
                                     <children>
@@ -285,7 +299,7 @@
                                         <Label text="Destination Folder"
                                                styleClass="export-label"/>
 
-                                        <HBox spacing="12">
+                                        <HBox spacing="6">
 
                                             <children>
 
@@ -301,6 +315,7 @@
                                         </HBox>
 
                                         <CheckBox text="Open folder after export is complete"
+                                                  translateY="-4"
                                                   styleClass="export-checkbox"/>
 
                                     </children>
@@ -315,6 +330,9 @@
 
                 </ScrollPane>
 
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <!-- EXPORT BUTTON -->
                 <HBox alignment="CENTER_RIGHT">
 
                     <children>

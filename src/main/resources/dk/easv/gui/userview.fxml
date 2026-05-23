@@ -590,6 +590,18 @@
                         <Label text="Reset Rotation"/>
                     </HBox>
 
+                    <HBox styleClass="shortcut-row">
+                        <Label text="Ctrl + ↑"
+                               styleClass="shortcut-key"/>
+                        <Label text="Move TIFF Up"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="Ctrl + ↓"
+                               styleClass="shortcut-key"/>
+                        <Label text="Move TIFF Down"/>
+                    </HBox>
+
                 </VBox>
 
                 <!-- RIGHT COLUMN -->
