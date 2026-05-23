@@ -1,9 +1,7 @@
 package dk.easv.dal.dao;
 
 import dk.easv.be.User;
-import dk.easv.bll.PasswordHasher;
 import dk.easv.dal.ConnectionManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,14 +68,11 @@ public class UserDAO {
 
         return users;
     }
-    public void createUser(String name, String login, String plainPassword, String role) {
+    public void createUser(String name, String login, String hashedPassword, String salt, String role) {
         String sql = "INSERT INTO Users (role, login, password, salt, name, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conMan.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            String salt = PasswordHasher.generateSalt();
-            String hashedPassword = PasswordHasher.hashPassword(plainPassword, salt);
 
             stmt.setString(1, role);
             stmt.setString(2, login);
@@ -85,10 +80,10 @@ public class UserDAO {
             stmt.setString(4, salt);
             stmt.setString(5, name);
             stmt.setString(6, "Active");
+
             stmt.executeUpdate();
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("Failed creating user", e);
         }
     }
@@ -127,22 +122,17 @@ public class UserDAO {
         }
     }
 
-    public void updateUserPassword(int userId, String newPassword) {
+    public void updateUserPassword(int userId, String hashedPassword, String salt) {
         String sql = "UPDATE Users SET password = ?, salt = ? WHERE id = ?";
 
-        try {
-            String newSalt = PasswordHasher.generateSalt();
-            String hashedPassword = PasswordHasher.hashPassword(newPassword, newSalt);
+        try (Connection conn = conMan.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            try (Connection conn = conMan.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, hashedPassword);
+            stmt.setString(2, salt);
+            stmt.setInt(3, userId);
 
-                stmt.setString(1, hashedPassword);
-                stmt.setString(2, newSalt);
-                stmt.setInt(3, userId);
-
-                stmt.executeUpdate();
-            }
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             throw new RuntimeException("Failed updating password", e);

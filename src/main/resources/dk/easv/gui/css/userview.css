@@ -2,8 +2,8 @@
 
 .tree-title {
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 13px;
-    -fx-font-weight: 700;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .count-pill {
@@ -15,9 +15,10 @@
 
 .file-row {
     -fx-text-fill: #D6E0EA;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-padding: 5 0 5 0;
-}
+
+    -fx-font-weight: 400;}
 
 .file-selected {
     -fx-background-color: #008FF7;
@@ -93,11 +94,11 @@
 
     -fx-text-fill: #D6E0EA;
 
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 
     -fx-font-family: "Montserrat";
 
-    -fx-font-weight: 700;
+    -fx-font-weight: 500;
 
     -fx-padding: 2 0 6 0;
 }
@@ -108,19 +109,22 @@
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
     -fx-font-family: "Montserrat";
-}
+
+    -fx-font-weight: 400;}
 
 .toolbar-label {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
     -fx-font-family: "Montserrat";
-}
+
+    -fx-font-weight: 400;}
 
 .toolbar-keybind {
     -fx-text-fill: #D6E0EA;
     -fx-font-size: 12px;
     -fx-font-family: "Montserrat";
-}
+
+    -fx-font-weight: 400;}
 
 /* Hover color for toolbar labels */
 
@@ -156,14 +160,15 @@
 
 .shelf-title {
     -fx-text-fill: #008FF7;
-    -fx-font-size: 14px;
-    -fx-font-weight: 800;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
 }
 
 .shelf-arrow {
     -fx-text-fill: #9fb3c8;
-    -fx-font-size: 14px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .shelf-content {
     -fx-background-color: transparent;
@@ -195,15 +200,16 @@
 
 .popup-title {
     -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: 800;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
 }
 
 .popup-subtitle {
     -fx-text-fill: #9FB3C8;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-wrap-text: true;
-}
+
+    -fx-font-weight: 400;}
 
 /* PROFILE CARDS */
 
@@ -254,9 +260,9 @@
 
     -fx-text-fill: white;
 
-    -fx-font-size: 16px;
+    -fx-font-size: 15px;
 
-    -fx-font-weight: 800;
+    -fx-font-weight: 600;
 }
 
 .profile-description {
@@ -264,7 +270,8 @@
     -fx-text-fill: #C9D5E2;
 
     -fx-font-size: 12px;
-}
+
+    -fx-font-weight: 400;}
 
 /* BUTTONS */
 
@@ -391,7 +398,7 @@
     -fx-pref-height: 42px;
     -fx-alignment: CENTER-LEFT;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
     -fx-font-weight: 400;
 }
 
@@ -405,8 +412,8 @@
 
 .qa-warning-label {
     -fx-text-fill: #B8C7D9;
-    -fx-font-size: 11px;
-    -fx-font-weight: 600;
+    -fx-font-size: 10px;
+    -fx-font-weight: 400;
     -fx-wrap-text: true;
 }
 
@@ -445,8 +452,8 @@
 
 .shortcut-title {
     -fx-text-fill: white;
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
 }
 
 .shortcut-row {
@@ -456,8 +463,9 @@
 
 .shortcut-row Label {
     -fx-text-fill: #dce6f2;
-    -fx-font-size: 14px;
-}
+    -fx-font-size: 12px;
+
+    -fx-font-weight: 400;}
 
 .shortcut-key {
     -fx-background-color: #42576d;
