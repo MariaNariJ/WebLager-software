@@ -1,8 +1,7 @@
 /* EXPORT WINDOW */
 
 .export-root {
-    -fx-background-color: #465160;
-    -fx-padding: 16;
+    -fx-background-color: transparent;
 }
 /* EXPORT SECTIONS */
 
