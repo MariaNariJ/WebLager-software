@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -16,8 +15,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.shape.Circle?>
+
 <AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@css/app.css,@css/userview.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
@@ -73,17 +72,9 @@
 
                                 <HBox spacing="10">
 
-                                    <Button fx:id="btnFetchFiles"
-                                            onAction="#onFetchFilesClicked"
-                                            styleClass="primary-action"
-                                            text="Scan Next-F5"
-                                            prefWidth="140"/>
+                                    <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next-F5" />
 
-                                    <Button fx:id="btnSaveasDocument"
-                                            onAction="#onSaveasDocumentClicked"
-                                            styleClass="primary-action"
-                                            text="Save Document"
-                                            prefWidth="170"/>
+                                    <Button fx:id="btnSaveasDocument" onAction="#onSaveasDocumentClicked" prefWidth="170" styleClass="primary-action" text="Save Document" />
 
                                 </HBox>
 
@@ -103,38 +94,25 @@
 
                                 <HBox alignment="CENTER_LEFT" spacing="12">
 
-                                    <Label fx:id="fileIndicatorLabel"
-                                           styleClass="blue-text"
-                                           text="No file selected" />
+                                    <Label fx:id="fileIndicatorLabel" styleClass="blue-text" text="No file selected" />
 
                                     <Region HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="rotationIndicator" styleClass="rotation-indicator" text="0°"/>
+                                    <Label fx:id="rotationIndicator" styleClass="rotation-indicator" text="0°" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <Button onAction="#onZoomOut" styleClass="small-button" text="−" />
                                     <Label fx:id="zoomLabel" styleClass="section-title" text="100%" />
                                     <Button onAction="#onZoomIn" styleClass="small-button" text="+" />
                                 </HBox>
 
-                                <ScrollPane fx:id="previewScrollPane"
-                                            fitToHeight="false"
-                                            fitToWidth="false"
-                                            pannable="true"
-                                            hbarPolicy="AS_NEEDED"
-                                            vbarPolicy="AS_NEEDED"
-                                            styleClass="dark-scroll"
-                                            VBox.vgrow="ALWAYS">
+                                <ScrollPane fx:id="previewScrollPane" fitToHeight="false" fitToWidth="false" hbarPolicy="AS_NEEDED" pannable="true" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
 
                                     <content>
 
-                                        <StackPane alignment="CENTER"
-                                                   style="-fx-background-color: transparent;">
+                                        <StackPane alignment="CENTER" style="-fx-background-color: transparent;">
 
                                             <children>
 
-                                                <ImageView fx:id="previewImage"
-                                                           preserveRatio="true"
-                                                           smooth="true"
-                                                           style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+                                                <ImageView fx:id="previewImage" preserveRatio="true" smooth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
 
                                             </children>
 
@@ -145,30 +123,19 @@
                                 </ScrollPane>
 
                                 <!-- TOOLBAR -->
-                                <HBox alignment="CENTER"
-                                      spacing="2"
-                                      prefHeight="105"
-                                      minHeight="105"
-                                      maxHeight="105"
-                                      styleClass="toolbar-card">
+                                <HBox alignment="CENTER" maxHeight="94.0" minHeight="94.0" prefHeight="105" spacing="2" styleClass="toolbar-card">
 
                                     <!-- Rotate Left -->
-                                    <Button onAction="#onRotateLeft"
-                                            styleClass="toolbar-button"
-                                            prefWidth="110"
-                                            prefHeight="80">
+                                    <Button onAction="#onRotateLeft" prefHeight="80" prefWidth="110" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="↺"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="↺" />
 
-                                                <Label text="Rotate Left"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Rotate Left" />
 
-                                                <Label text="(Q or Crtl+Q)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(Q or Crtl+Q)" />
 
                                             </VBox>
                                         </graphic>
@@ -176,22 +143,16 @@
                                     </Button>
 
                                     <!-- Rotate Right -->
-                                    <Button onAction="#onRotateRight"
-                                            styleClass="toolbar-button"
-                                            prefWidth="110"
-                                            prefHeight="80">
+                                    <Button onAction="#onRotateRight" prefHeight="80" prefWidth="110" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="↻"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="↻" />
 
-                                                <Label text="Rotate Right"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Rotate Right" />
 
-                                                <Label text="(E or Crtl+E)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(E or Crtl+E)" />
 
                                             </VBox>
                                         </graphic>
@@ -199,22 +160,16 @@
                                     </Button>
 
                                     <!-- Reset Rotation -->
-                                    <Button onAction="#onResetRotation"
-                                            styleClass="toolbar-button"
-                                            prefWidth="125"
-                                            prefHeight="80">
+                                    <Button onAction="#onResetRotation" prefHeight="80" prefWidth="125" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="⟲"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="⟲" />
 
-                                                <Label text="Reset Rotation"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Reset Rotation" />
 
-                                                <Label text="(R)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(R)" />
 
                                             </VBox>
                                         </graphic>
@@ -222,22 +177,16 @@
                                     </Button>
 
                                     <!-- Reset Zoom -->
-                                    <Button onAction="#onResetZoom"
-                                            styleClass="toolbar-button"
-                                            prefWidth="115"
-                                            prefHeight="80">
+                                    <Button onAction="#onResetZoom" prefHeight="80" prefWidth="115" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="▣"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="▣" />
 
-                                                <Label text="Reset Zoom"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Reset Zoom" />
 
-                                                <Label text="(0)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(0)" />
 
                                             </VBox>
                                         </graphic>
@@ -245,22 +194,16 @@
                                     </Button>
 
                                     <!-- Fit Width -->
-                                    <Button onAction="#onFitToWidth"
-                                            styleClass="toolbar-button"
-                                            prefWidth="110"
-                                            prefHeight="80">
+                                    <Button onAction="#onFitToWidth" prefHeight="80" prefWidth="110" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="↔"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="↔" />
 
-                                                <Label text="Fit Width"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Fit Width" />
 
-                                                <Label text="(F)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(F)" />
 
                                             </VBox>
                                         </graphic>
@@ -268,22 +211,16 @@
                                     </Button>
 
                                     <!-- Next File -->
-                                    <Button onAction="#onNextFile"
-                                            styleClass="toolbar-button"
-                                            prefWidth="105"
-                                            prefHeight="80">
+                                    <Button onAction="#onNextFile" prefHeight="80" prefWidth="105" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="→"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="→" />
 
-                                                <Label text="Next File"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Next File" />
 
-                                                <Label text="(D)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(D)" />
 
                                             </VBox>
                                         </graphic>
@@ -291,22 +228,16 @@
                                     </Button>
 
                                     <!-- Previous File -->
-                                    <Button onAction="#onPreviousFile"
-                                            styleClass="toolbar-button"
-                                            prefWidth="120"
-                                            prefHeight="80">
+                                    <Button onAction="#onPreviousFile" prefHeight="80" prefWidth="120" styleClass="toolbar-button">
 
                                         <graphic>
                                             <VBox alignment="CENTER" spacing="2">
 
-                                                <Label text="←"
-                                                       styleClass="toolbar-icon"/>
+                                                <Label styleClass="toolbar-icon" text="←" />
 
-                                                <Label text="Previous File"
-                                                       styleClass="toolbar-label"/>
+                                                <Label styleClass="toolbar-label" text="Previous File" />
 
-                                                <Label text="(A)"
-                                                       styleClass="toolbar-keybind"/>
+                                                <Label styleClass="toolbar-keybind" text="(A)" />
 
                                             </VBox>
                                         </graphic>
@@ -319,12 +250,7 @@
                         </VBox>
 
                         <!-- METADATA PANEL -->
-                        <VBox spacing="12"
-                              minWidth="300"
-                              prefWidth="320"
-                              maxWidth="380"
-                              fillWidth="true"
-                              styleClass="panel">
+                        <VBox fillWidth="true" maxWidth="380" minWidth="300" prefWidth="320" spacing="12" styleClass="panel">
 
                             <padding>
                                 <Insets bottom="18" left="18" right="18" top="18" />
@@ -332,100 +258,66 @@
 
                             <children>
                                 <!-- BOX INFORMATION -->
-                                <Label styleClass="tab-active"
-                                       text="Box Information" />
+                                <Label styleClass="tab-active" text="Box Information" />
 
                                 <Separator styleClass="dark-separator" />
 
-                                <Label styleClass="info-label"
-                                       text="Client *" />
+                                <Label styleClass="info-label" text="Client *" />
 
-                                <TextField fx:id="txtClient"
-                                           styleClass="dark-field"/>
+                                <TextField fx:id="txtClient" styleClass="dark-field" />
 
 
-                                <Label styleClass="info-label"
-                                       text="Box *" />
+                                <Label styleClass="info-label" text="Box *" />
 
-                                <TextField fx:id="txtBox"
-                                           styleClass="dark-field"/>
+                                <TextField fx:id="txtBox" styleClass="dark-field" />
 
-                                <Label styleClass="info-label"
-                                       text="Active Scan Profile *" />
+                                <Label styleClass="info-label" text="Active Scan Profile *" />
 
-                                <TextField fx:id="txtProfile"
-                                           editable="false"
-                                           styleClass="dark-field"/>
+                                <TextField fx:id="txtProfile" editable="false" styleClass="dark-field" />
 
-                                <VBox fx:id="dynamicMetadataContainer"
-                                      spacing="10"
-                                      fillWidth="true"
-                                      maxWidth="Infinity"/>
+                                <VBox fx:id="dynamicMetadataContainer" fillWidth="true" maxWidth="Infinity" spacing="10" />
 
                                 <!-- DOCUMENT INFORMATION -->
-                                <Label styleClass="tab-active"
-                                       text="Document Information" />
+                                <Label styleClass="tab-active" text="Document Information" />
 
                                 <Separator styleClass="dark-separator" />
 
-                                <Label styleClass="info-label"
-                                       text="Document Name" />
-                                <TextField fx:id="txtDocumentName" styleClass="dark-field"/>
+                                <Label styleClass="info-label" text="Document Name" />
+                                <TextField fx:id="txtDocumentName" styleClass="dark-field" />
 
-                                <Label styleClass="info-label"
-                                       text="Date *" />
-                              <TextField fx:id="txtDate" styleClass="dark-field"/>
+                                <Label styleClass="info-label" text="Date *" />
+                              <TextField fx:id="txtDate" styleClass="dark-field" />
 
 
                                 <VBox spacing="8">
 
-                                    <Label text="Barcode"
-                                           styleClass="info-label"/>
+                                    <Label styleClass="info-label" text="Barcode" />
 
-                                    <Label fx:id="barcodeLabel"
-                                           styleClass="barcode-display"
-                                           maxWidth="Infinity"
-                                           text="No barcode found"/>
+                                    <Label fx:id="barcodeLabel" maxWidth="Infinity" styleClass="barcode-display" text="No barcode found" />
 
                                 </VBox>
 
 
                                 <Region VBox.vgrow="ALWAYS" />
 
-                                <VBox fx:id="qaWarningBox"
-                                      visible="false"
-                                      managed="false"
-                                      styleClass="qa-warning-box">
+                                <VBox fx:id="qaWarningBox" managed="false" styleClass="qa-warning-box" visible="false">
 
-                                    <Label fx:id="qaWarningLabel"
-                                           text="⚠ Send current document to QA before scanning next"
-                                           wrapText="true"
-                                           styleClass="qa-warning-label"/>
+                                    <Label fx:id="qaWarningLabel" styleClass="qa-warning-label" text="⚠ Send current document to QA before scanning next" wrapText="true" />
                                 </VBox>
-                                <VBox spacing="14"
-                                      styleClass="status-card">
+                                <VBox spacing="14" styleClass="status-card">
 
-                                    <Label text="Document Status"
-                                           styleClass="info-label"/>
+                                    <Label styleClass="info-label" text="Document Status" />
 
-                                    <HBox spacing="10" alignment="CENTER_LEFT">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
 
-                                        <Circle radius="4"
-                                                styleClass="status-dot"/>
+                                        <Circle radius="4" styleClass="status-dot" />
 
-                                        <Label fx:id="documentStatusLabel"
-                                               text="Ready for scanning"
-                                               styleClass="status-text"/>
+                                        <Label fx:id="documentStatusLabel" styleClass="status-text" text="Ready for scanning" />
 
                                     </HBox>
 
                                 </VBox>
-                                <Button fx:id="btnReadyForQA"
-                                        onAction="#onReadyForQAClicked"
-                                        prefHeight="38.0"
-                                        prefWidth="149.0"
-                                        styleClass="primary-action"
-                                        text="Save and send to QA" />
+                                <Button fx:id="btnReadyForQA" onAction="#onReadyForQAClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="Save and send to QA" />
                             </children>
                         </VBox>
 
@@ -451,9 +343,7 @@
                     </StackPane>
 
                     <!-- COLLAPSIBLE CONTENT -->
-                    <VBox fx:id="shelfContent"
-                          spacing="10"
-                          styleClass="shelf-content"/>
+                    <VBox fx:id="shelfContent" spacing="10" styleClass="shelf-content" />
 
                 </VBox>
 
@@ -478,59 +368,36 @@
                 </HBox>
 
                 <VBox spacing="10">
-                    <Button fx:id="scanningButton"
-                            onAction="#onScanningClicked"
-                            styleClass="nav-button-active"
-                            text="Scanning" />
+                    <Button fx:id="scanningButton" onAction="#onScanningClicked" styleClass="nav-button-active" text="Scanning" />
 
-                    <Button fx:id="qaButton"
-                            onAction="#onQaClicked"
-                            styleClass="nav-button"
-                            text="QA" />
+                    <Button fx:id="qaButton" onAction="#onQaClicked" styleClass="nav-button" text="QA" />
 
-                    <Button fx:id="exportButton"
-                            onAction="#onExportClicked"
-                            styleClass="nav-button"
-                            text="Export" />
+                    <Button fx:id="exportButton" onAction="#onExportClicked" styleClass="nav-button" text="Export" />
                 </VBox>
 
                 <Region VBox.vgrow="ALWAYS" />
 
                 <VBox spacing="12">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Button fx:id="themeToggleButton"
-                                onAction="#onThemeToggleClicked"
-                                styleClass="sidebar-icon-button"
-                                text="☀"
-                                pickOnBounds="true">
+                        <Button fx:id="themeToggleButton" onAction="#onThemeToggleClicked" pickOnBounds="true" styleClass="sidebar-icon-button" text="☀">
                             <tooltip>
                                 <Tooltip text="Switch theme" />
                             </tooltip>
                         </Button>
 
-                        <Button fx:id="sidebarLockButton"
-                                onAction="#onSidebarLockClicked"
-                                styleClass="sidebar-icon-button"
-                                text="⧉"
-                                pickOnBounds="true">
+                        <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" pickOnBounds="true" styleClass="sidebar-icon-button" text="⧉">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
                             </tooltip>
                         </Button>
                     </HBox>
 
-                    <HBox alignment="CENTER_LEFT"
-                          spacing="10"
-                          styleClass="user-info-card">
+                    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="user-info-card">
 
                         <VBox spacing="0">
-                            <Label fx:id="userNameLabel"
-                                   styleClass="top-user"
-                                   text="User" />
+                            <Label fx:id="userNameLabel" styleClass="top-user" text="User" />
 
-                            <Label fx:id="userRoleLabel"
-                                   styleClass="top-role"
-                                   text="User" />
+                            <Label fx:id="userRoleLabel" styleClass="top-role" text="User" />
                         </VBox>
                     </HBox>
                 </VBox>
@@ -543,68 +410,49 @@
         <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefWidth="20" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
         <!-- GLOBAL SHORTCUT OVERLAY -->
-        <StackPane fx:id="shortcutOverlay"
-                   visible="false"
-                   managed="false"
-                   alignment="CENTER"
-                   AnchorPane.topAnchor="0.0"
-                   AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0">
+        <StackPane fx:id="shortcutOverlay" alignment="CENTER" managed="false" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
             <!-- Background dim -->
             <Pane style="-fx-background-color: rgba(0,0,0,0.25);" />
 
             <!-- Popup -->
-            <VBox spacing="12"
-                  alignment="TOP_CENTER"
-                  maxWidth="700"
-                  prefWidth="700"
-                  maxHeight="420"
-                  styleClass="shortcut-popup">
+            <VBox alignment="TOP_CENTER" maxHeight="420" maxWidth="700" prefWidth="700" spacing="12" styleClass="shortcut-popup">
 
-                <Label text="Keyboard Shortcuts"
-                       styleClass="shortcut-title"/>
+                <Label styleClass="shortcut-title" text="Keyboard Shortcuts" />
 
-            <HBox spacing="40" alignment="TOP_CENTER">
+            <HBox alignment="TOP_CENTER" spacing="40">
 
                 <!-- LEFT COLUMN -->
                 <VBox spacing="8">
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="I"
-                               styleClass="shortcut-key"/>
-                        <Label text="Toggle Shortcut Help"/>
+                        <Label styleClass="shortcut-key" text="I" />
+                        <Label text="Toggle Shortcut Help" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="Q / Ctrl+Q"
-                               styleClass="shortcut-key"/>
-                        <Label text="Rotate Left"/>
+                        <Label styleClass="shortcut-key" text="Q / Ctrl+Q" />
+                        <Label text="Rotate Left" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="E / Ctrl+E"
-                               styleClass="shortcut-key"/>
-                        <Label text="Rotate Right"/>
+                        <Label styleClass="shortcut-key" text="E / Ctrl+E" />
+                        <Label text="Rotate Right" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="R"
-                               styleClass="shortcut-key"/>
-                        <Label text="Reset Rotation"/>
+                        <Label styleClass="shortcut-key" text="R" />
+                        <Label text="Reset Rotation" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="Ctrl + ↑"
-                               styleClass="shortcut-key"/>
-                        <Label text="Move TIFF Up"/>
+                        <Label styleClass="shortcut-key" text="Ctrl + ↑" />
+                        <Label text="Move TIFF Up" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="Ctrl + ↓"
-                               styleClass="shortcut-key"/>
-                        <Label text="Move TIFF Down"/>
+                        <Label styleClass="shortcut-key" text="Ctrl + ↓" />
+                        <Label text="Move TIFF Down" />
                     </HBox>
 
                 </VBox>
@@ -613,27 +461,23 @@
                 <VBox spacing="8">
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="0"
-                               styleClass="shortcut-key"/>
-                        <Label text="Reset Zoom"/>
+                        <Label styleClass="shortcut-key" text="0" />
+                        <Label text="Reset Zoom" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="F"
-                               styleClass="shortcut-key"/>
-                        <Label text="Fit Width"/>
+                        <Label styleClass="shortcut-key" text="F" />
+                        <Label text="Fit Width" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="D"
-                               styleClass="shortcut-key"/>
-                        <Label text="Next File"/>
+                        <Label styleClass="shortcut-key" text="D" />
+                        <Label text="Next File" />
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
-                        <Label text="A"
-                               styleClass="shortcut-key"/>
-                        <Label text="Previous File"/>
+                        <Label styleClass="shortcut-key" text="A" />
+                        <Label text="Previous File" />
                     </HBox>
 
                 </VBox>

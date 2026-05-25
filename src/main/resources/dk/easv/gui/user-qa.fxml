@@ -1,117 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="820.0"
-            prefWidth="1440.0"
-            styleClass="app-root"
-            stylesheets="@css/app.css,@css/user-qa.css"
-            xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.easv.gui.UserQaController">
+<AnchorPane prefHeight="820.0" prefWidth="1440.0" styleClass="app-root" stylesheets="@css/app.css,@css/user-qa.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserQaController">
 
     <children>
-        <VBox spacing="0"
-              AnchorPane.topAnchor="8"
-              AnchorPane.bottomAnchor="8"
-              AnchorPane.leftAnchor="8"
-              AnchorPane.rightAnchor="8">
+        <VBox spacing="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
             <children>
 
-                <HBox spacing="8"
-                      VBox.vgrow="ALWAYS">
+                <HBox spacing="8" VBox.vgrow="ALWAYS">
 
                     <!-- LEFT QUEUE -->
-                    <VBox spacing="12"
-                          prefWidth="310"
-                          minWidth="310"
-                          maxWidth="310"
-                          styleClass="qa-panel">
+                    <VBox maxWidth="310.0" minWidth="310" prefHeight="808.0" prefWidth="315.0" spacing="12" styleClass="qa-panel">
 
                         <padding>
-                            <Insets top="16" right="16" bottom="16" left="16"/>
+                            <Insets bottom="14.0" left="14.0" right="14.0" top="16.0" />
                         </padding>
 
                         <children>
-                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                <Label text="QA Queue"
-                                       styleClass="qa-section-title"/>
+                            <HBox alignment="CENTER_LEFT" spacing="5">
+                                <Label styleClass="qa-section-title" text="QA Queue" />
 
-                                <Label text="3"
-                                       styleClass="qa-count-pill"/>
+                                <Label styleClass="qa-count-pill" text="3" />
                             </HBox>
 
-                            <TextField promptText="Search documents..."
-                                       styleClass="dark-field"/>
+                            <TextField promptText="Search documents..." styleClass="dark-field" />
 
                             <VBox spacing="10">
 
-                                <VBox spacing="7"
-                                      styleClass="qa-document-card-selected">
+                                <VBox spacing="7" styleClass="qa-document-card-selected">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
-                                            <Label text="4743442"
-                                                   styleClass="qa-document-title"/>
-                                            <Region HBox.hgrow="ALWAYS"/>
-                                            <Label text="5 pages"
-                                                   styleClass="qa-small-text"/>
+                                            <Label styleClass="qa-document-title" text="4743442" />
+                                            <Region HBox.hgrow="ALWAYS" />
+                                            <Label styleClass="qa-small-text" text="5 pages" />
                                         </HBox>
 
-                                        <Label text="SEA - Syddansk Erhvervsakademi"
-                                               styleClass="muted-text"/>
+                                        <Label styleClass="muted-text" text="SEA - Syddansk Erhvervsakademi" />
 
-                                        <Label text="BOX_001  •  22-05-2026"
-                                               styleClass="qa-small-text"/>
+                                        <Label styleClass="qa-small-text" text="BOX_001  •  22-05-2026" />
 
-                                        <Label text="Waiting for QA"
-                                               styleClass="qa-warning-text"/>
+                                        <Label styleClass="qa-warning-text" text="Waiting for QA" />
                                     </children>
                                 </VBox>
 
-                                <VBox spacing="7"
-                                      styleClass="qa-document-card">
+                                <VBox spacing="7" styleClass="qa-document-card">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
-                                            <Label text="4743441"
-                                                   styleClass="qa-document-title"/>
-                                            <Region HBox.hgrow="ALWAYS"/>
-                                            <Label text="3 pages"
-                                                   styleClass="qa-small-text"/>
+                                            <Label styleClass="qa-document-title" text="4743441" />
+                                            <Region HBox.hgrow="ALWAYS" />
+                                            <Label styleClass="qa-small-text" text="3 pages" />
                                         </HBox>
 
-                                        <Label text="Nordic Transport Group"
-                                               styleClass="muted-text"/>
+                                        <Label styleClass="muted-text" text="Nordic Transport Group" />
 
-                                        <Label text="BOX_002  •  21-05-2026"
-                                               styleClass="qa-small-text"/>
+                                        <Label styleClass="qa-small-text" text="BOX_002  •  21-05-2026" />
 
-                                        <Label text="Waiting for QA"
-                                               styleClass="qa-warning-text"/>
+                                        <Label styleClass="qa-warning-text" text="Waiting for QA" />
                                     </children>
                                 </VBox>
 
-                                <VBox spacing="7"
-                                      styleClass="qa-document-card">
+                                <VBox spacing="7" styleClass="qa-document-card">
                                     <children>
                                         <HBox alignment="CENTER_LEFT">
-                                            <Label text="4743440"
-                                                   styleClass="qa-document-title"/>
-                                            <Region HBox.hgrow="ALWAYS"/>
-                                            <Label text="8 pages"
-                                                   styleClass="qa-small-text"/>
+                                            <Label styleClass="qa-document-title" text="4743440" />
+                                            <Region HBox.hgrow="ALWAYS" />
+                                            <Label styleClass="qa-small-text" text="8 pages" />
                                         </HBox>
 
-                                        <Label text="TechSolutions ApS"
-                                               styleClass="muted-text"/>
+                                        <Label styleClass="muted-text" text="TechSolutions ApS" />
 
-                                        <Label text="BOX_003  •  21-05-2026"
-                                               styleClass="qa-small-text"/>
+                                        <Label styleClass="qa-small-text" text="BOX_003  •  21-05-2026" />
 
-                                        <Label text="Waiting for QA"
-                                               styleClass="qa-warning-text"/>
+                                        <Label styleClass="qa-warning-text" text="Waiting for QA" />
                                     </children>
                                 </VBox>
 
@@ -120,186 +94,201 @@
                     </VBox>
 
                     <!-- CENTER PREVIEW -->
-                    <VBox spacing="12"
-                          HBox.hgrow="ALWAYS"
-                          styleClass="qa-panel">
+                    <VBox spacing="12.0" styleClass="qa-panel" HBox.hgrow="ALWAYS">
 
                         <padding>
-                            <Insets top="16" right="16" bottom="16" left="16"/>
+                            <Insets bottom="12.0" left="12.0" right="12.0" top="14.0" />
                         </padding>
 
                         <children>
                             <HBox alignment="CENTER_LEFT">
                                 <VBox spacing="2">
-                                    <Label text="Document ID: 4743442"
-                                           styleClass="qa-section-title"/>
+                                    <Label styleClass="qa-section-title" text="Document ID: 4743442" />
 
-                                    <Label text="File 1 of 5"
-                                           styleClass="muted-text"/>
+                                    <Label styleClass="muted-text" text="File 1 of 5" />
                                 </VBox>
 
-                                <Region HBox.hgrow="ALWAYS"/>
+                                <Region HBox.hgrow="ALWAYS" />
 
-                                <Button text="-"
-                                        styleClass="small-button"/>
+                                <Button styleClass="small-button" text="-" />
 
-                                <Label text="100%"
-                                       styleClass="qa-zoom-label"/>
+                                <Label styleClass="qa-zoom-label" text="100%" />
 
-                                <Button text="+"
-                                        styleClass="small-button"/>
+                                <Button styleClass="small-button" text="+" />
                             </HBox>
 
-                            <StackPane VBox.vgrow="ALWAYS"
-                                       styleClass="qa-preview-area">
+                            <StackPane styleClass="qa-preview-area" VBox.vgrow="ALWAYS">
 
                                 <children>
-                                    <VBox alignment="TOP_CENTER"
-                                          spacing="18"
-                                          styleClass="qa-paper-preview"
-                                          maxWidth="430"
-                                          maxHeight="570">
+                                    <VBox alignment="TOP_CENTER" maxHeight="560" maxWidth="470" spacing="18" styleClass="qa-paper-preview">
 
                                         <padding>
-                                            <Insets top="28" right="28" bottom="28" left="28"/>
+                                            <Insets bottom="28" left="28" right="28" top="28" />
                                         </padding>
 
                                         <children>
                                             <HBox>
-                                                <Label text="Dokumenter"
-                                                       styleClass="qa-paper-title"/>
+                                                <Label styleClass="qa-paper-title" text="Dokumenter" />
 
-                                                <Region HBox.hgrow="ALWAYS"/>
+                                                <Region HBox.hgrow="ALWAYS" />
 
-                                                <Label text="Global ID: 4743442"
-                                                       styleClass="qa-paper-text"/>
+                                                <Label styleClass="qa-paper-text" text="Global ID: 4743442" />
                                             </HBox>
 
                                             <GridPane hgap="26" vgap="8">
                                                 <children>
-                                                    <Label text="Arkiv:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="qa-paper-small"/>
-                                                    <Label text="Dokumentarkiv" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="qa-paper-small"/>
+                                                    <Label styleClass="qa-paper-small" text="Arkiv:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                    <Label styleClass="qa-paper-small" text="Dokumentarkiv" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                                    <Label text="Kommune:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="qa-paper-small"/>
-                                                    <Label text="Esbjerg" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="qa-paper-small"/>
+                                                    <Label styleClass="qa-paper-small" text="Kommune:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                    <Label styleClass="qa-paper-small" text="Esbjerg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                                    <Label text="Pages:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="qa-paper-small"/>
-                                                    <Label text="5" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="qa-paper-small"/>
+                                                    <Label styleClass="qa-paper-small" text="Pages:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                    <Label styleClass="qa-paper-small" text="5" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 </children>
+                                    <columnConstraints>
+                                       <ColumnConstraints />
+                                       <ColumnConstraints />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                       <RowConstraints />
+                                       <RowConstraints />
+                                       <RowConstraints />
+                                    </rowConstraints>
                                             </GridPane>
 
-                                            <Region VBox.vgrow="ALWAYS"/>
+                                            <Region VBox.vgrow="ALWAYS" />
 
-                                            <Label text="||||||||||||||||||||||||||||"
-                                                   styleClass="qa-barcode"/>
+                                            <Label styleClass="qa-barcode" text="||||||||||||||||||||||||||||" />
 
-                                            <Label text="4743442"
-                                                   styleClass="qa-paper-text"/>
+                                            <Label styleClass="qa-paper-text" text="4743442" />
 
-                                            <Label text="SEP"
-                                                   styleClass="qa-paper-text"/>
+                                            <Label styleClass="qa-paper-text" text="SEP" />
                                         </children>
                                     </VBox>
                                 </children>
                             </StackPane>
 
-                            <HBox alignment="CENTER"
-                                  spacing="28"
-                                  styleClass="qa-toolbar">
+                            <HBox alignment="CENTER" maxHeight="74" minHeight="74" prefHeight="74" spacing="32" styleClass="qa-toolbar">
 
                                 <children>
-                                    <Button text="↺&#10;Rotate Left&#10;(Q)"
-                                            styleClass="toolbar-button"/>
 
-                                    <Button text="↻&#10;Rotate Right&#10;(E)"
-                                            styleClass="toolbar-button"/>
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="↺" />
+                                        <Label styleClass="toolbar-label" text="Rotate Left" />
+                                        <Label styleClass="toolbar-key" text="(Q)" />
+                                    </VBox>
 
-                                    <Button text="↔&#10;Fit Width"
-                                            styleClass="toolbar-button"/>
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="↻" />
+                                        <Label styleClass="toolbar-label" text="Rotate Right" />
+                                        <Label styleClass="toolbar-key" text="(E)" />
+                                    </VBox>
 
-                                    <Button text="▣&#10;Reset Zoom"
-                                            styleClass="toolbar-button"/>
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="⟲" />
+                                        <Label styleClass="toolbar-label" text="Reset Rotation" />
+                                        <Label styleClass="toolbar-key" text="(R)" />
+                                    </VBox>
 
-                                    <Button text="→&#10;Next File&#10;(D)"
-                                            styleClass="toolbar-button"/>
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="↔" />
+                                        <Label styleClass="toolbar-label" text="Fit Width" />
+                                        <Label styleClass="toolbar-key" text="(F)" />
+                                    </VBox>
 
-                                    <Button text="←&#10;Previous File&#10;(A)"
-                                            styleClass="toolbar-button"/>
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="▣" />
+                                        <Label styleClass="toolbar-label" text="Reset Zoom" />
+                                        <Label styleClass="toolbar-key" text="(0)" />
+                                    </VBox>
+
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="←" />
+                                        <Label styleClass="toolbar-label" text="Previous" />
+                                        <Label styleClass="toolbar-key" text="(A)" />
+                                    </VBox>
+
+                                    <VBox alignment="CENTER" spacing="2">
+                                        <Label styleClass="toolbar-icon" text="→" />
+                                        <Label styleClass="toolbar-label" text="Next" />
+                                        <Label styleClass="toolbar-key" text="(D)" />
+                                    </VBox>
+
                                 </children>
+
                             </HBox>
                         </children>
                     </VBox>
 
                     <!-- RIGHT INFO -->
-                    <VBox spacing="12"
-                          prefWidth="330"
-                          minWidth="330"
-                          maxWidth="330"
-                          styleClass="qa-panel">
+                    <VBox maxWidth="330" minWidth="330" prefWidth="330" spacing="12" styleClass="qa-panel">
 
                         <padding>
-                            <Insets top="16" right="16" bottom="16" left="16"/>
+                            <Insets bottom="12.0" left="12.0" right="10.0" top="14.0" />
                         </padding>
 
                         <children>
-                            <Label text="Document Information"
-                                   styleClass="qa-section-title"/>
+                            <Label styleClass="qa-section-title" text="Document Information" />
 
                             <GridPane hgap="10" vgap="10">
                                 <children>
-                                    <Label text="Client" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="SEA" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Client" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="SEA" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                    <Label text="Box" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="BOX_001" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Box" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="BOX_001" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                    <Label text="Document Name" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="q" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Document Name" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="q" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                    <Label text="Date" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="22-05-2026" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Date" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="22-05-2026" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                    <Label text="Barcode" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="4743442" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Barcode" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="4743442" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                    <Label text="Scan Profile" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="qa-info-label"/>
-                                    <Label text="High Brightness" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="qa-info-value"/>
+                                    <Label styleClass="qa-info-label" text="Scan Profile" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                    <Label prefHeight="30.0" prefWidth="199.0" styleClass="qa-info-value" text="High Brightness" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                 </children>
+                        <columnConstraints>
+                           <ColumnConstraints />
+                           <ColumnConstraints />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                        <padding>
+                           <Insets left="4.0" />
+                        </padding>
                             </GridPane>
 
-                            <VBox spacing="8"
-                                  styleClass="qa-action-card">
+                            <VBox spacing="8" styleClass="qa-action-card">
                                 <children>
-                                    <Label text="QA Status"
-                                           styleClass="qa-section-title"/>
+                                    <Label styleClass="qa-section-title" text="QA Status" />
 
-                                    <HBox spacing="8"
-                                          alignment="CENTER_LEFT">
-                                        <Label text="●"
-                                               styleClass="qa-status-dot"/>
+                                    <HBox alignment="CENTER_LEFT" spacing="8">
+                                        <Label styleClass="qa-status-dot" text="●" />
 
-                                        <Label text="Waiting for QA"
-                                               styleClass="muted-text"/>
+                                        <Label styleClass="muted-text" text="Waiting for QA" />
                                     </HBox>
                                 </children>
                             </VBox>
 
-                            <VBox spacing="8"
-                                  styleClass="qa-notes-card"
-                                  VBox.vgrow="ALWAYS">
+                            <VBox spacing="8" styleClass="qa-notes-card" VBox.vgrow="ALWAYS">
                                 <children>
-                                    <Label text="QA Notes"
-                                           styleClass="qa-section-title"/>
+                                    <Label styleClass="qa-section-title" text="QA Notes" />
 
-                                    <TextArea promptText="Add notes or comments..."
-                                              styleClass="qa-notes-area"
-                                              VBox.vgrow="ALWAYS"/>
+                                    <TextArea promptText="Add notes or comments..." styleClass="qa-notes-area" VBox.vgrow="ALWAYS" />
                                 </children>
                             </VBox>
 
-                            <Button text="✓ Approve Document"
-                                    styleClass="qa-approve-button"
-                                    maxWidth="Infinity"/>
+                            <Button maxWidth="Infinity" prefHeight="46" styleClass="qa-approve-button" text="✓ Approve Document" />
                         </children>
                     </VBox>
 
