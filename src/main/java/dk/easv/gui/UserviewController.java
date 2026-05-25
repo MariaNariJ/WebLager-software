@@ -1500,7 +1500,4 @@ public class UserviewController {
             }
         }
     }
-
-
-
 }
