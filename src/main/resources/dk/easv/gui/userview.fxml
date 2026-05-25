@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
+<?import javafx.scene.control.TreeView?>
 <AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@css/app.css,@css/userview.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
@@ -63,13 +64,30 @@
 
                                 </HBox>
 
-                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                <ScrollPane fitToHeight="true"
+                                            fitToWidth="true"
+                                            hbarPolicy="NEVER"
+                                            styleClass="dark-scroll"
+                                            vbarPolicy="AS_NEEDED"
+                                            VBox.vgrow="ALWAYS">
 
                                     <content>
-                                        <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8" />
-                                    </content>
-                                </ScrollPane>
 
+                                        <VBox alignment="TOP_LEFT"
+                                              spacing="8">
+
+                                            <Label text="Current Box"
+                                                   styleClass="current-box-label"/>
+
+                                            <TreeView fx:id="documentTreeView"
+                                                      VBox.vgrow="ALWAYS"
+                                                      styleClass="document-tree"/>
+
+                                        </VBox>
+
+                                    </content>
+
+                                </ScrollPane>
                                 <HBox spacing="10">
 
                                     <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next-F5" />
@@ -297,14 +315,12 @@
 
                                 </VBox>
 
-
                                 <Region VBox.vgrow="ALWAYS" />
 
-                                <VBox fx:id="qaWarningBox" managed="false" styleClass="qa-warning-box" visible="false">
-
-                                    <Label fx:id="qaWarningLabel" styleClass="qa-warning-label" text="⚠ Send current document to QA before scanning next" wrapText="true" />
-                                </VBox>
                                 <VBox spacing="14" styleClass="status-card">
+                                    <VBox.margin>
+                                        <Insets top="40"/>
+                                    </VBox.margin>
 
                                     <Label styleClass="info-label" text="Document Status" />
 
@@ -312,41 +328,36 @@
 
                                         <Circle radius="4" styleClass="status-dot" />
 
-                                        <Label fx:id="documentStatusLabel" styleClass="status-text" text="Ready for scanning" />
+                                        <Label fx:id="documentStatusLabel"
+                                               styleClass="status-text"
+                                               text="Ready for scanning" />
 
                                     </HBox>
 
                                 </VBox>
-                                <Button fx:id="btnReadyForQA" onAction="#onReadyForQAClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="Save and send to QA" />
+
+                                <HBox spacing="12">
+
+                                    <Button fx:id="btnFinishBox"
+                                            onAction="#onFinishBoxClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="120.0"
+                                            styleClass="primary-action"
+                                            text="Finish Box" />
+
+                                    <Button fx:id="btnReadyForQA"
+                                            onAction="#onReadyForQAClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="170.0"
+                                            styleClass="primary-action"
+                                            text="Save Box To QA" />
+
+                                </HBox>
                             </children>
                         </VBox>
 
                   </children>
               </HBox>
-
-                <!-- BOTTOM SHELF -->
-                <VBox fx:id="bottomShelf"
-                      spacing="0"
-                      styleClass="panel"
-                      HBox.hgrow="ALWAYS">
-
-                    <!-- CLICKABLE HEADER -->
-                    <StackPane fx:id="shelfHeader" onMouseClicked="#toggleBottomShelf" styleClass="shelf-header">
-
-                        <!-- Left aligned title -->
-                        <HBox alignment="CENTER_LEFT">
-                            <Label prefHeight="18.0" prefWidth="135.0" styleClass="shelf-title" text="Document Overview" />
-                        </HBox>
-
-                        <!-- Centered arrow -->
-                        <Label fx:id="shelfArrow" alignment="CENTER" prefHeight="18.0" prefWidth="28.0" styleClass="shelf-arrow" text="▲" />
-                    </StackPane>
-
-                    <!-- COLLAPSIBLE CONTENT -->
-                    <VBox fx:id="shelfContent" spacing="10" styleClass="shelf-content" />
-
-                </VBox>
-
             </children>
         </VBox>
 

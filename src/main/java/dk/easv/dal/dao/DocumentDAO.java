@@ -20,7 +20,7 @@ public class DocumentDAO {
             ps.setString(4, document.getDocumentType());
             ps.setString(5, document.getDocumentName());
 
-            generatedId = ps.executeUpdate();
+            ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 generatedId = rs.getInt(1);

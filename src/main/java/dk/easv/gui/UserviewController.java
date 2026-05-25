@@ -28,12 +28,12 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import dk.easv.bll.DocumentManager;
+
 
 public class UserviewController {
     private final FileManager fileManager = new FileManager();
@@ -45,9 +45,9 @@ public class UserviewController {
 
     private boolean scanning = false;
 
-    private int currentIndex = -1;
+    private boolean scanningFinished = false;
 
-    private DocumentGroup activeDocument = null;
+    private int currentIndex = -1;
 
     private String selectedProfile = null;
 
@@ -55,10 +55,10 @@ public class UserviewController {
 
     private DocumentGroup currentDocument;
 
+    private final List<DocumentGroup> scannedDocuments = new ArrayList<>();
+
     @FXML
     private Label fileCountLabel;
-    @FXML
-    private VBox fileListContainer;
     @FXML
     private VBox sidebar;
     @FXML
@@ -97,11 +97,6 @@ public class UserviewController {
     @FXML
     private Label scanStatusLabel;
     @FXML
-    private VBox shelfContent;
-    @FXML
-    private Label shelfArrow;
-    private boolean shelfOpen = true;
-    @FXML
     private VBox mainContent;
     @FXML
     private Button btnSaveasDocument;
@@ -116,32 +111,31 @@ public class UserviewController {
     @FXML
     private Button qaButton;
     @FXML
-    private VBox qaWarningBox;
-    @FXML
     private Button btnReadyForQA;
+    @FXML
+    private Button btnFinishBox;
     @FXML
     private Label documentStatusLabel;
     @FXML
     private Label fileIndicatorLabel;
     @FXML
     private Button exportButton;
-
     @FXML
-    private StackPane shelfHeader;
-
-    @FXML
-    private VBox bottomShelf;
-
+    private TreeView<String> documentTreeView;
     @FXML
     private AnchorPane appRoot;
     @FXML
     private ImageView sidebarLogoImage;
     @FXML
     private Button themeToggleButton;
+
     private boolean lightMode = false;
     private boolean shortcutVisible = false;
     private static final String DARK_CSS = "/dk/easv/gui/css/app.css";
     private static final String LIGHT_CSS = "/dk/easv/gui/css/lightmode.css";
+    private int documentCounter = 1;
+    private final Map<String, Page> pageMap = new HashMap<>();
+
 
     @FXML
     private void onThemeToggleClicked() {
@@ -165,8 +159,7 @@ public class UserviewController {
                 )
         ));
     }
-    @FXML
-    private Label qaWarningLabel;
+
 
     private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 
@@ -212,8 +205,6 @@ public class UserviewController {
 
     private void refreshFileList() {
         if (scannedPages == null) return;
-
-        fileListContainer.getChildren().clear();
 
         for (int i = 0; i < scannedPages.size(); i++) {
             addPageToUI(scannedPages.get(i), i);
@@ -280,6 +271,9 @@ public class UserviewController {
         //Disabled at first
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
+
+        btnReadyForQA.setDisable(true);
+        btnReadyForQA.getStyleClass().add("disabled-action-button");
 
         // Double-click reset
         previewImage.setOnMouseClicked(event -> {
@@ -351,13 +345,22 @@ public class UserviewController {
             sidebarLockButton.getStyleClass().add("sidebar-icon-button-active");
         }
 
-        // Bottom shelf starts collapsed
-        shelfOpen = false;
-        shelfContent.setVisible(false);
-        shelfContent.setManaged(false);
-        shelfArrow.setRotate(0); // ▲ = open
-        scanningView.addAll(mainContent.getChildren());
+        documentTreeView.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((obs, oldItem, newItem) -> {
 
+                    if (newItem == null) return;
+
+                    String selected = newItem.getValue();
+
+                    Page selectedPage = pageMap.get(selected);
+
+                    if (selectedPage != null) {
+
+                        showSpecificPage(selectedPage);
+                    }
+                });
+        btnReadyForQA.setDisable(true);
     }
 
     private void zoomSetup() {
@@ -657,15 +660,14 @@ public class UserviewController {
         }
 
         // Clear UI for next scan session
-        fileListContainer.getChildren().clear();
-
         scannedPages = new ArrayList<>();
 
         currentIndex = -1;
-
         scanning = true;
 
         btnFetchFiles.setDisable(true);
+        btnReadyForQA.setDisable(true);
+
         btnFetchFiles.setOpacity(0.6);
 
         CompletableFuture.runAsync(() -> {
@@ -681,7 +683,9 @@ public class UserviewController {
                     // Add page to UI
                     scannedPages.add(page);
 
-                    addPageToUI(page, scannedPages.size() - 1);
+                    refreshDocumentTree();
+
+                    //addPageToUI(page, scannedPages.size() - 1);
 
                     fileCountLabel.setText(
                             String.valueOf(scannedPages.size())
@@ -695,11 +699,6 @@ public class UserviewController {
                     // FIRST barcode starts document
                     if (hasBarcode && currentDocument == null) {
 
-                        currentDocument = new DocumentGroup(
-                                "Document " + (documentGroups.size() + 1),
-                                page.getBarcode()
-                        );
-
                         // Autofill suggested document name
                         txtDocumentName.clear();
 
@@ -707,15 +706,15 @@ public class UserviewController {
                                 "Document " + (documentGroups.size() + 1)
                         );
                         documentStatusLabel.setText("Ready for scanning");
-                        btnReadyForQA.setText("Save and send to QA");
-                        btnReadyForQA.setDisable(false);
-                        btnReadyForQA.setOpacity(1.0);
 
                         // Update status
                         documentStatusLabel.setText("Waiting for QA");
                         scanStatusLabel.setText("Awaiting QA");
 
-                        btnReadyForQA.setOpacity(1.0);
+                        currentDocument = new DocumentGroup(
+                                "Document " + documentCounter,
+                                page.getBarcode()
+                        );
 
                         currentDocument.addPage(page);
 
@@ -741,9 +740,6 @@ public class UserviewController {
 
                     // SECOND barcode pauses scanning
                     if (hasBarcode && currentDocument != null) {
-
-                        //documentGroups.add(currentDocument);
-                        //renderDocumentOverview();
 
                         scanning = false;
 
@@ -851,7 +847,7 @@ public class UserviewController {
     @FXML
     public void onReadyForQAClicked() {
 
-        if (currentDocument == null) {
+        if (documentGroups.isEmpty()) {
             return;
         }
 
@@ -875,10 +871,6 @@ public class UserviewController {
             return;
         }
 
-        // UI updates
-        qaWarningBox.setVisible(false);
-        qaWarningBox.setManaged(false);
-
         btnFetchFiles.setDisable(false);
         btnFetchFiles.setOpacity(1.0);
 
@@ -888,17 +880,14 @@ public class UserviewController {
 
         CompletableFuture.runAsync(() -> {
 
-            // Create box
-            documentManager.saveDocumentToQA(
-                    currentDocument,
-                    client,
-                    boxName,
-                    finalDocumentName,
-                    date,
-                    selectedProfile
-            );
+            documentManager.saveBoxToQA(
+                        documentGroups,
+                        txtClient.getText(),
+                        txtBox.getText(),
+                        selectedProfile,
+                        txtDate.getText()
+                );
 
-            currentDocument = null;
 
             // UI updates
             Platform.runLater(() -> {
@@ -909,6 +898,7 @@ public class UserviewController {
                 documentStatusLabel.setText("Sent to QA");
 
                 btnSaveasDocument.setDisable(true);
+                resetScanningSession();
                 btnSaveasDocument.setOpacity(0.5);
 
                 btnFetchFiles.setDisable(false);
@@ -916,13 +906,8 @@ public class UserviewController {
 
                 scanning = false;
 
-                // Hide QA warning
-                qaWarningBox.setVisible(false);
-                qaWarningBox.setManaged(false);
-
                 // Update button state
                 btnReadyForQA.setDisable(true);
-                btnReadyForQA.setOpacity(0.7);
             });
         });
     }
@@ -986,8 +971,6 @@ public class UserviewController {
                 showPage(index);
             });
 
-            fileListContainer.getChildren().add(btn);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1021,8 +1004,6 @@ public class UserviewController {
 
         String search = query == null ? "" : query.trim().toLowerCase();
 
-        fileListContainer.getChildren().clear();
-
         // If empty it will show all
         if (search.isEmpty()) {
 
@@ -1054,7 +1035,6 @@ public class UserviewController {
         }
     }
 
-
     private void showSidebar() {
         if (sidebarVisible) return;
 
@@ -1077,7 +1057,6 @@ public class UserviewController {
     }
 
     //Sidebar
-
     @FXML
     private void onSidebarLockClicked() {
         sidebarLocked = !sidebarLocked;
@@ -1136,79 +1115,6 @@ public class UserviewController {
         updateZoom();
     }
 
-    private void updateViewingStatus() {
-
-        if (scannedPages == null || scannedPages.isEmpty()) {
-            scanStatusLabel.setText("No files loaded");
-            return;
-        }
-
-        int currentPage = currentIndex + 1;
-        int totalPages = scannedPages.size();
-
-        scanStatusLabel.setText(
-                "Viewing page " + currentPage +
-                        " out of " + totalPages
-        );
-    }
-
-    /**
-     * Opens/closes a document from Document Overview.
-     */
-    private void openDocument(DocumentGroup document) {
-
-        // If same document is clicked again,
-        // return to default scanning state
-        if (activeDocument == document) {
-
-            activeDocument = null;
-
-            // Clear current pages
-            scannedPages.clear();
-            fileListContainer.getChildren().clear();
-
-            // Reset preview image
-            previewImage.setImage(null);
-
-            // Clear barcode
-            barcodeLabel.setText("");
-
-            // Reset status text
-            scanStatusLabel.setText("Ready for scanning");
-
-            // Enable scanning again
-            btnFetchFiles.setDisable(false);
-            btnFetchFiles.setOpacity(1.0);
-
-            currentIndex = -1;
-
-            return;
-        }
-
-        // Open selected document
-        activeDocument = document;
-
-        fileListContainer.getChildren().clear();
-
-        scannedPages = new ArrayList<>(document.getPages());
-
-        // Load pages into left sidebar
-        for (int i = 0; i < scannedPages.size(); i++) {
-            addPageToUI(scannedPages.get(i), i);
-        }
-
-        // Show first page automatically
-        if (!scannedPages.isEmpty()) {
-            showPage(0);
-        }
-
-        // Disable scanning while viewing existing document
-        btnFetchFiles.setDisable(true);
-        btnFetchFiles.setOpacity(0.5);
-
-        updateViewingStatus();
-    }
-
     private void finishCurrentDocument() {
 
         if (currentDocument == null) {
@@ -1218,16 +1124,23 @@ public class UserviewController {
         // Add finished document to overview
         documentGroups.add(currentDocument);
 
-        renderDocumentOverview();
+        currentDocument = null;
+
+        refreshDocumentTree();
 
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
 
-        scanning = false;
+        // Enable next scan
+        btnFetchFiles.setDisable(false);
+        btnFetchFiles.setOpacity(1.0);
 
         scanStatusLabel.setText(
-                "Awaiting QA"
+                "Ready for next document"
         );
+
+        documentCounter++;
+        currentDocument = null;
     }
 
         /*
@@ -1246,63 +1159,6 @@ public class UserviewController {
     /**
      * Displays grouped documents inside Document Overview.
      */
-    private void renderDocumentOverview() {
-
-            shelfContent.getChildren().clear();
-
-        // Container holding all document cards
-        javafx.scene.layout.HBox documentRow =
-                new javafx.scene.layout.HBox(12);
-
-        for (DocumentGroup document : documentGroups) {
-
-            VBox card = new VBox(6);
-            card.getStyleClass().add("mini-card");
-
-            // Document title
-            Label docTitle = new Label(document.getTitle());
-            docTitle.getStyleClass().add("overview-title");
-
-            // Page count
-            Label pages = new Label(
-                    "Pages: " + document.getPages().size()
-            );
-            pages.getStyleClass().add("muted-text");
-
-            // Barcode display
-            Label barcode = new Label(
-                    "Barcode: " + document.getBarcode()
-            );
-            barcode.getStyleClass().add("muted-text");
-
-            card.getChildren().addAll(docTitle, pages, barcode);
-
-            // Open selected document
-            card.setOnMouseClicked(e -> openDocument(document));
-
-            documentRow.getChildren().add(card);
-        }
-
-        // Add cards to overview
-        shelfContent.getChildren().add(documentRow);
-    }
-
-    // Bottom shelf
-    @FXML
-    private void toggleBottomShelf() {
-
-        shelfOpen = !shelfOpen;
-
-        shelfContent.setVisible(shelfOpen);
-        shelfContent.setManaged(shelfOpen);
-
-        RotateTransition rt = new RotateTransition(Duration.millis(200), shelfArrow);
-
-        // Rotate relative instead of absolute
-        rt.setByAngle(shelfOpen ? -180 : 180);
-
-        rt.play();
-    }
 
     @FXML
     private void onSelectProfileClicked() {
@@ -1373,10 +1229,6 @@ public class UserviewController {
 
         mainContent.getChildren().setAll(scanningView);
 
-        // Restore entire bottom shelf
-        bottomShelf.setManaged(true);
-        bottomShelf.setVisible(true);
-
         setActiveUserTab(scanningButton);
         setInactiveUserTab(qaButton);
         setInactiveUserTab(exportButton);
@@ -1395,10 +1247,6 @@ public class UserviewController {
     private void onExportClicked() {
 
         loadUserTab("user-export.fxml");
-
-        // Hide entire bottom shelf
-        bottomShelf.setManaged(false);
-        bottomShelf.setVisible(false);
 
         setInactiveUserTab(scanningButton);
         setInactiveUserTab(qaButton);
@@ -1442,7 +1290,7 @@ public class UserviewController {
     }
 
     // Returns how many documents currently exist
-// Used for automatic default naming
+    // Used for automatic default naming
     public int getDocumentCount() {
 
         return documentGroups.size();
@@ -1469,32 +1317,168 @@ public class UserviewController {
         // Finalize document and add to overview
         finishCurrentDocument();
 
-        // Show QA warning
-        qaWarningBox.setVisible(true);
-        qaWarningBox.setManaged(true);
-
         // Reset QA button state
-        btnReadyForQA.setText("Save and send to QA");
-        btnReadyForQA.setDisable(false);
-        btnReadyForQA.setOpacity(1.0);
+        btnReadyForQA.setText("Save box to QA");
+
+        if (!scanningFinished) {
+            btnReadyForQA.setDisable(true);
+        }
 
         // Update status
         scanStatusLabel.setText("Awaiting QA");
+    }
 
-        // Lock scanned files after saving
-        for (javafx.scene.Node node : fileListContainer.getChildren()) {
+    private void refreshDocumentTree() {
 
-            node.setDisable(true);
+        pageMap.clear();
 
-            // Add locked styling only once
-            if (!node.getStyleClass()
-                    .contains("locked-file")) {
+        String boxName = txtBox.getText();
 
-                node.getStyleClass().add("locked-file");
+        TreeItem<String> root =
+                new TreeItem<>(boxName);
+
+        root.setExpanded(true);
+
+        // Saved documents
+        for (DocumentGroup document : documentGroups) {
+
+            TreeItem<String> documentNode =
+                    new TreeItem<>(document.getTitle());
+
+            documentNode.setExpanded(false);
+
+            for (Page page : document.getPages()) {
+
+                pageMap.put(page.getPageName(), page);
+
+                TreeItem<String> pageNode =
+                        new TreeItem<>(page.getPageName());
+
+                documentNode.getChildren().add(pageNode);
             }
+            root.getChildren().add(documentNode);
+        }
+
+        // Current active document
+        if (currentDocument != null) {
+
+            TreeItem<String> currentNode =
+                    new TreeItem<>(currentDocument.getTitle());
+
+            currentNode.setExpanded(true);
+
+            for (Page page : currentDocument.getPages()) {
+
+                pageMap.put(page.getPageName(), page);
+
+                TreeItem<String> pageNode =
+                        new TreeItem<>(page.getPageName());
+
+                currentNode.getChildren().add(pageNode);
+            }
+
+            root.getChildren().add(currentNode);
+        }
+
+        documentTreeView.setRoot(root);
+
+        documentTreeView.setShowRoot(true);
+    }
+
+    @FXML
+    private void onFinishBoxClicked() {
+
+        scanningFinished = true;
+        btnReadyForQA.setDisable(false);
+        btnReadyForQA.getStyleClass().remove("disabled-action-button");
+
+        scanStatusLabel.setText("Box ready for QA");
+        documentStatusLabel.setText(
+                "Scanning completed"
+        );
+
+        btnFinishBox.setDisable(true);
+    }
+
+    private void showSpecificPage(Page page) {
+
+        try {
+
+            BufferedImage original =
+                    ImageIO.read(new File(page.getPagePath()));
+            if (original == null) return;
+
+            BufferedImage cropped = cropBackground(original);
+
+            currentImage =
+                    SwingFXUtils.toFXImage(cropped, null);
+
+            previewImage.setImage(currentImage);
+            barcodeLabel.setText(page.getBarcode());
+            rotationAngle = page.getRotation();
+            updateZoom();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void resetScanningSession() {
 
+        // Clear all collections
+        documentGroups.clear();
+        scannedDocuments.clear();
+        scannedPages.clear();
+        pageMap.clear();
+
+        // Reset active references
+        currentDocument = null;
+
+        // Reset indexes
+        currentIndex = -1;
+        documentCounter = 1;
+
+        // Clear TreeView
+        documentTreeView.setRoot(null);
+
+        // Clear preview image
+        previewImage.setImage(null);
+
+        // Clear labels
+        barcodeLabel.setText("");
+        fileCountLabel.setText("0");
+        fileIndicatorLabel.setText("");
+
+        // Clear ALL metadata fields
+        txtClient.clear();
+        txtBox.clear();
+        txtDate.clear();
+        txtDocumentName.clear();
+
+        // Reset scan profile dropdown/text
+        txtProfile.setText("");
+
+        // Reset status labels
+        scanStatusLabel.setText("Ready for scanning");
+        documentStatusLabel.setText("Waiting for QA");
+
+        // Reset buttons
+        btnSaveasDocument.setDisable(true);
+        btnSaveasDocument.setOpacity(0.5);
+
+        btnFetchFiles.setDisable(false);
+        btnFetchFiles.setOpacity(1.0);
+
+        btnReadyForQA.setDisable(true);
+        btnReadyForQA.setOpacity(0.5);
+
+        btnFinishBox.setDisable(false);
+        btnFinishBox.setOpacity(1.0);
+
+        // Reset scanning states
+        scanning = false;
+        scanningFinished = false;
+
+    }
 
 }
