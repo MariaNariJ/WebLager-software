@@ -1,9 +1,6 @@
 package dk.easv.gui;
 
 import dk.easv.be.*;
-import dk.easv.dal.dao.BoxDAO;
-import dk.easv.dal.dao.DocumentDAO;
-import dk.easv.dal.dao.PageDAO;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -36,12 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import dk.easv.bll.DocumentManager;
 
 public class UserviewController {
-    private final BoxDAO boxDAO = new BoxDAO();
-    private final DocumentDAO documentDAO = new DocumentDAO();
-    private final PageDAO pageDAO = new PageDAO();
     private final FileManager fileManager = new FileManager();
+    private final DocumentManager documentManager = new DocumentManager();
 
     private List<Page> scannedPages = new ArrayList<>();
 
@@ -893,40 +889,14 @@ public class UserviewController {
         CompletableFuture.runAsync(() -> {
 
             // Create box
-            Box box = new Box(boxName, client);
-
-            int boxId = boxDAO.insertBox(box);
-
-            // Convert date
-            java.time.LocalDate parsedDate =
-                    java.time.LocalDate.parse(
-                            date,
-                            java.time.format.DateTimeFormatter
-                                    .ofPattern("dd-MM-yyyy")
-                    );
-
-            // Create document
-            Document document = new Document(
-                    boxId,
-                    currentDocument.getBarcode(),
-                    java.sql.Date.valueOf(parsedDate),
+            documentManager.saveDocumentToQA(
+                    currentDocument,
+                    client,
+                    boxName,
                     finalDocumentName,
+                    date,
                     selectedProfile
             );
-
-            int documentId =
-                    documentDAO.insertDocument(document);
-
-            // Save pages
-            for (Page page : currentDocument.getPages()) {
-
-                page.setDocumentId(documentId);
-
-                InputStream inputStream =
-                        fileManager.getFileStream(page);
-
-                pageDAO.insertPage(page, inputStream);
-            }
 
             currentDocument = null;
 
@@ -1380,16 +1350,18 @@ public class UserviewController {
     }
 
     public void setScanSetup(
+            String client,
             String boxId,
             String profile) {
 
         selectedBox = boxId;
         selectedProfile = profile;
 
-        // Update UI fields
+        txtClient.setText(client);
         txtBox.setText(boxId);
         txtProfile.setText(profile);
     }
+
     public void setLoggedInUser(User user) {
         this.loggedInUser = user;
 

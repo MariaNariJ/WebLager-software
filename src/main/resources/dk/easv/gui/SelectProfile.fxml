@@ -10,9 +10,12 @@
 <?import javafx.scene.layout.Region?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
 <VBox spacing="10"
       prefWidth="440"
-      prefHeight="500"
+      prefHeight="560"
       alignment="TOP_LEFT"
       stylesheets="@css/app.css,@css/userview.css"
       styleClass="profile-popup"
@@ -32,9 +35,37 @@
         <Label text="Scan Setup"
                styleClass="popup-title"/>
 
-        <Label text="Select a box and profile before starting the scan process."
+        <Label text="Select a client, box and profile before starting the scan process."
                wrapText="true"
                styleClass="popup-subtitle"/>
+
+    </VBox>
+
+    <!-- CLIENT -->
+
+    <VBox spacing="8">
+
+        <Label text="Client"
+               styleClass="field-label-dark"/>
+
+        <StackPane>
+
+            <TextField fx:id="txtClientSearch"
+                       promptText="Search client..."
+                       styleClass="combo-dark"/>
+
+            <Label text="🔍"
+                   mouseTransparent="true"
+                   StackPane.alignment="CENTER_RIGHT"
+                   styleClass="search-icon"/>
+
+        </StackPane>
+
+        <ListView fx:id="clientListView"
+                  prefHeight="0"
+                  maxHeight="80"
+                  opacity="0"
+                  styleClass="client-list"/>
 
     </VBox>
 
@@ -52,24 +83,46 @@
 
     </VBox>
 
-    <!-- CLIENT -->
+    <Region prefHeight="10"/>
 
-    <VBox spacing="14">
+    <VBox spacing="6">
 
-        <Label text="Client"
+        <Label text="Profile"
                styleClass="field-label-dark"/>
 
-        <TextField fx:id="txtClient"
-                   editable="false"
-                   focusTraversable="false"
-                   styleClass="combo-dark" />
+        <StackPane>
+
+            <TextField fx:id="txtProfileSearch"
+                       promptText="Search profile..."
+                       styleClass="combo-dark"/>
+
+            <Label text="🔍"
+                   mouseTransparent="true"
+                   StackPane.alignment="CENTER_RIGHT"
+                   styleClass="search-icon"/>
+
+        </StackPane>
 
     </VBox>
 
-    <Region prefHeight="10"/>
+    <ScrollPane fitToWidth="true"
+                prefHeight="180"
+                maxHeight="180"
+                styleClass="profile-scroll"
+                hbarPolicy="NEVER">
 
-    <VBox fx:id="profileContainer"
-          spacing="8"/>
+        <content>
+            <VBox fx:id="profileContainer"
+                  spacing="8">
+
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+
+            </VBox>
+        </content>
+
+    </ScrollPane>
     <Region prefHeight="26"/>
 
     <!-- ACTION BUTTONS -->

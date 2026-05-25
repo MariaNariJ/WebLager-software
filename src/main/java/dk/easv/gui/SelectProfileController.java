@@ -1,188 +1,372 @@
 package dk.easv.gui;
 
+import dk.easv.bll.ClientManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextField;
+import dk.easv.be.Profile;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.scene.layout.Region;
+import javafx.util.Duration;
+import dk.easv.be.Client;
 
 public class SelectProfileController {
 
-    // Container holding all profile cards
     @FXML
     private VBox profileContainer;
-
-    // Client field
     @FXML
-    private TextField txtClient;
-
-    // Box field
+    private ListView<String> clientListView;
     @FXML
-    private TextField txtBox;
-
-    // Continue button from popup
+    private javafx.scene.control.TextField txtBox;
     @FXML
     private Button continueButton;
-
-    // Currently selected profile card
-    private VBox selectedCard;
-
-    // Stores selected profile name
-    private String selectedProfile;
-
-    // Reference to main controller
-    private UserviewController userviewController;
-
     @FXML
     private Button cancelButton;
+    @FXML
+    private TextField txtClientSearch;
+    @FXML
+    private TextField txtProfileSearch;
+
+
+    private HBox selectedCard;
+
+    private String selectedProfile;
+    private final List<Profile> currentProfiles =
+            new ArrayList<>();
+
+    private UserviewController userviewController;
+
+    private final ClientManager clientManager =
+            new ClientManager();
+
+    private ObservableList<String> allClients;
+
 
     @FXML
     public void initialize() {
 
-        // Default client shown
-        txtClient.setText(
-                "SEA - Syddansk Erhvervsakademi"
-        );
-
-        // Default box value
         txtBox.setText("BOX_001");
 
-        // Load demo scan profiles
-        loadSEAProfiles();
+        txtProfileSearch.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
 
-        // Continue button starts disabled until a profile is selected
+                    filterProfiles(newValue);
+                });
+
         continueButton.setDisable(true);
+
+        txtBox.textProperty().addListener(
+                (obs, oldValue, newValue) ->
+                        validateForm()
+        );
+
+        allClients =
+                FXCollections.observableArrayList(
+                        clientManager.getAllActiveClientNames()
+                );
+
+        clientListView.setOpacity(0);
+        clientListView.setPrefHeight(0);
+
+        txtClientSearch.textProperty().addListener((obs,oldValue,newValue)->{
+
+            if(newValue.isBlank()){
+
+                clientListView.setOpacity(0);
+                clientListView.setPrefHeight(0);
+                return;
+            }
+
+            ObservableList<String> filtered=
+                    FXCollections.observableArrayList();
+
+            ObservableList<String> startsWith=
+                    FXCollections.observableArrayList();
+
+            ObservableList<String> contains=
+                    FXCollections.observableArrayList();
+
+            for(String client:allClients){
+
+                String lower=
+                        client.toLowerCase();
+
+                String search=
+                        newValue.toLowerCase();
+
+                if(lower.startsWith(search)){
+
+                    startsWith.add(client);
+                }
+
+                else if(lower.contains(search)){
+
+                    contains.add(client);
+                }
+            }
+
+            filtered.addAll(startsWith);
+            filtered.addAll(contains);
+            clientListView.setItems(filtered);
+
+            clientListView.setOpacity(1);
+
+            clientListView.setPrefHeight(
+                    Math.min(filtered.size()*40,80)
+            );
+
+        });
+
+        clientListView.setOnMouseClicked(event->{
+
+            String selected=
+                    clientListView.getSelectionModel()
+                            .getSelectedItem();
+
+            if(selected==null){
+                return;
+            }
+
+            txtClientSearch.setText(selected);
+
+            clientListView.setOpacity(0);
+            clientListView.setPrefHeight(0);
+
+            loadProfilesForClient(selected);
+
+            validateForm();
+        });
+
+        showDefaultProfiles();
     }
 
-    /**
-     * Allows popup controller to communicate
-     * with UserviewController.
-     */
+    private void showDefaultProfiles(){
+
+        currentProfiles.clear();
+
+        currentProfiles.add(
+                new Profile(
+                        0,
+                        0,
+                        "Standard Scan",
+                        "Balanced settings for everyday scanning"
+                ));
+
+        currentProfiles.add(
+                new Profile(
+                        0,
+                        0,
+                        "High Brightness",
+                        "Brightens dark scanned documents"
+                ));
+
+        currentProfiles.add(
+                new Profile(
+                        0,
+                        0,
+                        "Archive Quality",
+                        "High quality settings for long-term storage"
+                ));
+
+        currentProfiles.add(
+                new Profile(
+                        0,
+                        0,
+                        "Fast Scan",
+                        "Optimized for speed and reduced file size"
+                ));
+
+        filterProfiles("");
+    }
+
     public void setUserviewController(
             UserviewController controller) {
 
         this.userviewController = controller;
     }
 
-    /**
-     * Loads demo scan profiles.
-     */
-    private void loadSEAProfiles() {
+    // Loads profiles connected to selected client
+    private void loadProfilesForClient(String clientName){
+
+        currentProfiles.clear();
 
         profileContainer.getChildren().clear();
 
-        addProfile(
-                "Auto Rotate",
-                "Automatically straightens scanned pages"
+        selectedProfile=null;
+        selectedCard=null;
+
+        validateForm();
+
+        if(clientName==null||clientName.isBlank()){
+            return;
+        }
+
+        Client client=
+                clientManager.getClientByName(clientName);
+
+        if(client==null){
+            return;
+        }
+
+        currentProfiles.addAll(
+                clientManager.getProfilesByClientId(
+                        client.getClientId()
+                )
         );
 
-        addProfile(
-                "High Brightness",
-                "Brightens dark scanned documents"
-        );
-
-        addProfile(
-                "Archive Quality",
-                "High quality settings for long-term storage"
-        );
-
-        addProfile(
-                "Fast Scan",
-                "Optimized for speed and reduced file size"
-        );
+        filterProfiles("");
     }
 
-    /**
-     * Creates a clickable profile card.
-     */
     private void addProfile(
             String title,
             String description) {
 
-        VBox card = new VBox(4);
+        HBox card = new HBox();
 
         card.getStyleClass().add("profile-card");
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.setPrefHeight(36);
+        card.setMinHeight(36);
+        card.setMaxHeight(36);
 
         Label titleLabel = new Label(title);
+        Region spacer = new Region();
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(titleLabel, Priority.ALWAYS);
+
+        HBox.setHgrow(
+                spacer,
+                Priority.ALWAYS
+        );
         titleLabel.getStyleClass().add("profile-title");
 
-        Label descriptionLabel =
-                new Label(description);
+        Label infoLabel = new Label("?");
 
-        descriptionLabel.getStyleClass()
-                .add("profile-description");
+        infoLabel.getStyleClass()
+                .add("profile-info-icon");
+
+        Tooltip tooltip =
+                new Tooltip(description);
+        tooltip.setShowDelay(Duration.millis(150));
+
+        Tooltip.install(infoLabel, tooltip);
 
         card.getChildren().addAll(
                 titleLabel,
-                descriptionLabel
+                spacer,
+                infoLabel
         );
 
-        // Handle profile selection
         card.setOnMouseClicked(event -> {
 
-            // Remove old selection
-            if (selectedCard != null) {
+            if(selectedCard == card){
+
+                card.getStyleClass()
+                        .remove("profile-card-selected");
+
+                selectedCard = null;
+                selectedProfile = null;
+
+                validateForm();
+                return;
+            }
+
+            if(selectedCard != null){
+
                 selectedCard.getStyleClass()
                         .remove("profile-card-selected");
             }
 
-            // Save selected card
             selectedCard = card;
 
-            // Highlight selected card
-            if (!card.getStyleClass()
-                    .contains("profile-card-selected")) {
+            if(!card.getStyleClass()
+                    .contains("profile-card-selected")){
 
                 card.getStyleClass()
                         .add("profile-card-selected");
             }
 
-            // Save selected profile name
             selectedProfile = title;
 
-            // Enable continue button after selection
-            continueButton.setDisable(false);
+            validateForm();
         });
 
         profileContainer.getChildren().add(card);
     }
 
-    /**
-     * Sends selected scan setup back to
-     * UserviewController and closes popup.
-     */
     @FXML
     private void onContinueClicked() {
 
-        // Prevent continue without selection
         if (selectedProfile == null) {
             return;
         }
 
-        // Send selected client back
-        userviewController.setSelectedClient(
-                txtClient.getText()
-        );
-
-        // Send selected scan setup back
         userviewController.setScanSetup(
+                txtClientSearch.getText(),
                 txtBox.getText(),
                 selectedProfile
         );
 
-        // Close popup window
         Stage stage = (Stage) continueButton
                 .getScene()
                 .getWindow();
 
         stage.close();
     }
+
     @FXML
     private void onCancelClicked() {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
+
+        Stage stage = (Stage) cancelButton
+                .getScene()
+                .getWindow();
+
         stage.close();
+    }
+
+    private void filterProfiles(String searchText) {
+
+        profileContainer.getChildren().clear();
+
+        for (Profile profile : currentProfiles) {
+
+            if (profile.getName()
+                    .toLowerCase()
+                    .contains(searchText.toLowerCase())) {
+
+                addProfile(
+                        profile.getName(),
+                        profile.getDescription()
+                );
+            }
+        }
+    }
+
+    private void validateForm() {
+
+        boolean hasClient =
+                !txtClientSearch.getText()
+                        .trim()
+                        .isEmpty();
+
+        boolean hasBox =
+                !txtBox.getText()
+                        .trim()
+                        .isEmpty();
+
+        boolean hasProfile =
+                selectedProfile != null;
+
+        continueButton.setDisable(
+                !(hasClient && hasBox && hasProfile)
+        );
     }
 }

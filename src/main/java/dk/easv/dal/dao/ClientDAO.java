@@ -244,5 +244,40 @@ public class ClientDAO {
         }
     }
 
+    public List<String> getAllClientNames() {
+
+        List<String> clientNames = new ArrayList<>();
+
+        String sql = """
+    SELECT name
+    FROM Clients
+    WHERE status = 'Active'
+    ORDER BY name
+    """;
+
+        try (Connection con = conMan.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                clientNames.add(
+                        rs.getString("name")
+                );
+            }
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Failed getting client names: " +
+                            e.getMessage()
+            );
+
+            throw new RuntimeException(e);
+        }
+
+        return clientNames;
+    }
+
 
 }
