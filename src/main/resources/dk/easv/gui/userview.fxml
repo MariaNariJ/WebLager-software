@@ -578,6 +578,12 @@
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
+                        <Label text="Hold H"
+                               styleClass="shortcut-key"/>
+                        <Label text="Reveal Profile Descriptions"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
                         <Label text="Q / Ctrl+Q"
                                styleClass="shortcut-key"/>
                         <Label text="Rotate Left"/>
@@ -605,6 +611,18 @@
                         <Label text="Ctrl + ↓"
                                styleClass="shortcut-key"/>
                         <Label text="Move TIFF Down"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="↑"
+                               styleClass="shortcut-key"/>
+                        <Label text="Navigate Up Profiles"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="↓"
+                               styleClass="shortcut-key"/>
+                        <Label text="Navigate Down Profiles"/>
                     </HBox>
 
                 </VBox>
