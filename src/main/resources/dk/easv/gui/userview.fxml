@@ -23,12 +23,12 @@
     <children>
 
         <!-- MAIN RESPONSIVE CONTENT -->
-        <VBox fx:id="mainContent" spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="7.0">
+        <VBox fx:id="mainContent" fillWidth="true" spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="7.0">
 
             <children>
 
                 <!-- TOP MAIN AREA -->
-                <HBox spacing="8.0" VBox.vgrow="ALWAYS">
+                <HBox spacing="8.0" VBox.vgrow="ALWAYS" fillHeight="true">
 
                     <children>
 
@@ -433,7 +433,10 @@
               </HBox>
 
                 <!-- BOTTOM SHELF -->
-                <VBox spacing="0" styleClass="panel" HBox.hgrow="ALWAYS">
+                <VBox fx:id="bottomShelf"
+                      spacing="0"
+                      styleClass="panel"
+                      HBox.hgrow="ALWAYS">
 
                     <!-- CLICKABLE HEADER -->
                     <StackPane fx:id="shelfHeader" onMouseClicked="#toggleBottomShelf" styleClass="shelf-header">

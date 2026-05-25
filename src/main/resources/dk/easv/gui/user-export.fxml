@@ -6,345 +6,286 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
-<AnchorPane stylesheets="@css/app.css,@css/user-export.css"
-            styleClass="export-root"
-            xmlns="http://javafx.com/javafx/25"
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="Infinity"
+            maxWidth="Infinity"
+            xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.easv.gui.UserExportController">
+            fx:controller="dk.easv.gui.UserExportController"
+            stylesheets="@css/app.css,@css/user-export.css"
+            styleClass="export-root">
 
     <children>
 
-        <VBox spacing="10"
+        <!-- RESPONSIVE WRAPPER -->
+
+        <VBox spacing="16.0"
               fillWidth="true"
-              AnchorPane.topAnchor="12.0"
-              AnchorPane.bottomAnchor="12.0"
-              AnchorPane.leftAnchor="12.0"
-              AnchorPane.rightAnchor="12.0">
+              AnchorPane.topAnchor="0.0"
+              AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0">
 
-            <children>
+            <padding>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </padding>
 
-                <!-- HEADER -->
-                <VBox spacing="4"
-                      styleClass="export-header-panel">
+            <!-- MAIN CONTENT -->
+
+            <HBox spacing="16.0"
+                  VBox.vgrow="ALWAYS"
+                  maxWidth="Infinity"
+                  maxHeight="Infinity">
+
+                <!-- LEFT COLUMN -->
+
+                <VBox spacing="10.0"
+                      prefWidth="360.0"
+                      minWidth="280.0"
+                      maxWidth="420.0"
+                      HBox.hgrow="NEVER"
+                      styleClass="export-section">
 
                     <padding>
-                        <Insets top="12"
-                                right="16"
-                                bottom="12"
-                                left="16"/>
+                        <Insets top="14" right="14" bottom="14" left="14"/>
                     </padding>
 
-                    <children>
+                    <Label text="1. What do you want to export?"
+                           styleClass="export-section-title"/>
 
-                        <Label text="Export Documents"
-                               styleClass="export-title"/>
+                    <!-- SELECTED DOCUMENT -->
 
-                        <Label text="Choose what to export and where to save it."
-                               styleClass="export-subtitle"/>
+                    <VBox spacing="10.0"
+                          styleClass="export-option-card">
 
-                    </children>
+                        <padding>
+                            <Insets top="14" right="14" bottom="14" left="14"/>
+                        </padding>
 
-                </VBox>
+                        <HBox spacing="10.0">
 
-                <!-- SCROLLABLE CONTENT -->
-                <ScrollPane fitToWidth="true"
-                            fitToHeight="true"
-                            hbarPolicy="NEVER"
-                            vbarPolicy="NEVER"
-                            pannable="false"
-                            styleClass="dark-scroll"
-                            VBox.vgrow="ALWAYS">
+                            <RadioButton/>
 
-                    <content>
+                            <FontIcon iconLiteral="fas-file-alt"
+                                      styleClass="export-card-icon"/>
 
-                        <VBox spacing="10"
-                              fillWidth="true">
+                        </HBox>
 
-                            <children>
+                        <Label text="Selected Document"
+                               styleClass="export-card-title"/>
 
-                                <!-- SECTION 1 -->
-                                <VBox spacing="8"
-                                      styleClass="export-section">
+                        <Label text="Export the currently selected document."
+                               wrapText="true"
+                               styleClass="export-card-text"/>
 
-                                    <children>
+                        <VBox spacing="4.0">
 
-                                        <Label text="1. What do you want to export?"
-                                               styleClass="export-section-title"/>
+                            <Label text="File 1 of 45"
+                                   styleClass="export-card-text"/>
 
-                                        <GridPane hgap="12"
-                                                  vgap="6">
-
-                                            <columnConstraints>
-
-                                                <ColumnConstraints percentWidth="33.33"/>
-                                                <ColumnConstraints percentWidth="33.33"/>
-                                                <ColumnConstraints percentWidth="33.33"/>
-
-                                            </columnConstraints>
-
-                                            <children>
-
-                                                <!-- CARD 1 -->
-                                                <VBox spacing="8"
-                                                      prefHeight="160"
-                                                      maxHeight="160"
-                                                      styleClass="export-option-card"
-                                                      GridPane.columnIndex="0"
-                                                      maxWidth="Infinity">
-
-                                                    <children>
-
-                                                        <RadioButton selected="true">
-
-                                                            <toggleGroup>
-                                                                <ToggleGroup fx:id="exportToggleGroup"/>
-                                                            </toggleGroup>
-
-                                                        </RadioButton>
-
-                                                        <Label text="Selected Document"
-                                                               styleClass="export-card-title"/>
-
-                                                        <Label text="Export the currently selected document."
-                                                               wrapText="true"
-                                                               styleClass="export-card-text"/>
-
-                                                        <VBox spacing="2"
-                                                              styleClass="export-info-box">
-
-                                                            <children>
-
-                                                                <Label text="File 1 of 45"
-                                                                       styleClass="export-info-title"/>
-
-                                                                <Label text="45 pages"
-                                                                       styleClass="export-info-text"/>
-
-                                                            </children>
-
-                                                        </VBox>
-
-                                                    </children>
-
-                                                </VBox>
-
-                                                <!-- CARD 2 -->
-                                                <VBox spacing="8"
-                                                      prefHeight="160"
-                                                      maxHeight="160"
-                                                      styleClass="export-option-card"
-                                                      GridPane.columnIndex="1"
-                                                      maxWidth="Infinity">
-
-                                                    <children>
-
-                                                        <RadioButton>
-
-                                                            <toggleGroup>
-                                                                <fx:reference source="exportToggleGroup"/>
-                                                            </toggleGroup>
-
-                                                        </RadioButton>
-
-                                                        <Label text="Multiple Documents"
-                                                               styleClass="export-card-title"/>
-
-                                                        <Label text="Choose multiple documents from the overview."
-                                                               wrapText="true"
-                                                               styleClass="export-card-text"/>
-
-                                                        <Button text="Select Documents..."
-                                                                styleClass="export-secondary-button"/>
-
-                                                        <Label text="0 selected"
-                                                               styleClass="export-card-text"/>
-
-                                                    </children>
-
-                                                </VBox>
-
-                                                <!-- CARD 3 -->
-                                                <VBox spacing="8"
-                                                      prefHeight="160"
-                                                      maxHeight="160"
-                                                      styleClass="export-option-card"
-                                                      GridPane.columnIndex="2"
-                                                      maxWidth="Infinity">
-
-                                                    <children>
-
-                                                        <RadioButton>
-
-                                                            <toggleGroup>
-                                                                <fx:reference source="exportToggleGroup"/>
-                                                            </toggleGroup>
-
-                                                        </RadioButton>
-
-                                                        <Label text="All Documents in Current Box"
-                                                               wrapText="true"
-                                                               styleClass="export-card-title"/>
-
-                                                        <Label text="Export all documents in the current box."
-                                                               wrapText="true"
-                                                               styleClass="export-card-text"/>
-
-                                                        <VBox spacing="2"
-                                                              styleClass="export-info-box">
-
-                                                            <children>
-
-                                                                <Label text="Box: BOX-102"
-                                                                       styleClass="export-info-title"/>
-
-                                                                <Label text="14 documents"
-                                                                       styleClass="export-info-text"/>
-
-                                                            </children>
-
-                                                        </VBox>
-
-                                                    </children>
-
-                                                </VBox>
-
-                                            </children>
-
-                                        </GridPane>
-
-                                        <CheckBox text="Include metadata in export"
-                                                  selected="true"
-                                                  styleClass="export-checkbox"/>
-
-                                    </children>
-
-                                </VBox>
-
-                                <!-- SECTION 2 -->
-                                <VBox spacing="8"
-                                      styleClass="export-section">
-
-                                    <children>
-
-                                        <Label text="2. Export settings"
-                                               styleClass="export-section-title"/>
-
-                                        <HBox spacing="18">
-
-                                            <children>
-
-                                                <VBox spacing="4">
-
-                                                    <children>
-
-                                                        <Label text="Export Format"
-                                                               styleClass="export-label"/>
-
-                                                        <ComboBox prefWidth="240"
-                                                                  promptText="TIFF (Multi-page)"/>
-
-                                                        <Label text="Each document will be exported as a multi-page TIFF file."
-                                                               wrapText="true"
-                                                               styleClass="export-card-text"/>
-
-                                                    </children>
-
-                                                </VBox>
-
-                                                <VBox spacing="4">
-
-                                                    <children>
-
-                                                        <Label text="File Naming"
-                                                               styleClass="export-label"/>
-
-                                                        <ComboBox prefWidth="240"
-                                                                  promptText="Document Name"/>
-
-                                                        <Label text="Files will be named using the document name."
-                                                               wrapText="true"
-                                                               styleClass="export-card-text"/>
-
-                                                    </children>
-
-                                                </VBox>
-
-                                            </children>
-
-                                        </HBox>
-
-                                    </children>
-
-                                </VBox>
-
-                                <!-- SECTION 3 -->
-                                <VBox spacing="4"
-                                      styleClass="export-section">
-
-                                    <children>
-
-                                        <Label text="3. Where do you want to save it?"
-                                               styleClass="export-section-title"/>
-
-                                        <Label text="Destination Folder"
-                                               styleClass="export-label"/>
-
-                                        <HBox spacing="6">
-
-                                            <children>
-
-                                                <TextField text="C:\Users\Val\Desktop\Exports"
-                                                           HBox.hgrow="ALWAYS"
-                                                           maxWidth="Infinity"/>
-
-                                                <Button text="Browse..."
-                                                        styleClass="export-secondary-button"/>
-
-                                            </children>
-
-                                        </HBox>
-
-                                        <CheckBox text="Open folder after export is complete"
-                                                  translateY="-4"
-                                                  styleClass="export-checkbox"/>
-
-                                    </children>
-
-                                </VBox>
-
-                            </children>
+                            <Label text="45 pages"
+                                   styleClass="export-card-text"/>
 
                         </VBox>
 
-                    </content>
+                    </VBox>
 
-                </ScrollPane>
+                    <!-- MULTIPLE DOCUMENTS -->
 
-                <Region VBox.vgrow="ALWAYS"/>
+                    <VBox spacing="10.0"
+                          styleClass="export-option-card">
 
-                <!-- EXPORT BUTTON -->
-                <HBox alignment="CENTER_RIGHT">
+                        <padding>
+                            <Insets top="14" right="14" bottom="14" left="14"/>
+                        </padding>
 
-                    <children>
+                        <HBox spacing="10.0">
 
-                        <Button text="Export"
-                                styleClass="export-button"/>
+                            <RadioButton/>
 
-                    </children>
+                            <FontIcon iconLiteral="fas-copy"
+                                      styleClass="export-card-icon"/>
 
-                </HBox>
+                        </HBox>
 
-            </children>
+                        <Label text="Multiple Documents"
+                               styleClass="export-card-title"/>
+
+                        <Label text="Choose multiple documents from the overview."
+                               wrapText="true"
+                               styleClass="export-card-text"/>
+
+                        <Button text="Select Documents..."
+                                styleClass="export-secondary-button"/>
+
+                        <Label text="0 selected"
+                               styleClass="export-card-text"/>
+
+                    </VBox>
+
+                    <!-- ALL DOCUMENTS -->
+
+                    <VBox spacing="10.0"
+                          styleClass="export-option-card">
+
+                        <padding>
+                            <Insets top="14" right="14" bottom="14" left="14"/>
+                        </padding>
+
+                        <HBox spacing="10.0">
+
+                            <RadioButton/>
+
+                            <FontIcon iconLiteral="fas-folder-open"
+                                      styleClass="export-card-icon"/>
+
+                        </HBox>
+
+                        <Label text="All Documents in Current Box"
+                               styleClass="export-card-title"/>
+
+                        <Label text="Export all documents in the current box."
+                               wrapText="true"
+                               styleClass="export-card-text"/>
+
+                        <VBox spacing="4.0">
+
+                            <Label text="Box: BOX-102"
+                                   styleClass="export-card-text"/>
+
+                            <Label text="14 documents"
+                                   styleClass="export-card-text"/>
+
+                        </VBox>
+
+                    </VBox>
+
+                    <!-- METADATA -->
+
+                    <VBox spacing="4.0">
+
+                        <CheckBox text="Include metadata in export"
+                                  styleClass="export-checkbox"/>
+
+                        <Label text="A CSV file with document metadata will be included."
+                               wrapText="true"
+                               styleClass="export-card-text"/>
+
+                    </VBox>
+
+                </VBox>
+
+                <!-- RIGHT COLUMN -->
+
+                <VBox spacing="16.0"
+                      VBox.vgrow="ALWAYS"
+                      HBox.hgrow="ALWAYS">
+
+                    <!-- EXPORT SETTINGS -->
+
+                    <VBox spacing="16.0"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="export-section">
+
+                        <padding>
+                            <Insets top="18" right="18" bottom="18" left="18"/>
+                        </padding>
+
+                        <Label text="2. Export settings"
+                               styleClass="export-section-title"/>
+
+                        <!-- EXPORT FORMAT -->
+
+                        <VBox spacing="6.0">
+
+                            <Label text="Export Format"
+                                   styleClass="export-label"/>
+
+                            <ComboBox maxWidth="Infinity"
+                                      styleClass="export-combo-box"/>
+
+                            <Label text="Each document will be exported as a multi-page TIFF file."
+                                   wrapText="true"
+                                   styleClass="export-card-text"/>
+
+                        </VBox>
+
+                        <!-- FILE NAMING -->
+
+                        <VBox spacing="6.0">
+
+                            <Label text="File Naming"
+                                   styleClass="export-label"/>
+
+                            <ComboBox maxWidth="Infinity"
+                                      styleClass="export-combo-box"/>
+
+                            <Label text="Files will be named using the document name."
+                                   wrapText="true"
+                                   styleClass="export-card-text"/>
+
+                        </VBox>
+
+                    </VBox>
+
+                    <!-- SAVE LOCATION -->
+
+                    <VBox spacing="16.0"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="export-section">
+
+                        <padding>
+                            <Insets top="18" right="18" bottom="18" left="18"/>
+                        </padding>
+
+                        <Label text="3. Where do you want to save it?"
+                               styleClass="export-section-title"/>
+
+                        <VBox spacing="8.0">
+
+                            <Label text="Destination Folder"
+                                   styleClass="export-label"/>
+
+                            <HBox spacing="10.0">
+
+                                <TextField text="C:\Users\Val\Desktop\Exports"
+                                           HBox.hgrow="ALWAYS"
+                                           maxWidth="Infinity"
+                                           styleClass="export-text-field"/>
+
+                                <Button text="Browse..."
+                                        styleClass="export-secondary-button"/>
+
+                            </HBox>
+
+                        </VBox>
+
+                        <CheckBox text="Open folder after export is complete"
+                                  styleClass="export-checkbox"/>
+
+                        <Region VBox.vgrow="ALWAYS"/>
+
+                        <HBox alignment="CENTER">
+
+                            <Button text="Export"
+                                    prefWidth="220.0"
+                                    prefHeight="55.0"
+                                    styleClass="export-button"/>
+
+                        </HBox>
+
+                    </VBox>
+
+                </VBox>
+
+            </HBox>
 
         </VBox>
 

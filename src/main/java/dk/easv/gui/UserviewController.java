@@ -16,10 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.animation.TranslateTransition;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -132,6 +129,13 @@ public class UserviewController {
     private Label fileIndicatorLabel;
     @FXML
     private Button exportButton;
+
+    @FXML
+    private StackPane shelfHeader;
+
+    @FXML
+    private VBox bottomShelf;
+
     @FXML
     private AnchorPane appRoot;
     @FXML
@@ -1394,7 +1398,12 @@ public class UserviewController {
     }
     @FXML
     private void onScanningClicked() {
+
         mainContent.getChildren().setAll(scanningView);
+
+        // Restore entire bottom shelf
+        bottomShelf.setManaged(true);
+        bottomShelf.setVisible(true);
 
         setActiveUserTab(scanningButton);
         setInactiveUserTab(qaButton);
@@ -1412,7 +1421,12 @@ public class UserviewController {
 
     @FXML
     private void onExportClicked() {
+
         loadUserTab("user-export.fxml");
+
+        // Hide entire bottom shelf
+        bottomShelf.setManaged(false);
+        bottomShelf.setVisible(false);
 
         setInactiveUserTab(scanningButton);
         setInactiveUserTab(qaButton);
@@ -1426,6 +1440,13 @@ public class UserviewController {
             );
 
             mainContent.getChildren().setAll(root);
+
+            VBox.setVgrow(root, Priority.ALWAYS);
+
+            if (root instanceof Region region) {
+                region.setMaxWidth(Double.MAX_VALUE);
+                region.setMaxHeight(Double.MAX_VALUE);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
