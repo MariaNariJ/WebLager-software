@@ -90,7 +90,7 @@
                                 </ScrollPane>
                                 <HBox spacing="10">
 
-                                    <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next-F5" />
+                                    <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next" />
 
                                     <Button fx:id="btnSaveasDocument" onAction="#onSaveasDocumentClicked" prefWidth="170" styleClass="primary-action" text="Save Document" />
 
@@ -442,6 +442,12 @@
                     </HBox>
 
                     <HBox styleClass="shortcut-row">
+                        <Label text="Hold H"
+                               styleClass="shortcut-key"/>
+                        <Label text="Reveal Profile Descriptions"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
                         <Label styleClass="shortcut-key" text="Q / Ctrl+Q" />
                         <Label text="Rotate Left" />
                     </HBox>
@@ -464,6 +470,18 @@
                     <HBox styleClass="shortcut-row">
                         <Label styleClass="shortcut-key" text="Ctrl + ↓" />
                         <Label text="Move TIFF Down" />
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="↑"
+                               styleClass="shortcut-key"/>
+                        <Label text="Navigate Up Profiles"/>
+                    </HBox>
+
+                    <HBox styleClass="shortcut-row">
+                        <Label text="↓"
+                               styleClass="shortcut-key"/>
+                        <Label text="Navigate Down Profiles"/>
                     </HBox>
 
                 </VBox>

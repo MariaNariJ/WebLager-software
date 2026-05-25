@@ -1169,6 +1169,12 @@ public class UserviewController {
             );
 
             Parent root = loader.load();
+
+            root.setStyle(
+                    "-fx-background-radius: 18;" +
+                            "-fx-border-radius: 18;"
+            );
+
             SelectProfileController controller =
                     loader.getController();
 

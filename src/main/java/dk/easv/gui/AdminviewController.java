@@ -296,22 +296,29 @@ public class AdminviewController {
     private void showLogs() {
 
         adminTitleLabel.setText("Logs");
-        adminSubtitleLabel.setText("View system activity and user actions");
+        adminSubtitleLabel.setText("View and monitor system logs and activities");
 
         setInactiveButton(usersButton);
         setInactiveButton(clientsButton);
         setActiveButton(logsButton);
 
-        adminContentArea.getChildren().clear();
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/dk/easv/gui/admin-logs.fxml")
+            );
 
-        VBox wrapper = new VBox(16);
+            adminContentArea.getChildren().setAll(root);
 
-        wrapper.getChildren().addAll(
-                createTitle("Logs"),
-                createText("System logs will be displayed here.")
-        );
+            if (root instanceof Region region) {
+                region.setMaxWidth(Double.MAX_VALUE);
+                region.setMaxHeight(Double.MAX_VALUE);
+            }
 
-        adminContentArea.getChildren().add(wrapper);
+            VBox.setVgrow(root, Priority.ALWAYS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void applyUserFilter(FilteredList<User> filteredUsers,

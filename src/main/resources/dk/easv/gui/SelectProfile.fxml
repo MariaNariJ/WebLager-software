@@ -104,7 +104,8 @@
 
     </VBox>
 
-    <ScrollPane fitToWidth="true"
+    <ScrollPane fx:id="profileScrollPane"
+                fitToWidth="true"
                 prefHeight="180"
                 maxHeight="180"
                 styleClass="profile-scroll"
