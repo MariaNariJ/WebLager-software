@@ -72,7 +72,7 @@
 
                                 <HBox spacing="10">
 
-                                    <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next-F5" />
+                                    <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next" />
 
                                     <Button fx:id="btnSaveasDocument" onAction="#onSaveasDocumentClicked" prefWidth="170" styleClass="primary-action" text="Save Document" />
 

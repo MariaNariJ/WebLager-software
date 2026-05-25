@@ -52,12 +52,12 @@
                         <Insets top="14" right="14" bottom="14" left="14"/>
                     </padding>
 
-                    <Label text="1. What do you want to export?"
+                    <Label text="1. Export options"
                            styleClass="export-section-title"/>
 
                     <!-- SELECTED DOCUMENT -->
 
-                    <VBox spacing="10.0"
+                    <VBox spacing="14.0"
                           styleClass="export-option-card">
 
                         <padding>
@@ -94,7 +94,7 @@
 
                     <!-- MULTIPLE DOCUMENTS -->
 
-                    <VBox spacing="10.0"
+                    <VBox spacing="14.0"
                           styleClass="export-option-card">
 
                         <padding>
@@ -179,13 +179,13 @@
 
                 <!-- RIGHT COLUMN -->
 
-                <VBox spacing="16.0"
+                <VBox spacing="8.0"
                       VBox.vgrow="ALWAYS"
                       HBox.hgrow="ALWAYS">
 
                     <!-- EXPORT SETTINGS -->
 
-                    <VBox spacing="16.0"
+                    <VBox spacing="10.0"
                           VBox.vgrow="ALWAYS"
                           styleClass="export-section">
 
@@ -232,7 +232,7 @@
 
                     <!-- SAVE LOCATION -->
 
-                    <VBox spacing="16.0"
+                    <VBox spacing="10.0"
                           VBox.vgrow="ALWAYS"
                           styleClass="export-section">
 
@@ -240,7 +240,7 @@
                             <Insets top="18" right="18" bottom="18" left="18"/>
                         </padding>
 
-                        <Label text="3. Where do you want to save it?"
+                        <Label text="3. Export location"
                                styleClass="export-section-title"/>
 
                         <VBox spacing="8.0">
@@ -255,7 +255,9 @@
                                            maxWidth="Infinity"
                                            styleClass="export-text-field"/>
 
-                                <Button text="Browse..."
+                                <Button text="Browse"
+                                        minWidth="90.0"
+                                        prefWidth="90.0"
                                         styleClass="export-secondary-button"/>
 
                             </HBox>
@@ -265,15 +267,13 @@
                         <CheckBox text="Open folder after export is complete"
                                   styleClass="export-checkbox"/>
 
-                        <Region VBox.vgrow="ALWAYS"/>
+                        <Region prefHeight="120.0"/>
 
                         <HBox alignment="CENTER">
-
                             <Button text="Export"
                                     prefWidth="220.0"
                                     prefHeight="55.0"
                                     styleClass="export-button"/>
-
                         </HBox>
 
                     </VBox>
