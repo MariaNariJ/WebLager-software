@@ -1346,16 +1346,18 @@ public class UserviewController {
     }
 
     public void setScanSetup(
+            String client,
             String boxId,
             String profile) {
 
         selectedBox = boxId;
         selectedProfile = profile;
 
-        // Update UI fields
+        txtClient.setText(client);
         txtBox.setText(boxId);
         txtProfile.setText(profile);
     }
+
     public void setLoggedInUser(User user) {
         this.loggedInUser = user;
 

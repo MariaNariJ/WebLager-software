@@ -4,53 +4,56 @@ import dk.easv.bll.ClientManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import dk.easv.be.Profile;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.layout.HBox;
+import javafx.geometry.Pos;
+import javafx.scene.layout.Region;
+import javafx.util.Duration;
+import dk.easv.be.Client;
+
 public class SelectProfileController {
 
     @FXML
     private VBox profileContainer;
-
     @FXML
-    private ComboBox<String> clientComboBox;
-
+    private ListView<String> clientListView;
     @FXML
     private javafx.scene.control.TextField txtBox;
-
     @FXML
     private Button continueButton;
-
     @FXML
     private Button cancelButton;
+    @FXML
+    private TextField txtClientSearch;
+    @FXML
+    private TextField txtProfileSearch;
 
-    private VBox selectedCard;
+
+    private HBox selectedCard;
 
     private String selectedProfile;
     private final List<Profile> currentProfiles =
             new ArrayList<>();
-
-    @FXML
-    private TextField txtProfileSearch;
 
     private UserviewController userviewController;
 
     private final ClientManager clientManager =
             new ClientManager();
 
+    private ObservableList<String> allClients;
+
+
     @FXML
     public void initialize() {
 
         txtBox.setText("BOX_001");
-
-        loadSEAProfiles();
 
         txtProfileSearch.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -60,46 +63,92 @@ public class SelectProfileController {
 
         continueButton.setDisable(true);
 
-        ObservableList<String> clients =
+        txtBox.textProperty().addListener(
+                (obs, oldValue, newValue) ->
+                        validateForm()
+        );
+
+        allClients =
                 FXCollections.observableArrayList(
                         clientManager.getAllActiveClientNames()
                 );
 
-        clientComboBox.setItems(clients);
+        clientListView.setOpacity(0);
+        clientListView.setPrefHeight(0);
 
-        clientComboBox.setEditable(true);
+        txtClientSearch.textProperty().addListener((obs,oldValue,newValue)->{
 
-        clientComboBox.getEditor()
-                .textProperty()
-                .addListener((obs, oldValue, newValue) -> {
+            if(newValue.isBlank()){
 
-                    ObservableList<String> filteredList =
-                            FXCollections.observableArrayList();
+                clientListView.setOpacity(0);
+                clientListView.setPrefHeight(0);
+                return;
+            }
 
-                    for (String client : clients) {
+            ObservableList<String> filtered=
+                    FXCollections.observableArrayList();
 
-                        if (client.toLowerCase()
-                                .contains(newValue.toLowerCase())) {
+            ObservableList<String> startsWith=
+                    FXCollections.observableArrayList();
 
-                            filteredList.add(client);
-                        }
-                    }
+            ObservableList<String> contains=
+                    FXCollections.observableArrayList();
 
-                    clientComboBox.setItems(filteredList);
+            for(String client:allClients){
 
-                    if (!filteredList.isEmpty()) {
-                        clientComboBox.show();
-                    }
-                });
+                String lower=
+                        client.toLowerCase();
+
+                String search=
+                        newValue.toLowerCase();
+
+                if(lower.startsWith(search)){
+
+                    startsWith.add(client);
+                }
+
+                else if(lower.contains(search)){
+
+                    contains.add(client);
+                }
+            }
+
+            filtered.addAll(startsWith);
+            filtered.addAll(contains);
+            clientListView.setItems(filtered);
+
+            clientListView.setOpacity(1);
+
+            clientListView.setPrefHeight(
+                    Math.min(filtered.size()*40,80)
+            );
+
+        });
+
+        clientListView.setOnMouseClicked(event->{
+
+            String selected=
+                    clientListView.getSelectionModel()
+                            .getSelectedItem();
+
+            if(selected==null){
+                return;
+            }
+
+            txtClientSearch.setText(selected);
+
+            clientListView.setOpacity(0);
+            clientListView.setPrefHeight(0);
+
+            loadProfilesForClient(selected);
+
+            validateForm();
+        });
+
+        showDefaultProfiles();
     }
 
-    public void setUserviewController(
-            UserviewController controller) {
-
-        this.userviewController = controller;
-    }
-
-    private void loadSEAProfiles() {
+    private void showDefaultProfiles(){
 
         currentProfiles.clear();
 
@@ -107,8 +156,8 @@ public class SelectProfileController {
                 new Profile(
                         0,
                         0,
-                        "Auto Rotate",
-                        "Automatically straightens scanned pages"
+                        "Standard Scan",
+                        "Balanced settings for everyday scanning"
                 ));
 
         currentProfiles.add(
@@ -138,31 +187,99 @@ public class SelectProfileController {
         filterProfiles("");
     }
 
+    public void setUserviewController(
+            UserviewController controller) {
+
+        this.userviewController = controller;
+    }
+
+    // Loads profiles connected to selected client
+    private void loadProfilesForClient(String clientName){
+
+        currentProfiles.clear();
+
+        profileContainer.getChildren().clear();
+
+        selectedProfile=null;
+        selectedCard=null;
+
+        validateForm();
+
+        if(clientName==null||clientName.isBlank()){
+            return;
+        }
+
+        Client client=
+                clientManager.getClientByName(clientName);
+
+        if(client==null){
+            return;
+        }
+
+        currentProfiles.addAll(
+                clientManager.getProfilesByClientId(
+                        client.getClientId()
+                )
+        );
+
+        filterProfiles("");
+    }
+
     private void addProfile(
             String title,
             String description) {
 
-        VBox card = new VBox(4);
+        HBox card = new HBox();
 
         card.getStyleClass().add("profile-card");
+        card.setAlignment(Pos.CENTER_LEFT);
+        card.setPrefHeight(36);
+        card.setMinHeight(36);
+        card.setMaxHeight(36);
 
         Label titleLabel = new Label(title);
+        Region spacer = new Region();
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(titleLabel, Priority.ALWAYS);
+
+        HBox.setHgrow(
+                spacer,
+                Priority.ALWAYS
+        );
         titleLabel.getStyleClass().add("profile-title");
 
-        Label descriptionLabel =
-                new Label(description);
+        Label infoLabel = new Label("?");
 
-        descriptionLabel.getStyleClass()
-                .add("profile-description");
+        infoLabel.getStyleClass()
+                .add("profile-info-icon");
+
+        Tooltip tooltip =
+                new Tooltip(description);
+        tooltip.setShowDelay(Duration.millis(150));
+
+        Tooltip.install(infoLabel, tooltip);
 
         card.getChildren().addAll(
                 titleLabel,
-                descriptionLabel
+                spacer,
+                infoLabel
         );
 
         card.setOnMouseClicked(event -> {
 
-            if (selectedCard != null) {
+            if(selectedCard == card){
+
+                card.getStyleClass()
+                        .remove("profile-card-selected");
+
+                selectedCard = null;
+                selectedProfile = null;
+
+                validateForm();
+                return;
+            }
+
+            if(selectedCard != null){
 
                 selectedCard.getStyleClass()
                         .remove("profile-card-selected");
@@ -170,8 +287,8 @@ public class SelectProfileController {
 
             selectedCard = card;
 
-            if (!card.getStyleClass()
-                    .contains("profile-card-selected")) {
+            if(!card.getStyleClass()
+                    .contains("profile-card-selected")){
 
                 card.getStyleClass()
                         .add("profile-card-selected");
@@ -179,7 +296,7 @@ public class SelectProfileController {
 
             selectedProfile = title;
 
-            continueButton.setDisable(false);
+            validateForm();
         });
 
         profileContainer.getChildren().add(card);
@@ -192,11 +309,8 @@ public class SelectProfileController {
             return;
         }
 
-        userviewController.setSelectedClient(
-                clientComboBox.getEditor().getText()
-        );
-
         userviewController.setScanSetup(
+                txtClientSearch.getText(),
                 txtBox.getText(),
                 selectedProfile
         );
@@ -234,5 +348,25 @@ public class SelectProfileController {
                 );
             }
         }
+    }
+
+    private void validateForm() {
+
+        boolean hasClient =
+                !txtClientSearch.getText()
+                        .trim()
+                        .isEmpty();
+
+        boolean hasBox =
+                !txtBox.getText()
+                        .trim()
+                        .isEmpty();
+
+        boolean hasProfile =
+                selectedProfile != null;
+
+        continueButton.setDisable(
+                !(hasClient && hasBox && hasProfile)
+        );
     }
 }

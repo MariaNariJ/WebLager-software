@@ -46,4 +46,19 @@ public class ClientManager {
 
         return clientDAO.getAllClientNames();
     }
+    /**
+     * Finds and returns a client based on the client name.
+     * Used for loading profiles connected to the selected client.
+     */
+    public Client getClientByName(String name){
+
+        for(Client client:getAllClients()){
+
+            if(client.getName().equalsIgnoreCase(name)){
+                return client;
+            }
+        }
+
+        return null;
+    }
 }
