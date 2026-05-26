@@ -315,9 +315,29 @@
 
                                 </VBox>
 
+                                <Region VBox.vgrow="ALWAYS" prefHeight="120"/>
+                                <HBox spacing="12">
+
+
+                                    <Button fx:id="btnFinishBox"
+                                            onAction="#onFinishBoxClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="120.0"
+                                            styleClass="primary-action"
+                                            text="Finish Box" />
+
+                                    <Button fx:id="btnReadyForQA"
+                                            onAction="#onReadyForQAClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="170.0"
+                                            styleClass="primary-action"
+                                            text="Save box to QA" />
+
+                                </HBox>
+
                                 <VBox spacing="14" styleClass="status-card">
                                     <VBox.margin>
-                                        <Insets top="40"/>
+                                        <Insets top="20"/>
                                     </VBox.margin>
 
                                     <Label styleClass="info-label" text="Document Status" />
@@ -334,28 +354,12 @@
 
                                 </VBox>
 
-                                <HBox spacing="12">
-
-                                    <Button fx:id="btnFinishBox"
-                                            onAction="#onFinishBoxClicked"
-                                            prefHeight="38.0"
-                                            prefWidth="120.0"
-                                            styleClass="primary-action"
-                                            text="Finish Box" />
-
-                                    <Button fx:id="btnReadyForQA"
-                                            onAction="#onReadyForQAClicked"
-                                            prefHeight="38.0"
-                                            prefWidth="170.0"
-                                            styleClass="primary-action"
-                                            text="Save Box To QA" />
-
-                                </HBox>
                             </children>
                         </VBox>
 
-                  </children>
-              </HBox>
+                    </children>
+                </HBox>
+
             </children>
         </VBox>
 

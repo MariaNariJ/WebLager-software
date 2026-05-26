@@ -204,3 +204,21 @@
     -fx-font-size: 10px;
     -fx-font-weight: 400;
 }
+.transparent-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.transparent-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.transparent-scroll .thumb {
+    -fx-background-color: #4A6178;
+    -fx-background-radius: 8;
+}

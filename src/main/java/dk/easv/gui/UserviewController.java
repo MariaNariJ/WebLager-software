@@ -711,7 +711,7 @@ public class UserviewController {
 
                         // Update status
                         documentStatusLabel.setText("Waiting for QA");
-                        scanStatusLabel.setText("Awaiting QA");
+                        scanStatusLabel.setText("Scanning in progress");
 
                         currentDocument = new DocumentGroup(
                                 "Document " + documentCounter,
@@ -725,9 +725,7 @@ public class UserviewController {
 
                         );
                         // Autofill document information
-                        txtDocumentName.setText(
-                                "DOC_" + page.getBarcode()
-                        );
+                        txtDocumentName.clear();
 
                         txtDate.setText(
                                 java.time.LocalDate.now()
@@ -895,7 +893,7 @@ public class UserviewController {
             Platform.runLater(() -> {
 
                 scanStatusLabel.setText(
-                        "Document sent to QA"
+                        "Sent to QA"
                 );
                 documentStatusLabel.setText("Sent to QA");
 
@@ -1138,7 +1136,7 @@ public class UserviewController {
         btnFetchFiles.setOpacity(1.0);
 
         scanStatusLabel.setText(
-                "Ready for next document"
+                "Ready for next scan"
         );
 
         documentCounter++;
@@ -1333,7 +1331,7 @@ public class UserviewController {
         }
 
         // Update status
-        scanStatusLabel.setText("Awaiting QA");
+        scanStatusLabel.setText("Ready for next scan");
     }
 
     private void refreshDocumentTree() {
@@ -1468,7 +1466,7 @@ public class UserviewController {
 
         // Reset status labels
         scanStatusLabel.setText("Ready for scanning");
-        documentStatusLabel.setText("Waiting for QA");
+        documentStatusLabel.setText("Ready for scanning");
 
         // Reset buttons
         btnSaveasDocument.setDisable(true);

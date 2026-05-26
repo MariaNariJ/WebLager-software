@@ -8,6 +8,7 @@ public class Page {
     private String barcode;
     private String pagePath;
     private int rotation;
+    private byte[] imageData;
 
     public Page(String pageId, int orderId, int documentId, String pageName, String pagePath, int rotation) {
         this.pageId = pageId;
@@ -56,6 +57,14 @@ public class Page {
     }
     public void setRotation(int rotation) {
         this.rotation = rotation;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
 }
