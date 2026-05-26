@@ -17,44 +17,34 @@ public class AdminClientsController {
 
     @FXML
     private VBox clientsRoot;
+    @FXML private VBox clientsOverview;
+    @FXML private VBox clientDetailsContainer;
+
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> statusFilter;
+    @FXML private Button btnCreateClient;
+    @FXML private TableView<Client> clientsTable;
 
     private final ClientManager clientManager = new ClientManager();
 
     @FXML
     private void initialize() {
+        setupClientsTable();
+        setupFilters();
         showClients();
     }
 
-    private void showClients() {
-
-        clientsRoot.getChildren().clear();
-
-        VBox wrapper = new VBox(16);
-
-        HBox topBar = new HBox(14);
-        topBar.setAlignment(Pos.CENTER_LEFT);
-
-        TextField searchField = new TextField();
-        searchField.setPromptText("Search clients...");
-        searchField.getStyleClass().add("dark-field");
-        searchField.setPrefWidth(300);
-
-        ComboBox<String> statusFilter = new ComboBox<>();
+    private void setupFilters() {
         statusFilter.getItems().addAll("Active", "Inactive", "All");
         statusFilter.setValue("Active");
-        statusFilter.getStyleClass().add("dark-combo");
-        statusFilter.setPrefWidth(120);
 
-        Button btnCreateClient = new Button("+ Create Client");
-        btnCreateClient.getStyleClass().add("primary-action");
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> loadClients());
+        statusFilter.valueProperty().addListener((obs, oldValue, newValue) -> loadClients());
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        btnCreateClient.setOnAction(e -> showCreateClientDialog());
+    }
 
-        topBar.getChildren().addAll(searchField, statusFilter, spacer, btnCreateClient);
-
-        TableView<Client> clientsTable = new TableView<>();
-        clientsTable.setPrefHeight(650);
+    private void setupClientsTable() {
         clientsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         TableColumn<Client, String> clientNameCol = new TableColumn<>("Client Name");
@@ -92,23 +82,6 @@ public class AdminClientsController {
                 statusCol
         );
 
-        FilteredList<Client> filteredClients = new FilteredList<>(
-                FXCollections.observableArrayList(clientManager.getAllClients()),
-                p -> true
-        );
-
-        searchField.textProperty().addListener((obs, oldValue, newValue) -> {
-            applyClientFilter(filteredClients, searchField, statusFilter);
-        });
-
-        statusFilter.valueProperty().addListener((obs, oldValue, newValue) -> {
-            applyClientFilter(filteredClients, searchField, statusFilter);
-        });
-
-        applyClientFilter(filteredClients, searchField, statusFilter);
-
-        clientsTable.setItems(filteredClients);
-
         clientsTable.setRowFactory(tableView -> {
             TableRow<Client> row = new TableRow<>();
 
@@ -127,6 +100,7 @@ public class AdminClientsController {
                 clientManager.updateClientStatus(selectedClient.getClientId(), "Active");
                 selectedClient.setStatus("Active");
                 clientsTable.refresh();
+                loadClients();
             });
 
             setInactive.setOnAction(event -> {
@@ -139,6 +113,7 @@ public class AdminClientsController {
                 clientManager.updateClientStatus(selectedClient.getClientId(), "Inactive");
                 selectedClient.setStatus("Inactive");
                 clientsTable.refresh();
+                loadClients();
             });
 
             contextMenu.getItems().addAll(setActive, setInactive);
@@ -154,15 +129,30 @@ public class AdminClientsController {
                     showClientDetails(row.getItem());
                 }
             });
+
             return row;
         });
+    }
 
-        btnCreateClient.setOnAction(e -> showCreateClientDialog());
+    private void showClients() {
+        clientsOverview.setVisible(true);
+        clientsOverview.setManaged(true);
 
-        wrapper.getChildren().addAll(topBar, clientsTable);
-        VBox.setVgrow(clientsTable, Priority.ALWAYS);
+        clientDetailsContainer.setVisible(false);
+        clientDetailsContainer.setManaged(false);
+        clientDetailsContainer.getChildren().clear();
 
-        clientsRoot.getChildren().add(wrapper);
+        loadClients();
+    }
+
+    private void loadClients() {
+        FilteredList<Client> filteredClients = new FilteredList<>(
+                FXCollections.observableArrayList(clientManager.getAllClients()),
+                p -> true
+        );
+
+        applyClientFilter(filteredClients, searchField, statusFilter);
+        clientsTable.setItems(filteredClients);
     }
 
     private void showCreateClientDialog() {
@@ -262,7 +252,12 @@ public class AdminClientsController {
     }
     private void showClientDetails(Client client) {
 
-        clientsRoot.getChildren().clear();
+        clientsOverview.setVisible(false);
+        clientsOverview.setManaged(false);
+
+        clientDetailsContainer.setVisible(true);
+        clientDetailsContainer.setManaged(true);
+        clientDetailsContainer.getChildren().clear();
 
         VBox wrapper = new VBox(18);
 
@@ -360,7 +355,7 @@ public class AdminClientsController {
 
         wrapper.getChildren().addAll(topBar, profilesPane);
 
-        clientsRoot.getChildren().add(wrapper);
+        clientDetailsContainer.getChildren().add(wrapper);
     }
     private void showCreateProfileDialog(Client client) {
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <VBox fx:id="clientsRoot"
       spacing="16"
@@ -9,6 +10,45 @@
       xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="dk.easv.gui.AdminClientsController">
+
+    <children>
+
+        <VBox fx:id="clientsOverview"
+              spacing="16"
+              VBox.vgrow="ALWAYS">
+
+            <HBox spacing="14"
+                  alignment="CENTER_LEFT">
+
+                <TextField fx:id="searchField"
+                           promptText="Search clients..."
+                           prefWidth="300"
+                           styleClass="dark-field"/>
+
+                <ComboBox fx:id="statusFilter"
+                          prefWidth="120"
+                          styleClass="dark-combo"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button fx:id="btnCreateClient"
+                        text="+ Create Client"
+                        styleClass="primary-action"/>
+            </HBox>
+
+            <TableView fx:id="clientsTable"
+                       prefHeight="650"
+                       VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+
+        <VBox fx:id="clientDetailsContainer"
+              spacing="18"
+              visible="false"
+              managed="false"
+              VBox.vgrow="ALWAYS"/>
+
+    </children>
 
     <padding>
         <Insets top="0" right="0" bottom="0" left="0"/>
