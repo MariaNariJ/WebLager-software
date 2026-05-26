@@ -51,7 +51,7 @@
                     <VBox spacing="8" styleClass="logs-section">
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Label text="Scanning Logs" styleClass="logs-section-title"/>
-                            <Label text="1,245" styleClass="logs-count-pill"/>
+                            <Label fx:id="scanningCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
@@ -68,7 +68,7 @@
                     <VBox spacing="8" styleClass="logs-section">
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Label text="QA Logs" styleClass="logs-section-title"/>
-                            <Label text="876" styleClass="logs-count-pill"/>
+                            <Label fx:id="qaCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
@@ -85,7 +85,7 @@
                     <VBox spacing="8" styleClass="logs-section">
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Label text="Export Logs" styleClass="logs-section-title"/>
-                            <Label text="564" styleClass="logs-count-pill"/>
+                            <Label fx:id="exportCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
@@ -102,7 +102,7 @@
                     <VBox spacing="8" styleClass="logs-section">
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Label text="User Logs" styleClass="logs-section-title"/>
-                            <Label text="1,032" styleClass="logs-count-pill"/>
+                            <Label fx:id="userCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
                             <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>

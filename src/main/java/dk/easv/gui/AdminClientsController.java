@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.StageStyle;
+import dk.easv.bll.LogManager;
 
 public class AdminClientsController {
 
@@ -26,6 +27,7 @@ public class AdminClientsController {
     @FXML private TableView<Client> clientsTable;
 
     private final ClientManager clientManager = new ClientManager();
+    private final LogManager logManager = new LogManager();
 
     @FXML
     private void initialize() {
@@ -506,5 +508,16 @@ public class AdminClientsController {
                 showClientDetails(client);
             }
         });
+    }
+    private void createAdminLog(String event, String details, String status) {
+        logManager.createLog(
+                "Info",
+                "User",
+                event,
+                null,
+                details,
+                status,
+                "00:00:00"
+        );
     }
 }

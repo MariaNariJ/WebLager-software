@@ -32,11 +32,13 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import dk.easv.bll.DocumentManager;
+import dk.easv.bll.LogManager;
 
 
 public class UserviewController {
     private final FileManager fileManager = new FileManager();
     private final DocumentManager documentManager = new DocumentManager();
+    private final LogManager logManager = new LogManager();
 
     private List<Page> scannedPages = new ArrayList<>();
 
@@ -717,6 +719,7 @@ public class UserviewController {
                                 page.getBarcode()
                         );
 
+
                         currentDocument.addPage(page);
 
                         barcodeLabel.setText(
@@ -754,6 +757,13 @@ public class UserviewController {
 
                         scanStatusLabel.setText(
                                 "Document ready for metadata"
+                        );
+
+                        createLog(
+                                "Info",
+                                "Document Scanned",
+                                "Document scanned with " + currentDocument.getPages().size() + " pages",
+                                "Completed"
                         );
 
                         return;
@@ -888,6 +898,13 @@ public class UserviewController {
                         selectedProfile,
                         txtDate.getText()
                 );
+
+            createLog(
+                    "Info",
+                    "Box Sent To QA",
+                    "Box " + txtBox.getText() + " was sent to QA",
+                    "Completed"
+            );
 
 
             // UI updates
@@ -1324,6 +1341,13 @@ public class UserviewController {
         // Finalize document and add to overview
         finishCurrentDocument();
 
+        createLog(
+                "Info",
+                "Document Saved",
+                "Saved document: " + documentName,
+                "Completed"
+        );
+
         // Reset QA button state
         btnReadyForQA.setText("Save box to QA");
 
@@ -1405,6 +1429,13 @@ public class UserviewController {
         );
 
         btnFinishBox.setDisable(true);
+
+        createLog(
+                "Info",
+                "Box Finished",
+                "Box " + txtBox.getText() + " marked as ready for QA",
+                "Completed"
+        );
     }
 
     private void showSpecificPage(Page page) {
@@ -1428,6 +1459,20 @@ public class UserviewController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void createLog(String level, String event, String details, String status) {
+        Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
+
+        logManager.createLog(
+                level,
+                "Scanning",
+                event,
+                userId,
+                details,
+                status,
+                "00:00:00"
+        );
     }
 
     private void resetScanningSession() {
@@ -1487,5 +1532,6 @@ public class UserviewController {
         scanningFinished = false;
 
     }
+
 
 }
