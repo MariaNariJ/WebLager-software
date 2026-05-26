@@ -248,6 +248,10 @@ public class UserviewController {
         keyBindings.put("d", this::onNextFile);
         keyBindings.put("a", this::onPreviousFile);
 
+        keyBindings.put("s", this::onSaveasDocumentClicked);
+
+        keyBindings.put("b", this::onFinishBoxClicked);
+
         keyBindings.put("l", this::onSidebarLockClicked);
 
         sidebarTrigger.setOnMouseEntered(e -> showSidebar());
@@ -315,6 +319,18 @@ public class UserviewController {
 
                     if (event.getCode() == javafx.scene.input.KeyCode.DOWN) {
                         moveSelectedFileDown();
+                        return;
+                    }
+                }
+
+                // QA SHORTCUT
+
+                if (event.isShiftDown()) {
+
+                    if (key.equals("q")) {
+
+                        onReadyForQAClicked();
+
                         return;
                     }
                 }
@@ -404,6 +420,7 @@ public class UserviewController {
     @FXML
     private void onZoomIn() {
         if (zoomLevel <= MAX_ZOOM) {
+
             zoomLevel += ZOOM_STEP;
             updateZoom();
         }

@@ -471,16 +471,22 @@
     -fx-font-weight: 400;}
 
 .shortcut-key {
+
     -fx-background-color: #42576d;
+
     -fx-background-radius: 8;
 
     -fx-padding: 6 12 6 12;
 
     -fx-text-fill: white;
+
     -fx-font-weight: bold;
 
-    -fx-min-width: 100;
+    -fx-pref-width: 100;
+
     -fx-alignment: CENTER;
+
+    -fx-min-width: 100;
 }
 
 /* POPUP WINDOWS USED BY SCANNING FLOW */

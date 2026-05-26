@@ -418,98 +418,155 @@
         <!-- SIDEBAR HOVER TRIGGER -->
         <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefWidth="20" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
-        <!-- GLOBAL SHORTCUT OVERLAY -->
-        <StackPane fx:id="shortcutOverlay" alignment="CENTER" managed="false" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-            <!-- Background dim -->
+        <!-- GLOBAL SHORTCUT OVERLAY -->
+        <StackPane fx:id="shortcutOverlay"
+                   alignment="CENTER"
+                   managed="false"
+                   visible="false"
+                   AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+
             <Pane style="-fx-background-color: rgba(0,0,0,0.25);" />
 
-            <!-- Popup -->
-            <VBox alignment="TOP_CENTER" maxHeight="420" maxWidth="700" prefWidth="700" spacing="12" styleClass="shortcut-popup">
+            <VBox alignment="TOP_CENTER"
+                  maxHeight="420"
+                  maxWidth="820"
+                  prefWidth="820"
+                  spacing="12"
+                  styleClass="shortcut-popup">
 
-                <Label styleClass="shortcut-title" text="Keyboard Shortcuts" />
+                <Label styleClass="shortcut-title"
+                       text="Keyboard Shortcuts" />
 
-            <HBox alignment="TOP_CENTER" spacing="40">
+                <HBox alignment="TOP_CENTER"
+                      spacing="70">
 
-                <!-- LEFT COLUMN -->
-                <VBox spacing="8">
+                    <!-- LEFT COLUMN -->
+                    <VBox spacing="8">
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="I" />
-                        <Label text="Toggle Shortcut Help" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="I" />
+                            <Label text="Toggle Shortcut Help" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="Hold H"
-                               styleClass="shortcut-key"/>
-                        <Label text="Reveal Profile Descriptions"/>
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="L" />
+                            <Label text="Lock / Unlock Sidebar" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Q / Ctrl+Q" />
-                        <Label text="Rotate Left" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F1" />
+                            <Label text="Show Profile Description" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="E / Ctrl+E" />
-                        <Label text="Rotate Right" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Q / Ctrl+Q" />
+                            <Label text="Rotate Left" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="R" />
-                        <Label text="Reset Rotation" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="E / Ctrl+E" />
+                            <Label text="Rotate Right" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Ctrl + ↑" />
-                        <Label text="Move TIFF Up" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="R" />
+                            <Label text="Reset Rotation" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Ctrl + ↓" />
-                        <Label text="Move TIFF Down" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F5" />
+                            <Label text="Open Scan Setup" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="↑"
-                               styleClass="shortcut-key"/>
-                        <Label text="Navigate Up Profiles"/>
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="S" />
+                            <Label text="Save Document" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="↓"
-                               styleClass="shortcut-key"/>
-                        <Label text="Navigate Down Profiles"/>
-                    </HBox>
+                    </VBox>
 
-                </VBox>
+                    <!-- RIGHT COLUMN -->
+                    <VBox spacing="8">
 
-                <!-- RIGHT COLUMN -->
-                <VBox spacing="8">
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="0" />
+                            <Label text="Reset Zoom" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="0" />
-                        <Label text="Reset Zoom" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F" />
+                            <Label text="Fit Width" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="F" />
-                        <Label text="Fit Width" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="D" />
+                            <Label text="Next File" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="D" />
-                        <Label text="Next File" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="A" />
+                            <Label text="Previous File" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="A" />
-                        <Label text="Previous File" />
-                    </HBox>
+                        <Region prefHeight="10" />
 
-                </VBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="B" />
+                            <Label text="Finish Box" />
+                        </HBox>
 
-            </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Shift + Q" />
+                            <Label text="Save Box To QA" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Ctrl + ↑" />
+                            <Label text="Move TIFF Up" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Ctrl + ↓" />
+                            <Label text="Move TIFF Down" />
+                        </HBox>
+
+                        <Region prefHeight="10" />
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="↑" />
+                            <Label text="Navigate Up Profiles" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="↓" />
+                            <Label text="Navigate Down Profiles" />
+                        </HBox>
+
+                    </VBox>
+
+                </HBox>
 
             </VBox>
 

@@ -78,6 +78,113 @@ public class SelectProfileController {
                         filterProfiles(newValue)
         );
 
+        txtProfileSearch.setOnKeyPressed(event -> {
+
+            switch (event.getCode()) {
+
+                case DOWN:
+
+                    if (focusedProfileIndex
+                            < profileCards.size() - 1) {
+
+                        hideFocusedTooltip();
+
+                        focusedProfileIndex++;
+
+                        updateFocusedProfile();
+
+                        if (hHeld) {
+                            showFocusedTooltip();
+                        }
+                    }
+
+                    event.consume();
+
+                    break;
+
+                case UP:
+
+                    if (focusedProfileIndex > 0) {
+
+                        hideFocusedTooltip();
+
+                        focusedProfileIndex--;
+
+                        updateFocusedProfile();
+
+                        if (hHeld) {
+                            showFocusedTooltip();
+                        }
+                    }
+
+                    event.consume();
+
+                    break;
+            }
+        });
+
+        txtProfileSearch.sceneProperty().addListener(
+                (obs, oldScene, newScene) -> {
+
+                    if (newScene == null) {
+                        return;
+                    }
+
+                    newScene.setOnKeyPressed(event -> {
+
+                        switch (event.getCode()) {
+
+                            case F1:
+
+                                if (!hHeld) {
+
+                                    hHeld = true;
+
+                                    showFocusedTooltip();
+                                }
+
+                                event.consume();
+
+                                break;
+
+                            case ENTER:
+
+                                onContinueClicked();
+
+                                event.consume();
+
+                                break;
+
+                            case ESCAPE:
+
+                                onCancelClicked();
+
+                                event.consume();
+
+                                break;
+                        }
+                    });
+
+                    newScene.setOnKeyReleased(event -> {
+
+                        switch (event.getCode()) {
+
+                            case F1:
+
+                                if (hHeld) {
+
+                                    hHeld = false;
+
+                                    hideFocusedTooltip();
+
+                                    event.consume();
+                                }
+
+                                break;
+                        }
+                    });
+                });
+
         continueButton.setDisable(true);
 
         txtBox.textProperty().addListener(
@@ -100,6 +207,7 @@ public class SelectProfileController {
 
                         clientListView.setOpacity(0);
                         clientListView.setPrefHeight(0);
+
                         return;
                     }
 
@@ -142,6 +250,52 @@ public class SelectProfileController {
                             Math.min(filtered.size() * 40, 80)
                     );
                 });
+
+        txtClientSearch.setOnKeyPressed(event -> {
+
+            switch (event.getCode()) {
+
+                case ENTER:
+
+                    if (!clientListView.getItems().isEmpty()) {
+
+                        String selectedClient =
+                                clientListView
+                                        .getItems()
+                                        .get(0);
+
+                        txtClientSearch.setText(selectedClient);
+
+                        clientListView.setOpacity(0);
+
+                        clientListView.setPrefHeight(0);
+
+                        loadProfilesForClient(selectedClient);
+
+                        validateForm();
+
+                        txtBox.requestFocus();
+                    }
+
+                    event.consume();
+
+                    break;
+            }
+        });
+
+        txtBox.setOnKeyPressed(event -> {
+
+            switch (event.getCode()) {
+
+                case ENTER:
+
+                    txtProfileSearch.requestFocus();
+
+                    event.consume();
+
+                    break;
+            }
+        });
 
         clientListView.setOnMouseClicked(event -> {
 
@@ -288,80 +442,6 @@ public class SelectProfileController {
         profileCards.add(card);
         profileTooltips.add(tooltip);
 
-        card.setOnKeyPressed(event -> {
-
-            switch (event.getCode()) {
-
-                case DOWN:
-
-                    if (focusedProfileIndex
-                            < profileCards.size() - 1) {
-
-                        hideFocusedTooltip();
-
-                        focusedProfileIndex++;
-
-                        updateFocusedProfile();
-
-                        if (hHeld) {
-                            showFocusedTooltip();
-                        }
-                    }
-
-                    event.consume();
-
-                    break;
-
-                case UP:
-
-                    if (focusedProfileIndex > 0) {
-
-                        hideFocusedTooltip();
-
-                        focusedProfileIndex--;
-
-                        updateFocusedProfile();
-
-                        if (hHeld) {
-                            showFocusedTooltip();
-                        }
-                    }
-
-                    event.consume();
-
-                    break;
-
-                case H:
-
-                    if (!hHeld) {
-
-                        hHeld = true;
-
-                        showFocusedTooltip();
-                    }
-
-                    event.consume();
-
-                    break;
-            }
-        });
-
-        card.setOnKeyReleased(event -> {
-
-            switch (event.getCode()) {
-
-                case H:
-
-                    hHeld = false;
-
-                    hideFocusedTooltip();
-
-                    event.consume();
-
-                    break;
-            }
-        });
-
         card.getChildren().addAll(
                 titleLabel,
                 spacer,
@@ -379,6 +459,7 @@ public class SelectProfileController {
                 selectedProfile = null;
 
                 validateForm();
+
                 return;
             }
 
@@ -522,8 +603,6 @@ public class SelectProfileController {
                 (Label) focusedCard.getChildren().get(0);
 
         selectedProfile = titleLabel.getText();
-
-        focusedCard.requestFocus();
 
         double contentHeight =
                 profileContainer.getBoundsInLocal().getHeight();
