@@ -1,7 +1,6 @@
 package dk.easv.gui;
 
 import dk.easv.be.*;
-import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

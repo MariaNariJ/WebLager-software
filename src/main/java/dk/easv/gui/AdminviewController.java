@@ -295,6 +295,7 @@ public class AdminviewController {
 
     private void showLogs() {
 
+        adminContentArea.setStyle("-fx-background-color: #2D3D4F;");
         adminTitleLabel.setText("Logs");
         adminSubtitleLabel.setText("View and monitor system logs and activities");
 
