@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <VBox fx:id="logsRoot"
       spacing="10"
@@ -11,8 +12,113 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="dk.easv.gui.AdminLogsController">
 
-    <padding>
-        <Insets top="0" right="0" bottom="0" left="0"/>
-    </padding>
+    <children>
 
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="logs-filter-bar">
+            <TextField fx:id="searchField"
+                       promptText="Search logs..."
+                       prefWidth="260"
+                       styleClass="admin-input"/>
+
+            <ComboBox fx:id="levelFilter"
+                      prefWidth="140"
+                      styleClass="admin-combo"/>
+
+            <ComboBox fx:id="typeFilter"
+                      prefWidth="140"
+                      styleClass="admin-combo"/>
+
+            <TextField fx:id="dateField"
+                       text="May 18, 2026 - May 25, 2026"
+                       prefWidth="230"
+                       styleClass="admin-input"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="Filters"
+                    styleClass="admin-secondary-button"/>
+        </HBox>
+
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED"
+                    styleClass="dark-scroll"
+                    VBox.vgrow="ALWAYS">
+
+            <content>
+                <VBox spacing="10">
+
+                    <VBox spacing="8" styleClass="logs-section">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Scanning Logs" styleClass="logs-section-title"/>
+                            <Label text="1,245" styleClass="logs-count-pill"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="View All" styleClass="logs-link-button"/>
+                        </HBox>
+
+                        <Label text="Logs related to document scanning activities."
+                               styleClass="logs-description"/>
+
+                        <TableView fx:id="scanningTable"
+                                   prefHeight="190"
+                                   minHeight="190"
+                                   styleClass="logs-table"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="logs-section">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="QA Logs" styleClass="logs-section-title"/>
+                            <Label text="876" styleClass="logs-count-pill"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="View All" styleClass="logs-link-button"/>
+                        </HBox>
+
+                        <Label text="Logs related to quality assurance activities."
+                               styleClass="logs-description"/>
+
+                        <TableView fx:id="qaTable"
+                                   prefHeight="190"
+                                   minHeight="190"
+                                   styleClass="logs-table"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="logs-section">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Export Logs" styleClass="logs-section-title"/>
+                            <Label text="564" styleClass="logs-count-pill"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="View All" styleClass="logs-link-button"/>
+                        </HBox>
+
+                        <Label text="Logs related to document export activities."
+                               styleClass="logs-description"/>
+
+                        <TableView fx:id="exportTable"
+                                   prefHeight="190"
+                                   minHeight="190"
+                                   styleClass="logs-table"/>
+                    </VBox>
+
+                    <VBox spacing="8" styleClass="logs-section">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="User Logs" styleClass="logs-section-title"/>
+                            <Label text="1,032" styleClass="logs-count-pill"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="View All" styleClass="logs-link-button"/>
+                        </HBox>
+
+                        <Label text="Logs related to user account changes."
+                               styleClass="logs-description"/>
+
+                        <TableView fx:id="userTable"
+                                   prefHeight="190"
+                                   minHeight="190"
+                                   styleClass="logs-table"/>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+    </children>
 </VBox>
