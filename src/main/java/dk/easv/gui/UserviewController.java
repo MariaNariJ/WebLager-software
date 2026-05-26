@@ -361,6 +361,8 @@ public class UserviewController {
                     }
                 });
         btnReadyForQA.setDisable(true);
+
+        scanningView.addAll(mainContent.getChildren());
     }
 
     private void zoomSetup() {

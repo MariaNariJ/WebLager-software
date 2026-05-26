@@ -315,8 +315,6 @@
 
                                 </VBox>
 
-                                <Region VBox.vgrow="ALWAYS" />
-
                                 <VBox spacing="14" styleClass="status-card">
                                     <VBox.margin>
                                         <Insets top="40"/>
