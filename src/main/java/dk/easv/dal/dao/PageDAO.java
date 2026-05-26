@@ -8,6 +8,8 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PageDAO {
     ConnectionManager conMan = new ConnectionManager();
@@ -47,5 +49,53 @@ public class PageDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public List<Page> getPagesForDocument(
+            int documentId
+    ) {
+
+        List<Page> pages =
+                new ArrayList<>();
+
+        try (Connection con =
+                     conMan.getConnection()) {
+
+            String sql =
+                    "SELECT * FROM Files " +
+                            "WHERE Document_id = ? " +
+                            "ORDER BY Order_id ASC";
+
+            PreparedStatement ps =
+                    con.prepareStatement(sql);
+
+            ps.setInt(1, documentId);
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            while (rs.next()) {
+
+                Page page = new Page(
+
+                        rs.getString("File_id"),
+                        rs.getInt("Order_id"),
+                        rs.getInt("Document_id"),
+                        rs.getString("FileName"),
+                        rs.getString("FileName"),
+                        rs.getInt("Rotation")
+                );
+
+                pages.add(page);
+                page.setImageData(
+                        rs.getBytes("Image")
+                );
+            }
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+
+        return pages;
     }
 }

@@ -20,6 +20,7 @@ public class DocumentManager {
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final PageDAO pageDAO = new PageDAO();
 
+
     public void saveDocumentToQA(
             DocumentGroup documentGroup,
             int boxId,
@@ -88,5 +89,21 @@ public class DocumentManager {
                     profile
             );
         }
+    }
+    public List<Box> getBoxesForQA() {
+
+        return boxDAO.getAllBoxes();
+    }
+    public List<Document> getDocumentsForBox(int boxId) {
+
+        return documentDAO.getDocumentsForBox(boxId);
+    }
+    public List<Page> getPagesForDocument(
+            int documentId
+    ) {
+
+        return pageDAO.getPagesForDocument(
+                documentId
+        );
     }
 }
