@@ -870,6 +870,7 @@ public class UserviewController {
                    scanning = false;
                });*/
 
+    // TODO: rename to onSendToExportClicked()
     @FXML
     public void onReadyForQAClicked() {
 
@@ -901,11 +902,14 @@ public class UserviewController {
         btnFetchFiles.setOpacity(1.0);
 
         scanStatusLabel.setText(
-                "Sending document to QA..."
+                "Sending box to Export..."
         );
 
         CompletableFuture.runAsync(() -> {
 
+
+            // TODO: rename to saveBoxForExport()
+            // QA flow removed - now used for export pipeline
             documentManager.saveBoxToQA(
                         documentGroups,
                         txtClient.getText(),
@@ -916,8 +920,8 @@ public class UserviewController {
 
             createLog(
                     "Info",
-                    "Box Sent To QA",
-                    "Box " + txtBox.getText() + " was sent to QA",
+                    "Box Sent To Export",
+                    "Box " + txtBox.getText() + " was sent to Export.",
                     "Completed"
             );
 
@@ -926,12 +930,23 @@ public class UserviewController {
             Platform.runLater(() -> {
 
                 scanStatusLabel.setText(
-                        "Sent to QA"
+                        "Sent to Export"
                 );
-                documentStatusLabel.setText("Sent to QA");
+
+                documentStatusLabel.setText(
+                        "Ready for Export"
+                );
+
+                loadUserTab("user-export.fxml");
+
+                setInactiveUserTab(scanningButton);
+                setInactiveUserTab(qaButton);
+                setActiveUserTab(exportButton);
 
                 btnSaveasDocument.setDisable(true);
+
                 resetScanningSession();
+
                 btnSaveasDocument.setOpacity(0.5);
 
                 btnFetchFiles.setDisable(false);
@@ -1273,6 +1288,7 @@ public class UserviewController {
         setInactiveUserTab(exportButton);
     }
 
+    /*
     @FXML
     private void onQaClicked() {
         loadUserTab("user-qa.fxml");
@@ -1281,6 +1297,7 @@ public class UserviewController {
         setActiveUserTab(qaButton);
         setInactiveUserTab(exportButton);
     }
+     */
 
     @FXML
     private void onExportClicked() {
@@ -1364,7 +1381,7 @@ public class UserviewController {
         );
 
         // Reset QA button state
-        btnReadyForQA.setText("Save box to QA");
+        btnReadyForQA.setText("Send to Export");
 
         if (!scanningFinished) {
             btnReadyForQA.setDisable(true);

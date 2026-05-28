@@ -72,7 +72,7 @@
 
                         <VBox alignment="CENTER" prefWidth="358.0" spacing="0.0">
                             <children>
-                                <Label styleClass="version-label" text="Version 6.7" />
+                                <Label styleClass="version-label" text="Version 6.8" />
                             </children>
                         </VBox>
                     </children>

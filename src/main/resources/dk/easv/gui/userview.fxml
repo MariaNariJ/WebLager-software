@@ -331,7 +331,7 @@
                                             prefHeight="38.0"
                                             prefWidth="170.0"
                                             styleClass="primary-action"
-                                            text="Save box to QA" />
+                                            text="Send to Export" />
 
                                 </HBox>
 
