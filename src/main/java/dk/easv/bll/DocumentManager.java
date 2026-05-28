@@ -21,7 +21,7 @@ public class DocumentManager {
     private final PageDAO pageDAO = new PageDAO();
 
 
-    public void saveDocumentToQA(
+    public void saveDocumentForExport(
             DocumentGroup documentGroup,
             int boxId,
             String documentName,
@@ -64,7 +64,7 @@ public class DocumentManager {
         }
     }
 
-    public void saveBoxToQA(
+    public void saveBoxForExport(
             List<DocumentGroup> documentGroups,
             String client,
             String boxName,
@@ -81,7 +81,7 @@ public class DocumentManager {
 
         for (DocumentGroup documentGroup : documentGroups) {
 
-            saveDocumentToQA(
+            saveDocumentForExport(
                     documentGroup,
                     boxId,
                     documentGroup.getTitle(),
@@ -90,7 +90,7 @@ public class DocumentManager {
             );
         }
     }
-    public List<Box> getBoxesForQA() {
+    public List<Box> getBoxesForExport() {
 
         return boxDAO.getAllBoxes();
     }

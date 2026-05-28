@@ -110,9 +110,7 @@ public class UserviewController {
     @FXML
     private Button scanningButton;
     @FXML
-    private Button qaButton;
-    @FXML
-    private Button btnReadyForQA;
+    private Button btnSendToExport;
     @FXML
     private Button btnFinishBox;
     @FXML
@@ -277,8 +275,8 @@ public class UserviewController {
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
 
-        btnReadyForQA.setDisable(true);
-        btnReadyForQA.getStyleClass().add("disabled-action-button");
+        btnSendToExport.setDisable(true);
+        btnSendToExport.getStyleClass().add("disabled-action-button");
 
         // Double-click reset
         previewImage.setOnMouseClicked(event -> {
@@ -324,13 +322,13 @@ public class UserviewController {
                     }
                 }
 
-                // QA SHORTCUT
+                // Export SHORTCUT
 
                 if (event.isShiftDown()) {
 
                     if (key.equals("q")) {
 
-                        onReadyForQAClicked();
+                        onSendToExportClicked();
 
                         return;
                     }
@@ -377,7 +375,7 @@ public class UserviewController {
                         showSpecificPage(selectedPage);
                     }
                 });
-        btnReadyForQA.setDisable(true);
+        btnSendToExport.setDisable(true);
 
         scanningView.addAll(mainContent.getChildren());
     }
@@ -686,7 +684,7 @@ public class UserviewController {
         scanning = true;
 
         btnFetchFiles.setDisable(true);
-        btnReadyForQA.setDisable(true);
+        btnSendToExport.setDisable(true);
 
         btnFetchFiles.setOpacity(0.6);
 
@@ -728,7 +726,7 @@ public class UserviewController {
                         documentStatusLabel.setText("Ready for scanning");
 
                         // Update status
-                        documentStatusLabel.setText("Waiting for QA");
+                        documentStatusLabel.setText("Scanning in progress");
                         scanStatusLabel.setText("Scanning in progress");
 
                         currentDocument = new DocumentGroup(
@@ -858,7 +856,7 @@ public class UserviewController {
 
     // TODO: rename to onSendToExportClicked()
     @FXML
-    public void onReadyForQAClicked() {
+    public void onSendToExportClicked() {
 
         if (documentGroups.isEmpty()) {
             return;
@@ -893,16 +891,14 @@ public class UserviewController {
 
         CompletableFuture.runAsync(() -> {
 
-
-            // TODO: rename to saveBoxForExport()
             // QA flow removed - now used for export pipeline
-            documentManager.saveBoxToQA(
-                        documentGroups,
-                        txtClient.getText(),
-                        txtBox.getText(),
-                        selectedProfile,
-                        txtDate.getText()
-                );
+            documentManager.saveBoxForExport(
+                    documentGroups,
+                    txtClient.getText(),
+                    txtBox.getText(),
+                    selectedProfile,
+                    txtDate.getText()
+            );
 
             createLog(
                     "Info",
@@ -926,7 +922,6 @@ public class UserviewController {
                 loadUserTab("user-export.fxml");
 
                 setInactiveUserTab(scanningButton);
-                setInactiveUserTab(qaButton);
                 setActiveUserTab(exportButton);
 
                 btnSaveasDocument.setDisable(true);
@@ -941,7 +936,7 @@ public class UserviewController {
                 scanning = false;
 
                 // Update button state
-                btnReadyForQA.setDisable(true);
+                btnSendToExport.setDisable(true);
             });
         });
     }
@@ -1270,20 +1265,8 @@ public class UserviewController {
         mainContent.getChildren().setAll(scanningView);
 
         setActiveUserTab(scanningButton);
-        setInactiveUserTab(qaButton);
         setInactiveUserTab(exportButton);
     }
-
-    /*
-    @FXML
-    private void onQaClicked() {
-        loadUserTab("user-qa.fxml");
-
-        setInactiveUserTab(scanningButton);
-        setActiveUserTab(qaButton);
-        setInactiveUserTab(exportButton);
-    }
-     */
 
     @FXML
     private void onExportClicked() {
@@ -1291,7 +1274,6 @@ public class UserviewController {
         loadUserTab("user-export.fxml");
 
         setInactiveUserTab(scanningButton);
-        setInactiveUserTab(qaButton);
         setActiveUserTab(exportButton);
     }
 
@@ -1366,11 +1348,11 @@ public class UserviewController {
                 "Completed"
         );
 
-        // Reset QA button state
-        btnReadyForQA.setText("Send to Export");
+        // Reset Export button state
+        btnSendToExport.setText("Send to Export");
 
         if (!scanningFinished) {
-            btnReadyForQA.setDisable(true);
+            btnSendToExport.setDisable(true);
         }
 
         // Update status
@@ -1438,10 +1420,10 @@ public class UserviewController {
     private void onFinishBoxClicked() {
 
         scanningFinished = true;
-        btnReadyForQA.setDisable(false);
-        btnReadyForQA.getStyleClass().remove("disabled-action-button");
+        btnSendToExport.setDisable(false);
+        btnSendToExport.getStyleClass().remove("disabled-action-button");
 
-        scanStatusLabel.setText("Box ready for QA");
+        scanStatusLabel.setText("Box ready for Export");
         documentStatusLabel.setText(
                 "Scanning completed"
         );
@@ -1451,7 +1433,7 @@ public class UserviewController {
         createLog(
                 "Info",
                 "Box Finished",
-                "Box " + txtBox.getText() + " marked as ready for QA",
+                "Box " + txtBox.getText() + " marked as ready for Export",
                 "Completed"
         );
     }
@@ -1539,8 +1521,8 @@ public class UserviewController {
         btnFetchFiles.setDisable(false);
         btnFetchFiles.setOpacity(1.0);
 
-        btnReadyForQA.setDisable(true);
-        btnReadyForQA.setOpacity(0.5);
+        btnSendToExport.setDisable(true);
+        btnSendToExport.setOpacity(0.5);
 
         btnFinishBox.setDisable(false);
         btnFinishBox.setOpacity(1.0);

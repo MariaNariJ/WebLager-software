@@ -426,10 +426,6 @@
 .disabled-action-button {
     -fx-opacity: 0.45;
 }
-.qa-sent-button {
-    -fx-background-color: #4CD07D;
-    -fx-text-fill: white;
-}
 
 /* Shortcut Overlay */
 
