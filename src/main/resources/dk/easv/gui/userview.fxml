@@ -315,8 +315,10 @@
 
                                 </VBox>
 
-                                <Region VBox.vgrow="ALWAYS" prefHeight="120"/>
+                                <Region VBox.vgrow="ALWAYS"/>
                                 <HBox spacing="12">
+
+                                    <Region HBox.hgrow="ALWAYS"/>
 
 
                                     <Button fx:id="btnFinishBox"
@@ -337,7 +339,7 @@
 
                                 <VBox spacing="14" styleClass="status-card">
                                     <VBox.margin>
-                                        <Insets top="20"/>
+                                        <Insets top="6"/>
                                     </VBox.margin>
 
                                     <Label styleClass="info-label" text="Document Status" />

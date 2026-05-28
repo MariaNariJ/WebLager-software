@@ -919,14 +919,14 @@ public class UserviewController {
                         "Ready for Export"
                 );
 
+                resetScanningSession();
+
                 loadUserTab("user-export.fxml");
 
                 setInactiveUserTab(scanningButton);
                 setActiveUserTab(exportButton);
 
                 btnSaveasDocument.setDisable(true);
-
-                resetScanningSession();
 
                 btnSaveasDocument.setOpacity(0.5);
 
@@ -1477,44 +1477,48 @@ public class UserviewController {
 
     private void resetScanningSession() {
 
-        // Clear all collections
         documentGroups.clear();
         scannedDocuments.clear();
         scannedPages.clear();
         pageMap.clear();
 
-        // Reset active references
         currentDocument = null;
+        currentImage = null;
 
-        // Reset indexes
+        selectedProfile = null;
+        selectedBox = null;
+
         currentIndex = -1;
         documentCounter = 1;
 
-        // Clear TreeView
-        documentTreeView.setRoot(null);
+        scanning = false;
+        scanningFinished = false;
 
-        // Clear preview image
+        rotationAngle = 0;
+        updateRotationIndicator();
+
+        zoomLevel = 1.0;
+        zoomLabel.setText("100%");
+
+        documentTreeView.setRoot(null);
         previewImage.setImage(null);
 
-        // Clear labels
-        barcodeLabel.setText("");
+        barcodeLabel.setText("No barcode found");
         fileCountLabel.setText("0");
-        fileIndicatorLabel.setText("");
+        fileIndicatorLabel.setText("No file selected");
 
-        // Clear ALL metadata fields
-        txtClient.clear();
-        txtBox.clear();
-        txtDate.clear();
-        txtDocumentName.clear();
-
-        // Reset scan profile dropdown/text
-        txtProfile.setText("");
-
-        // Reset status labels
         scanStatusLabel.setText("Ready for scanning");
         documentStatusLabel.setText("Ready for scanning");
 
-        // Reset buttons
+        txtClient.clear();
+        txtBox.clear();
+        txtDate.clear();
+
+        txtProfile.clear();
+
+        txtDocumentName.clear();
+        txtDocumentName.setPromptText("");
+
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
 
@@ -1526,11 +1530,6 @@ public class UserviewController {
 
         btnFinishBox.setDisable(false);
         btnFinishBox.setOpacity(1.0);
-
-        // Reset scanning states
-        scanning = false;
-        scanningFinished = false;
-
     }
 
 
