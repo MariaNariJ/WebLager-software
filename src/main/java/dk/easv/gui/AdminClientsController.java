@@ -100,6 +100,13 @@ public class AdminClientsController {
                 }
 
                 clientManager.updateClientStatus(selectedClient.getClientId(), "Active");
+
+                createAdminLog(
+                        "Client Activated",
+                        "Activated client: " + selectedClient.getName(),
+                        "Completed"
+                );
+
                 selectedClient.setStatus("Active");
                 clientsTable.refresh();
                 loadClients();
@@ -113,6 +120,13 @@ public class AdminClientsController {
                 }
 
                 clientManager.updateClientStatus(selectedClient.getClientId(), "Inactive");
+
+                createAdminLog(
+                        "Client Deactivated",
+                        "Deactivated client: " + selectedClient.getName(),
+                        "Completed"
+                );
+
                 selectedClient.setStatus("Inactive");
                 clientsTable.refresh();
                 loadClients();
@@ -209,6 +223,13 @@ public class AdminClientsController {
                 }
 
                 clientManager.createClient(clientName);
+
+                createAdminLog(
+                        "Client Created",
+                        "Created client: " + clientName,
+                        "Completed"
+                );
+
                 showClients();
             }
         });
@@ -319,6 +340,13 @@ public class AdminClientsController {
             confirm.showAndWait().ifPresent(result -> {
                 if (result == ButtonType.OK) {
                     clientManager.deleteClient(client.getClientId());
+
+                    createAdminLog(
+                            "Client Deleted",
+                            "Deleted client: " + client.getName(),
+                            "Completed"
+                    );
+
                     showClients();
                 }
             });
@@ -418,6 +446,13 @@ public class AdminClientsController {
                 }
 
                 clientManager.createProfile(client.getClientId(), profileName, description);
+
+                createAdminLog(
+                        "Profile Created",
+                        "Created profile: " + profileName + " for client: " + client.getName(),
+                        "Completed"
+                );
+
                 showClientDetails(client);
             }
         });
@@ -496,6 +531,12 @@ public class AdminClientsController {
                         description
                 );
 
+                createAdminLog(
+                        "Profile Updated",
+                        "Updated profile: " + name + " for client: " + client.getName(),
+                        "Completed"
+                );
+
                 showClientDetails(client);
             }
 
@@ -503,6 +544,12 @@ public class AdminClientsController {
                 clientManager.deleteProfile(
                         profile.getProfileId(),
                         client.getClientId()
+                );
+
+                createAdminLog(
+                        "Profile Deleted",
+                        "Deleted profile: " + profile.getName() + " from client: " + client.getName(),
+                        "Completed"
                 );
 
                 showClientDetails(client);

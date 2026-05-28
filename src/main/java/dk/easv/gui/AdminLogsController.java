@@ -19,12 +19,10 @@ public class AdminLogsController {
     @FXML private ComboBox<String> typeFilter;
 
     @FXML private TableView<Log> scanningTable;
-    @FXML private TableView<Log> qaTable;
     @FXML private TableView<Log> exportTable;
     @FXML private TableView<Log> userTable;
 
     @FXML private Label scanningCountLabel;
-    @FXML private Label qaCountLabel;
     @FXML private Label exportCountLabel;
     @FXML private Label userCountLabel;
 
@@ -35,7 +33,6 @@ public class AdminLogsController {
         setupFilters();
 
         setupTable(scanningTable);
-        setupTable(qaTable);
         setupTable(exportTable);
         setupTable(userTable);
 
@@ -46,7 +43,7 @@ public class AdminLogsController {
         levelFilter.getItems().addAll("All Levels", "Info", "Warning", "Error");
         levelFilter.setValue("All Levels");
 
-        typeFilter.getItems().addAll("All Types", "Scanning", "QA", "Export", "User");
+        typeFilter.getItems().addAll("All Types", "Scanning", "Export", "User");
         typeFilter.setValue("All Types");
     }
 
@@ -57,12 +54,10 @@ public class AdminLogsController {
         var userLogs = FXCollections.observableArrayList(logManager.getLogsByType("User"));
 
         scanningTable.setItems(scanningLogs);
-        qaTable.setItems(qaLogs);
         exportTable.setItems(exportLogs);
         userTable.setItems(userLogs);
 
         scanningCountLabel.setText(String.valueOf(scanningLogs.size()));
-        qaCountLabel.setText(String.valueOf(qaLogs.size()));
         exportCountLabel.setText(String.valueOf(exportLogs.size()));
         userCountLabel.setText(String.valueOf(userLogs.size()));
     }

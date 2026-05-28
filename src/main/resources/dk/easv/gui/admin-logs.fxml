@@ -67,23 +67,6 @@
 
                     <VBox spacing="8" styleClass="logs-section">
                         <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Label text="QA Logs" styleClass="logs-section-title"/>
-                            <Label fx:id="qaCountLabel" text="0" styleClass="logs-count-pill"/>
-                            <Region HBox.hgrow="ALWAYS"/>
-                            <Button text="View All" styleClass="logs-link-button"/>
-                        </HBox>
-
-                        <Label text="Logs related to quality assurance activities."
-                               styleClass="logs-description"/>
-
-                        <TableView fx:id="qaTable"
-                                   prefHeight="190"
-                                   minHeight="190"
-                                   styleClass="logs-table"/>
-                    </VBox>
-
-                    <VBox spacing="8" styleClass="logs-section">
-                        <HBox spacing="10" alignment="CENTER_LEFT">
                             <Label text="Export Logs" styleClass="logs-section-title"/>
                             <Label fx:id="exportCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
