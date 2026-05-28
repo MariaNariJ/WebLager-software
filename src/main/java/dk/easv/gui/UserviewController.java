@@ -758,28 +758,12 @@ public class UserviewController {
                     }
 
                     // SECOND barcode pauses scanning
+                    // Barcode page inside current document
                     if (hasBarcode && currentDocument != null) {
 
-                        scanning = false;
+                        currentDocument.addPage(page);
 
-                        // Disable scanning
-                        btnFetchFiles.setDisable(true);
-                        btnFetchFiles.setOpacity(0.5);
-
-                        // Enable save button
-                        btnSaveasDocument.setDisable(false);
-                        btnSaveasDocument.setOpacity(1.0);
-
-                        scanStatusLabel.setText(
-                                "Document ready for metadata"
-                        );
-
-                        createLog(
-                                "Info",
-                                "Document Scanned",
-                                "Document scanned with " + currentDocument.getPages().size() + " pages",
-                                "Completed"
-                        );
+                        refreshDocumentTree();
 
                         return;
                     }
@@ -788,6 +772,8 @@ public class UserviewController {
                     if (currentDocument != null) {
 
                         currentDocument.addPage(page);
+
+                        refreshDocumentTree();
                     }
 
                 });
