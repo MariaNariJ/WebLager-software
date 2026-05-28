@@ -276,14 +276,68 @@
                         <CheckBox text="Open folder after export is complete"
                                   styleClass="export-checkbox"/>
 
-                        <Region prefHeight="120.0"/>
+                        <HBox spacing="24.0"
+                              alignment="CENTER_LEFT"
+                              styleClass="export-status-card">
 
-                        <HBox alignment="CENTER">
+                            <padding>
+                                <Insets top="16" right="18" bottom="16" left="18"/>
+                            </padding>
+
+                            <!-- LEFT SIDE -->
+
+                            <HBox spacing="14.0"
+                                  alignment="CENTER_LEFT"
+                                  HBox.hgrow="ALWAYS">
+
+                                <FontIcon iconLiteral="fas-check-circle"
+                                          styleClass="export-status-icon"/>
+
+                                <VBox spacing="4.0"
+                                      HBox.hgrow="ALWAYS">
+
+                                    <Label text="Export Status"
+                                           styleClass="export-status-title"/>
+
+                                    <Label text="Ready to export documents"
+                                           styleClass="export-status-subtitle"/>
+
+                                    <HBox spacing="30.0">
+
+                                        <VBox spacing="2.0">
+
+                                            <Label text="Documents"
+                                                   styleClass="export-status-label"/>
+
+                                            <Label text="14 selected"
+                                                   styleClass="export-status-value"/>
+
+                                        </VBox>
+
+                                        <VBox spacing="2.0">
+
+                                            <Label text="Format"
+                                                   styleClass="export-status-label"/>
+
+                                            <Label text="TIFF Export"
+                                                   styleClass="export-status-value"/>
+
+                                        </VBox>
+
+                                    </HBox>
+
+                                </VBox>
+
+                            </HBox>
+
+                            <!-- BUTTON -->
+
                             <Button fx:id="exportButton"
                                     text="Export"
                                     prefWidth="220.0"
-                                    prefHeight="55.0"
+                                    prefHeight="58.0"
                                     styleClass="export-button"/>
+
                         </HBox>
 
                     </VBox>

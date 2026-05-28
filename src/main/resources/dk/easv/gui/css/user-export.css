@@ -257,3 +257,47 @@
 
     -fx-padding: 10 18;
 }
+.export-status-card {
+    -fx-background-color: #314256;
+
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+
+    -fx-border-color: rgba(255,255,255,0.04);
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(0,0,0,0.18),
+            18,
+            0.15,
+            0,
+            4
+    );
+}
+
+.export-status-icon {
+    -fx-icon-size: 24;
+    -fx-icon-color: #4ade80;
+}
+
+.export-status-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.export-status-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #9fb3c8;
+}
+
+.export-status-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7f93a8;
+}
+
+.export-status-value {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}

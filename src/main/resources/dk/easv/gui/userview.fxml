@@ -268,7 +268,7 @@
                         </VBox>
 
                         <!-- METADATA PANEL -->
-                        <VBox fillWidth="true" maxWidth="380" minWidth="300" prefWidth="320" spacing="12" styleClass="panel">
+                        <VBox fillWidth="true" maxWidth="400" minWidth="340" prefWidth="360" spacing="12" styleClass="panel">
 
                             <padding>
                                 <Insets bottom="18" left="18" right="18" top="18" />
