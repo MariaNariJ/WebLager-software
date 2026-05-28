@@ -55,6 +55,13 @@
                     <Label text="1. Export options"
                            styleClass="export-section-title"/>
 
+                    <Label text="Box"
+                           styleClass="export-label"/>
+
+                    <ComboBox fx:id="boxComboBox"
+                              maxWidth="Infinity"
+                              styleClass="export-combo-box"/>
+
                     <!-- SELECTED DOCUMENT -->
 
                     <VBox spacing="14.0"
@@ -203,7 +210,8 @@
                             <Label text="Export Format"
                                    styleClass="export-label"/>
 
-                            <ComboBox maxWidth="Infinity"
+                            <ComboBox fx:id="exportFormatComboBox"
+                                      maxWidth="Infinity"
                                       styleClass="export-combo-box"/>
 
                             <Label text="Each document will be exported as a multi-page TIFF file."
@@ -250,12 +258,13 @@
 
                             <HBox spacing="10.0">
 
-                                <TextField text="C:\Users\Val\Desktop\Exports"
+                                <TextField fx:id="destinationField"
                                            HBox.hgrow="ALWAYS"
                                            maxWidth="Infinity"
                                            styleClass="export-text-field"/>
 
-                                <Button text="Browse"
+                                <Button fx:id="browseButton"
+                                        text="Browse"
                                         minWidth="90.0"
                                         prefWidth="90.0"
                                         styleClass="export-secondary-button"/>
@@ -270,7 +279,8 @@
                         <Region prefHeight="120.0"/>
 
                         <HBox alignment="CENTER">
-                            <Button text="Export"
+                            <Button fx:id="exportButton"
+                                    text="Export"
                                     prefWidth="220.0"
                                     prefHeight="55.0"
                                     styleClass="export-button"/>
