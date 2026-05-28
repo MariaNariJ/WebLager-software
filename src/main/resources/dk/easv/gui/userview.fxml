@@ -383,7 +383,7 @@
                 <VBox spacing="10">
                     <Button fx:id="scanningButton" onAction="#onScanningClicked" styleClass="nav-button-active" text="Scanning" />
 
-                    <Button fx:id="qaButton" onAction="#onQaClicked" styleClass="nav-button" text="QA" />
+                    <Button fx:id="qaButton" styleClass="nav-button" text="QA" />
 
                     <Button fx:id="exportButton" onAction="#onExportClicked" styleClass="nav-button" text="Export" />
                 </VBox>
