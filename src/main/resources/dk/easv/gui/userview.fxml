@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
+<?import javafx.scene.control.TreeView?>
 <AnchorPane fx:id="appRoot" prefHeight="820.0" prefWidth="1443.0" styleClass="app-root" stylesheets="@css/app.css,@css/userview.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.gui.UserviewController">
 
     <children>
@@ -63,13 +64,30 @@
 
                                 </HBox>
 
-                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="dark-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                <ScrollPane fitToHeight="true"
+                                            fitToWidth="true"
+                                            hbarPolicy="NEVER"
+                                            styleClass="dark-scroll"
+                                            vbarPolicy="AS_NEEDED"
+                                            VBox.vgrow="ALWAYS">
 
                                     <content>
-                                        <VBox fx:id="fileListContainer" alignment="TOP_CENTER" spacing="8" />
-                                    </content>
-                                </ScrollPane>
 
+                                        <VBox alignment="TOP_LEFT"
+                                              spacing="8">
+
+                                            <Label text="Current Box"
+                                                   styleClass="current-box-label"/>
+
+                                            <TreeView fx:id="documentTreeView"
+                                                      VBox.vgrow="ALWAYS"
+                                                      styleClass="document-tree"/>
+
+                                        </VBox>
+
+                                    </content>
+
+                                </ScrollPane>
                                 <HBox spacing="10">
 
                                     <Button fx:id="btnFetchFiles" onAction="#onFetchFilesClicked" prefWidth="140" styleClass="primary-action" text="Scan Next" />
@@ -297,14 +315,30 @@
 
                                 </VBox>
 
+                                <Region VBox.vgrow="ALWAYS" prefHeight="120"/>
+                                <HBox spacing="12">
 
-                                <Region VBox.vgrow="ALWAYS" />
 
-                                <VBox fx:id="qaWarningBox" managed="false" styleClass="qa-warning-box" visible="false">
+                                    <Button fx:id="btnFinishBox"
+                                            onAction="#onFinishBoxClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="120.0"
+                                            styleClass="primary-action"
+                                            text="Finish Box" />
 
-                                    <Label fx:id="qaWarningLabel" styleClass="qa-warning-label" text="⚠ Send current document to QA before scanning next" wrapText="true" />
-                                </VBox>
+                                    <Button fx:id="btnReadyForQA"
+                                            onAction="#onReadyForQAClicked"
+                                            prefHeight="38.0"
+                                            prefWidth="170.0"
+                                            styleClass="primary-action"
+                                            text="Save box to QA" />
+
+                                </HBox>
+
                                 <VBox spacing="14" styleClass="status-card">
+                                    <VBox.margin>
+                                        <Insets top="20"/>
+                                    </VBox.margin>
 
                                     <Label styleClass="info-label" text="Document Status" />
 
@@ -312,40 +346,19 @@
 
                                         <Circle radius="4" styleClass="status-dot" />
 
-                                        <Label fx:id="documentStatusLabel" styleClass="status-text" text="Ready for scanning" />
+                                        <Label fx:id="documentStatusLabel"
+                                               styleClass="status-text"
+                                               text="Ready for scanning" />
 
                                     </HBox>
 
                                 </VBox>
-                                <Button fx:id="btnReadyForQA" onAction="#onReadyForQAClicked" prefHeight="38.0" prefWidth="149.0" styleClass="primary-action" text="Save and send to QA" />
+
                             </children>
                         </VBox>
 
-                  </children>
-              </HBox>
-
-                <!-- BOTTOM SHELF -->
-                <VBox fx:id="bottomShelf"
-                      spacing="0"
-                      styleClass="panel"
-                      HBox.hgrow="ALWAYS">
-
-                    <!-- CLICKABLE HEADER -->
-                    <StackPane fx:id="shelfHeader" onMouseClicked="#toggleBottomShelf" styleClass="shelf-header">
-
-                        <!-- Left aligned title -->
-                        <HBox alignment="CENTER_LEFT">
-                            <Label prefHeight="18.0" prefWidth="135.0" styleClass="shelf-title" text="Document Overview" />
-                        </HBox>
-
-                        <!-- Centered arrow -->
-                        <Label fx:id="shelfArrow" alignment="CENTER" prefHeight="18.0" prefWidth="28.0" styleClass="shelf-arrow" text="▲" />
-                    </StackPane>
-
-                    <!-- COLLAPSIBLE CONTENT -->
-                    <VBox fx:id="shelfContent" spacing="10" styleClass="shelf-content" />
-
-                </VBox>
+                    </children>
+                </HBox>
 
             </children>
         </VBox>
@@ -409,98 +422,155 @@
         <!-- SIDEBAR HOVER TRIGGER -->
         <Pane fx:id="sidebarTrigger" layoutX="0" layoutY="0" prefWidth="20" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
-        <!-- GLOBAL SHORTCUT OVERLAY -->
-        <StackPane fx:id="shortcutOverlay" alignment="CENTER" managed="false" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-            <!-- Background dim -->
+        <!-- GLOBAL SHORTCUT OVERLAY -->
+        <StackPane fx:id="shortcutOverlay"
+                   alignment="CENTER"
+                   managed="false"
+                   visible="false"
+                   AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+
             <Pane style="-fx-background-color: rgba(0,0,0,0.25);" />
 
-            <!-- Popup -->
-            <VBox alignment="TOP_CENTER" maxHeight="420" maxWidth="700" prefWidth="700" spacing="12" styleClass="shortcut-popup">
+            <VBox alignment="TOP_CENTER"
+                  maxHeight="420"
+                  maxWidth="820"
+                  prefWidth="820"
+                  spacing="12"
+                  styleClass="shortcut-popup">
 
-                <Label styleClass="shortcut-title" text="Keyboard Shortcuts" />
+                <Label styleClass="shortcut-title"
+                       text="Keyboard Shortcuts" />
 
-            <HBox alignment="TOP_CENTER" spacing="40">
+                <HBox alignment="TOP_CENTER"
+                      spacing="70">
 
-                <!-- LEFT COLUMN -->
-                <VBox spacing="8">
+                    <!-- LEFT COLUMN -->
+                    <VBox spacing="8">
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="I" />
-                        <Label text="Toggle Shortcut Help" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="I" />
+                            <Label text="Toggle Shortcut Help" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="Hold H"
-                               styleClass="shortcut-key"/>
-                        <Label text="Reveal Profile Descriptions"/>
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="L" />
+                            <Label text="Lock / Unlock Sidebar" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Q / Ctrl+Q" />
-                        <Label text="Rotate Left" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F1" />
+                            <Label text="Show Profile Description" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="E / Ctrl+E" />
-                        <Label text="Rotate Right" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Q / Ctrl+Q" />
+                            <Label text="Rotate Left" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="R" />
-                        <Label text="Reset Rotation" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="E / Ctrl+E" />
+                            <Label text="Rotate Right" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Ctrl + ↑" />
-                        <Label text="Move TIFF Up" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="R" />
+                            <Label text="Reset Rotation" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="Ctrl + ↓" />
-                        <Label text="Move TIFF Down" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F5" />
+                            <Label text="Open Scan Setup" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="↑"
-                               styleClass="shortcut-key"/>
-                        <Label text="Navigate Up Profiles"/>
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="S" />
+                            <Label text="Save Document" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label text="↓"
-                               styleClass="shortcut-key"/>
-                        <Label text="Navigate Down Profiles"/>
-                    </HBox>
+                    </VBox>
 
-                </VBox>
+                    <!-- RIGHT COLUMN -->
+                    <VBox spacing="8">
 
-                <!-- RIGHT COLUMN -->
-                <VBox spacing="8">
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="0" />
+                            <Label text="Reset Zoom" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="0" />
-                        <Label text="Reset Zoom" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="F" />
+                            <Label text="Fit Width" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="F" />
-                        <Label text="Fit Width" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="D" />
+                            <Label text="Next File" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="D" />
-                        <Label text="Next File" />
-                    </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="A" />
+                            <Label text="Previous File" />
+                        </HBox>
 
-                    <HBox styleClass="shortcut-row">
-                        <Label styleClass="shortcut-key" text="A" />
-                        <Label text="Previous File" />
-                    </HBox>
+                        <Region prefHeight="10" />
 
-                </VBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="B" />
+                            <Label text="Finish Box" />
+                        </HBox>
 
-            </HBox>
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Shift + Q" />
+                            <Label text="Save Box To QA" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Ctrl + ↑" />
+                            <Label text="Move TIFF Up" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="Ctrl + ↓" />
+                            <Label text="Move TIFF Down" />
+                        </HBox>
+
+                        <Region prefHeight="10" />
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="↑" />
+                            <Label text="Navigate Up Profiles" />
+                        </HBox>
+
+                        <HBox styleClass="shortcut-row">
+                            <Label styleClass="shortcut-key"
+                                   text="↓" />
+                            <Label text="Navigate Down Profiles" />
+                        </HBox>
+
+                    </VBox>
+
+                </HBox>
 
             </VBox>
 

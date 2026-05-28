@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import dk.easv.bll.LogManager;
 
 public class AdminviewController {
 
@@ -32,6 +33,7 @@ public class AdminviewController {
     private User loggedInUser;
 
     private final UserManager userManager = new UserManager();
+    private final LogManager logManager = new LogManager();
 
     @FXML
     private void initialize() {
@@ -161,6 +163,13 @@ public class AdminviewController {
                 }
 
                 userManager.updateUserStatus(selectedUser.getId(), "Active");
+
+                createUserLog(
+                        "User Activated",
+                        "Activated user: " + selectedUser.getLogin(),
+                        "Completed"
+                );
+
                 selectedUser.setStatus("Active");
                 userTable.refresh();
                 applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
@@ -174,6 +183,13 @@ public class AdminviewController {
                 }
 
                 userManager.updateUserStatus(selectedUser.getId(), "Inactive");
+
+                createUserLog(
+                        "User Deactivated",
+                        "Deactivated user: " + selectedUser.getLogin(),
+                        "Completed"
+                );
+
                 selectedUser.setStatus("Inactive");
                 userTable.refresh();
                 applyUserFilter(filteredUsers, searchField, roleFilter, statusFilter);
@@ -267,6 +283,13 @@ public class AdminviewController {
                 }
 
                 userManager.createUser(name, login, password, role);
+
+                createUserLog(
+                        "User Created",
+                        "Created user: " + login + " with role: " + role,
+                        "Completed"
+                );
+
                 showUsers();
             }
         });
@@ -296,22 +319,29 @@ public class AdminviewController {
     private void showLogs() {
 
         adminTitleLabel.setText("Logs");
-        adminSubtitleLabel.setText("View system activity and user actions");
+        adminSubtitleLabel.setText("View and monitor system logs and activities");
 
         setInactiveButton(usersButton);
         setInactiveButton(clientsButton);
         setActiveButton(logsButton);
 
-        adminContentArea.getChildren().clear();
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/dk/easv/gui/admin-logs.fxml")
+            );
 
-        VBox wrapper = new VBox(16);
+            adminContentArea.getChildren().setAll(root);
 
-        wrapper.getChildren().addAll(
-                createTitle("Logs"),
-                createText("System logs will be displayed here.")
-        );
+            if (root instanceof Region region) {
+                region.setMaxWidth(Double.MAX_VALUE);
+                region.setMaxHeight(Double.MAX_VALUE);
+            }
 
-        adminContentArea.getChildren().add(wrapper);
+            VBox.setVgrow(root, Priority.ALWAYS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void applyUserFilter(FilteredList<User> filteredUsers,
@@ -360,6 +390,20 @@ public class AdminviewController {
 
     private String safe(String value) {
         return value == null ? "" : value;
+    }
+
+    private void createUserLog(String event, String details, String status) {
+        Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
+
+        logManager.createLog(
+                "Info",
+                "User",
+                event,
+                userId,
+                details,
+                status,
+                "00:00:00"
+        );
     }
 
     private void setActiveButton(Button button) {
@@ -483,10 +527,22 @@ public class AdminviewController {
 
                 userManager.updateUser(user);
 
+                createUserLog(
+                        "User Updated",
+                        "Updated user: " + user.getLogin(),
+                        "Completed"
+                );
+
                 String newPassword = txtNewPassword.getText().trim();
 
                 if (!newPassword.isEmpty()) {
                     userManager.updateUserPassword(user.getId(), newPassword);
+
+                    createUserLog(
+                            "Password Changed",
+                            "Changed password for user: " + user.getLogin(),
+                            "Completed"
+                    );
                 }
 
                 showUsers();
@@ -523,6 +579,13 @@ public class AdminviewController {
                 confirm.showAndWait().ifPresent(confirmResult -> {
                     if (confirmResult == ButtonType.OK) {
                         userManager.deleteUser(user.getId());
+
+                        createUserLog(
+                                "User Deleted",
+                                "Deleted user: " + user.getLogin(),
+                                "Completed"
+                        );
+
                         showUsers();
                     }
                 });

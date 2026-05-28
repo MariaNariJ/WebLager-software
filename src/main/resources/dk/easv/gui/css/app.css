@@ -574,8 +574,23 @@ Error color:                 #FF3D32
 .status-card {
     -fx-background-color: #31465C;
     -fx-background-radius: 14;
+
     -fx-padding: 16;
+
+    -fx-min-height: 82;
 }
+
+.status-dot {
+    -fx-stroke-width: 0;
+    -fx-fill: #32D17C;
+}
+
+.status-text {
+    -fx-text-fill: #E2EAF4;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
 
 .status-dot {
     -fx-stroke-width: 0;

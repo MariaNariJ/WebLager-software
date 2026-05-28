@@ -143,59 +143,6 @@
     -fx-padding: 2 0 6 0;
 }
 
-/* DOCUMENT OVERVIEW SHELF */
-
-.shelf-header {
-    -fx-background-color: #2f3e4f;
-    -fx-padding: 14 18;
-    -fx-cursor: hand;
-    -fx-background-radius: 10 10 0 0;
-    -fx-border-color: transparent transparent #3a4a5c transparent;
-    -fx-border-width: 0 0 1 0;
-}
-
-.shelf-header:hover {
-    -fx-background-color: #3a4a5c;
-}
-
-.shelf-title {
-    -fx-text-fill: #008FF7;
-    -fx-font-size: 12px;
-    -fx-font-weight: 500;
-}
-
-.shelf-arrow {
-    -fx-text-fill: #9fb3c8;
-    -fx-font-size: 12px;
-
-    -fx-font-weight: 400;}
-
-.shelf-content {
-    -fx-background-color: transparent;
-    -fx-padding: 10 0 6 0;
-}
-
-.mini-card {
-    -fx-background-color: #354657;
-    -fx-padding: 12;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0.2, 0, 2);
-}
-
-.mini-card:hover {
-    -fx-background-color: #3f5163;
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
-}
-
-.log-row {
-    -fx-background-color: #2D3D4F;
-    -fx-background-radius: 5;
-    -fx-text-fill: #D6E0EA;
-    -fx-padding: 7 10 7 10;
-    -fx-font-size: 12px;
-}
-
 /* TITLES */
 
 .popup-title {
@@ -389,6 +336,11 @@
 .popup-continue:disabled {
     -fx-opacity: 0.45;
 }
+.primary-action:disabled {
+    -fx-opacity: 0.75;
+    -fx-background-color: #2D7FD3;
+    -fx-text-fill: #AFC7E6;
+}
 
 /* INPUTS */
 
@@ -471,30 +423,12 @@
     -fx-font-weight: 400;
 }
 
-.qa-warning-box {
-    -fx-background-color: rgba(52,70,90,0.55);
-    -fx-border-color: #F5A623;
-    -fx-border-width: 0 0 0 4;
-    -fx-padding: 14 16 14 16;
-    -fx-background-radius: 10;
+.disabled-action-button {
+    -fx-opacity: 0.45;
 }
-
-.qa-warning-label {
-    -fx-text-fill: #B8C7D9;
-    -fx-font-size: 10px;
-    -fx-font-weight: 400;
-    -fx-wrap-text: true;
-}
-
 .qa-sent-button {
     -fx-background-color: #4CD07D;
     -fx-text-fill: white;
-}
-
-.mini-card {
-    -fx-background-color: rgba(255,255,255,0.04);
-    -fx-background-radius: 8;
-    -fx-padding: 12;
 }
 
 /* Shortcut Overlay */
@@ -537,16 +471,22 @@
     -fx-font-weight: 400;}
 
 .shortcut-key {
+
     -fx-background-color: #42576d;
+
     -fx-background-radius: 8;
 
     -fx-padding: 6 12 6 12;
 
     -fx-text-fill: white;
+
     -fx-font-weight: bold;
 
-    -fx-min-width: 100;
+    -fx-pref-width: 100;
+
     -fx-alignment: CENTER;
+
+    -fx-min-width: 100;
 }
 
 /* POPUP WINDOWS USED BY SCANNING FLOW */
@@ -618,4 +558,74 @@
 .combo-box-popup .list-cell:selected {
     -fx-background-color: #1EA0FF;
     -fx-text-fill: white;
+}
+
+/*DOCUMENT TREE VIEW */
+.document-tree {
+    -fx-background-color: #32465a;
+    -fx-control-inner-background: #32465a;
+    -fx-border-color: transparent;
+    -fx-padding: 8;
+    -fx-background-radius: 8;
+}
+
+.document-tree .viewport {
+    -fx-background-color: #32465a;
+}
+
+.document-tree .tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 6 4 6 4;
+}
+
+.document-tree .tree-cell:selected {
+    -fx-background-color: #2d9cff;
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+}
+
+.document-tree .tree-cell:hover {
+    -fx-background-color: rgba(255,255,255,0.08);
+    -fx-background-radius: 6;
+}
+
+.document-tree .tree-disclosure-node .arrow {
+    -fx-background-color: white;
+}
+.current-box-label {
+    -fx-text-fill: #9fb3c8;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* FINISH BOX BUTTON */
+
+.secondary-action-button {
+    -fx-background-color: #3B4E63;
+    -fx-text-fill: white;
+
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+
+    -fx-background-radius: 10;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+
+    -fx-border-color: #53697F;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+.secondary-action-button:hover {
+    -fx-background-color: #4A6077;
+}
+
+.secondary-action-button:pressed {
+    -fx-background-color: #324455;
+}
+
+.secondary-action-button:disabled {
+    -fx-opacity: 0.45;
 }

@@ -8,11 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.*;
 import java.util.function.Consumer;
-import dk.easv.be.DocumentGroup;
 
 public class FileManager {
 
@@ -141,48 +138,6 @@ public class FileManager {
         }
     }
 
-    /**
-     * Groups scanned pages into documents.
-     * A new document starts whenever a barcode page is detected.
-     *
-     * @param pages scanned pages
-     * @return grouped documents
-     */
-    public List<DocumentGroup> groupPagesIntoDocuments(List<Page> pages) {
-
-        List<DocumentGroup> documentGroups = new ArrayList<>();
-
-        DocumentGroup currentDocument = null;
-
-        int documentCounter = 1;
-
-        for (Page page : pages) {
-
-            // Barcode pages start a new document
-            boolean isBarcodePage =
-                    page.getBarcode() != null &&
-                            !page.getBarcode().isEmpty();
-
-            if (isBarcodePage) {
-
-                currentDocument = new DocumentGroup(
-                        "Document " + documentCounter,
-                        page.getBarcode()
-                );
-
-                documentGroups.add(currentDocument);
-
-                documentCounter++;
-            }
-
-            // Add page to active document
-            if (currentDocument != null) {
-                currentDocument.addPage(page);
-            }
-        }
-
-        return documentGroups;
-    }
     private void loadLocalBoxFiles() {
 
         if (!cachedFiles.isEmpty()) {

@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class DocumentManager {
 
@@ -19,16 +20,14 @@ public class DocumentManager {
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final PageDAO pageDAO = new PageDAO();
 
+
     public void saveDocumentToQA(
             DocumentGroup documentGroup,
-            String client,
-            String boxName,
+            int boxId,
             String documentName,
             String date,
             String selectedProfile
     ) {
-        Box box = new Box(boxName, client);
-        int boxId = boxDAO.insertBox(box);
 
         LocalDate parsedDate = LocalDate.parse(
                 date,
@@ -46,13 +45,65 @@ public class DocumentManager {
         int documentId = documentDAO.insertDocument(document);
 
         for (Page page : documentGroup.getPages()) {
+
             page.setDocumentId(documentId);
 
-            try (InputStream inputStream = new FileInputStream(page.getPagePath())) {
+            try (InputStream inputStream =
+                         new FileInputStream(page.getPagePath())) {
+
                 pageDAO.insertPage(page, inputStream);
+
             } catch (Exception e) {
-                throw new RuntimeException("Failed saving page: " + page.getPageName(), e);
+
+                throw new RuntimeException(
+                        "Failed saving page: "
+                                + page.getPageName(),
+                        e
+                );
             }
         }
+    }
+
+    public void saveBoxToQA(
+            List<DocumentGroup> documentGroups,
+            String client,
+            String boxName,
+            String profile,
+            String date
+    ) {
+
+        Box box = new Box(
+                boxName,
+                client
+        );
+
+        int boxId = boxDAO.insertBox(box);
+
+        for (DocumentGroup documentGroup : documentGroups) {
+
+            saveDocumentToQA(
+                    documentGroup,
+                    boxId,
+                    documentGroup.getTitle(),
+                    date,
+                    profile
+            );
+        }
+    }
+    public List<Box> getBoxesForQA() {
+
+        return boxDAO.getAllBoxes();
+    }
+    public List<Document> getDocumentsForBox(int boxId) {
+
+        return documentDAO.getDocumentsForBox(boxId);
+    }
+    public List<Page> getPagesForDocument(
+            int documentId
+    ) {
+
+        return pageDAO.getPagesForDocument(
+                documentId
+        );
     }
 }

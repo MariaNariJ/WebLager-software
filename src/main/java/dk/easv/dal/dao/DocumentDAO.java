@@ -4,6 +4,8 @@ import dk.easv.be.Document;
 import dk.easv.dal.ConnectionManager;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DocumentDAO {
     ConnectionManager conMan =  new ConnectionManager();
@@ -20,7 +22,7 @@ public class DocumentDAO {
             ps.setString(4, document.getDocumentType());
             ps.setString(5, document.getDocumentName());
 
-            generatedId = ps.executeUpdate();
+            ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 generatedId = rs.getInt(1);
@@ -31,5 +33,46 @@ public class DocumentDAO {
             throw new RuntimeException(e);
         }
         return generatedId;
+    }
+    public List<Document> getDocumentsForBox(int boxId) {
+
+        List<Document> documents = new ArrayList<>();
+
+        try (Connection con = conMan.getConnection()) {
+
+            String sql =
+                    "SELECT * FROM Documents WHERE Box_id = ?";
+
+            PreparedStatement ps =
+                    con.prepareStatement(sql);
+
+            ps.setInt(1, boxId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Document document = new Document(
+
+                        rs.getInt("Box_id"),
+                        rs.getString("Barcode"),
+                        rs.getDate("Date"),
+                        rs.getString("DocumentName"),
+                        rs.getString("DocumentType")
+                );
+
+                document.setId(
+                        rs.getInt("Document_id")
+                );
+
+                documents.add(document);
+            }
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+
+        return documents;
     }
 }

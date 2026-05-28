@@ -1,5 +1,6 @@
 package dk.easv.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -15,11 +16,37 @@ public class SaveDocumentController {
     public void initialize() {
 
         txtDocumentName.setPromptText("Document");
+
+        Platform.runLater(() -> {
+
+            txtDocumentName.getScene().setOnKeyPressed(event -> {
+
+                switch (event.getCode()) {
+
+                    case ENTER:
+
+                        onSaveClicked();
+
+                        event.consume();
+
+                        break;
+
+                    case ESCAPE:
+
+                        onCancelClicked();
+
+                        event.consume();
+
+                        break;
+                }
+            });
+        });
     }
 
     public void setUserviewController(UserviewController controller) {
 
         this.userviewController = controller;
+
         txtDocumentName.setText(
                 "Document " +
                         (userviewController.getDocumentCount() + 1)
@@ -45,7 +72,11 @@ public class SaveDocumentController {
         userviewController.saveCurrentDocument(documentName);
 
         // Close popup
-        Stage stage = (Stage) txtDocumentName.getScene().getWindow();
+        Stage stage =
+                (Stage) txtDocumentName
+                        .getScene()
+                        .getWindow();
+
         stage.close();
     }
 
@@ -64,6 +95,4 @@ public class SaveDocumentController {
 
         stage.close();
     }
-
-
 }
