@@ -71,9 +71,11 @@
                             <Insets top="14" right="14" bottom="14" left="14"/>
                         </padding>
 
+
+
                         <HBox spacing="10.0">
 
-                            <RadioButton/>
+                            <RadioButton fx:id="selectedDocumentRadio"/>
 
                             <FontIcon iconLiteral="fas-file-alt"
                                       styleClass="export-card-icon"/>
@@ -110,7 +112,7 @@
 
                         <HBox spacing="10.0">
 
-                            <RadioButton/>
+                            <RadioButton fx:id="multipleDocumentsRadio"/>
 
                             <FontIcon iconLiteral="fas-copy"
                                       styleClass="export-card-icon"/>
@@ -124,10 +126,12 @@
                                wrapText="true"
                                styleClass="export-card-text"/>
 
-                        <Button text="Select Documents..."
+                        <Button fx:id="selectDocumentsButton"
+                                text="Select Documents..."
                                 styleClass="export-secondary-button"/>
 
-                        <Label text="0 selected"
+                        <Label fx:id="multipleSelectedCountLabel"
+                               text="0 selected"
                                styleClass="export-card-text"/>
 
                     </VBox>
@@ -143,7 +147,7 @@
 
                         <HBox spacing="10.0">
 
-                            <RadioButton/>
+                            <RadioButton fx:id="allDocumentsRadio"/>
 
                             <FontIcon iconLiteral="fas-folder-open"
                                       styleClass="export-card-icon"/>
@@ -299,7 +303,8 @@
                                     <Label text="Export Status"
                                            styleClass="export-status-title"/>
 
-                                    <Label text="Ready to export documents"
+                                    <Label fx:id="exportStatusLabel"
+                                           text="Ready to export documents"
                                            styleClass="export-status-subtitle"/>
 
                                     <HBox spacing="30.0">
@@ -309,7 +314,8 @@
                                             <Label text="Documents"
                                                    styleClass="export-status-label"/>
 
-                                            <Label text="14 selected"
+                                            <Label fx:id="exportDocumentCountLabel"
+                                                   text="0 selected"
                                                    styleClass="export-status-value"/>
 
                                         </VBox>
@@ -319,7 +325,8 @@
                                             <Label text="Format"
                                                    styleClass="export-status-label"/>
 
-                                            <Label text="TIFF Export"
+                                            <Label fx:id="exportFormatStatusLabel"
+                                                   text="TIFF Export"
                                                    styleClass="export-status-value"/>
 
                                         </VBox>

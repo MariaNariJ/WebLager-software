@@ -3,6 +3,7 @@
 .export-root {
     -fx-background-color: transparent;
 }
+
 /* EXPORT SECTIONS */
 
 .export-section {
@@ -14,22 +15,21 @@
     -fx-padding: 14;
 }
 
-   .export-section-title {
-       -fx-font-size: 18px;
-       -fx-font-weight: 600;
-
-       -fx-text-fill: #3FA9F5;
-       -fx-font-family: "Montserrat";
-   }
+.export-section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #008FF7;
+    -fx-font-family: "Montserrat";
+}
 
 /* EXPORT OPTION CARDS */
 
 .export-option-card {
-    -fx-background-color: #2F3E4E;
+    -fx-background-color: #2D3D4F;
 
     -fx-background-radius: 8;
 
-    -fx-border-color: #3B4B5C;
+    -fx-border-color: #2B3B4C;
     -fx-border-radius: 8;
     -fx-border-width: 1;
 
@@ -38,7 +38,20 @@
 }
 
 .export-option-card:hover {
-    -fx-border-color: #4DAAEF;
+    -fx-border-color: #0094EA;
+}
+
+.export-option-card-selected {
+    -fx-background-color: #2D3D4F;
+
+    -fx-background-radius: 8;
+
+    -fx-border-color: #008FF7;
+    -fx-border-radius: 8;
+    -fx-border-width: 2;
+
+    -fx-padding: 14;
+    -fx-spacing: 18;
 }
 
 /* CARD TITLES */
@@ -46,7 +59,7 @@
 .export-card-title {
     -fx-text-fill: #F4F7FA;
 
-    -fx-font-size: 15px;
+    -fx-font-size: 16px;
     -fx-font-weight: 600;
 
     -fx-font-family: "Montserrat";
@@ -66,7 +79,7 @@
 /* INFO BOXES */
 
 .export-info-box {
-    -fx-background-color: #2F3E4E;
+    -fx-background-color: #2D3D4F;
 
     -fx-background-radius: 10;
 
@@ -97,7 +110,7 @@
     -fx-text-fill: #F4F7FA;
 
     -fx-font-size: 12px;
-    -fx-font-weight: 400;
+    -fx-font-weight: 500;
 
     -fx-font-family: "Montserrat";
 }
@@ -105,7 +118,7 @@
 /* PRIMARY BUTTON */
 
 .export-button {
-    -fx-background-color: #2F9BF4;
+    -fx-background-color: #008FF7;
 
     -fx-text-fill: white;
 
@@ -123,13 +136,13 @@
 }
 
 .export-button:hover {
-    -fx-background-color: #45A7F5;
+    -fx-background-color: #0094EA;
 }
 
 /* SECONDARY BUTTON */
 
 .export-secondary-button {
-    -fx-background-color: #5E6B7C;
+    -fx-background-color: #697489;
 
     -fx-text-fill: white;
 
@@ -146,7 +159,7 @@
 }
 
 .export-secondary-button:hover {
-    -fx-background-color: #6A788A;
+    -fx-background-color: #7A8496;
 }
 
 /* CHECKBOX */
@@ -161,20 +174,33 @@
 }
 
 .export-checkbox .box {
-    -fx-background-color: #465566;
+    -fx-background-color: #465160;
 
-    -fx-border-color: #3B4B5C;
+    -fx-border-color: #2B3B4C;
     -fx-border-radius: 5;
 
     -fx-background-radius: 5;
 }
 
 .export-checkbox:selected .box {
-    -fx-border-color: #4DAAEF;
+    -fx-border-color: #008FF7;
 }
 
 .export-checkbox:selected .mark {
-    -fx-background-color: #4DAAEF;
+    -fx-background-color: #008FF7;
+}
+
+/* RADIO BUTTONS */
+
+.radio-button .radio {
+    -fx-background-color: #465160;
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #008FF7;
 }
 
 /* ICONS */
@@ -196,11 +222,11 @@
 /* INPUTS */
 
 .export-combo-box {
-    -fx-background-color: #465566;
+    -fx-background-color: #465160;
 
     -fx-background-radius: 10;
 
-    -fx-border-color: #3B4B5C;
+    -fx-border-color: #2B3B4C;
     -fx-border-radius: 10;
 
     -fx-text-fill: white;
@@ -212,7 +238,7 @@
 }
 
 .export-combo-box .list-cell {
-    -fx-background-color: #465566;
+    -fx-background-color: #465160;
 
     -fx-text-fill: white;
 }
@@ -226,7 +252,7 @@
 }
 
 .export-text-field {
-    -fx-background-color: #465566;
+    -fx-background-color: #465160;
 
     -fx-text-fill: white;
 
@@ -237,26 +263,14 @@
 
     -fx-background-radius: 10;
 
-    -fx-border-color: #3B4B5C;
+    -fx-border-color: #2B3B4C;
     -fx-border-radius: 10;
 
     -fx-padding: 10;
 }
 
-.export-browse-button {
-    -fx-background-color: #5E6B7C;
+/* STATUS CARD */
 
-    -fx-text-fill: white;
-
-    -fx-font-size: 12px;
-    -fx-font-weight: 500;
-
-    -fx-font-family: "Montserrat";
-
-    -fx-background-radius: 10;
-
-    -fx-padding: 10 18;
-}
 .export-status-card {
     -fx-background-color: #314256;
 
@@ -277,27 +291,27 @@
 
 .export-status-icon {
     -fx-icon-size: 24;
-    -fx-icon-color: #4ade80;
+    -fx-icon-color: #4CD07D;
 }
 
 .export-status-title {
     -fx-font-size: 20px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 700;
     -fx-text-fill: white;
 }
 
 .export-status-subtitle {
     -fx-font-size: 13px;
-    -fx-text-fill: #9fb3c8;
+    -fx-text-fill: #9FB3C8;
 }
 
 .export-status-label {
     -fx-font-size: 11px;
-    -fx-text-fill: #7f93a8;
+    -fx-text-fill: #7F93A8;
 }
 
 .export-status-value {
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 700;
     -fx-text-fill: white;
 }
