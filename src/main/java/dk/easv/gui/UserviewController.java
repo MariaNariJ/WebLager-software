@@ -125,40 +125,10 @@ public class UserviewController {
     private AnchorPane appRoot;
     @FXML
     private ImageView sidebarLogoImage;
-    @FXML
-    private Button themeToggleButton;
 
-    private boolean lightMode = false;
     private boolean shortcutVisible = false;
-    private static final String DARK_CSS = "/dk/easv/gui/css/app.css";
-    private static final String LIGHT_CSS = "/dk/easv/gui/css/lightmode.css";
     private int documentCounter = 1;
     private final Map<String, Page> pageMap = new HashMap<>();
-
-
-    @FXML
-    private void onThemeToggleClicked() {
-        lightMode = !lightMode;
-
-        String cssFile = lightMode ? LIGHT_CSS : DARK_CSS;
-
-        String css = getClass()
-                .getResource(cssFile)
-                .toExternalForm();
-
-        appRoot.getStylesheets().clear();
-        appRoot.getStylesheets().add(css);
-
-        themeToggleButton.setText(lightMode ? "☾" : "☀");
-        sidebarLogoImage.setImage(new Image(
-                getClass().getResourceAsStream(
-                        lightMode
-                                ? "/dk/easv/gui/assets/LogoBlue_Logoicon.png"
-                                : "/dk/easv/gui/assets/Logo_DarkMode_Blue.png"
-                )
-        ));
-    }
-
 
     private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 

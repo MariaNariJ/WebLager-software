@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Desktop;
 
 public class UserExportController {
 
@@ -30,6 +31,7 @@ public class UserExportController {
     @FXML private Label exportStatusLabel;
     @FXML private Label exportDocumentCountLabel;
     @FXML private Label exportFormatStatusLabel;
+    @FXML private CheckBox openFolderCheckBox;
 
     private final ExportManager exportManager = new ExportManager();
     private final DocumentManager documentManager = new DocumentManager();
@@ -199,7 +201,14 @@ public class UserExportController {
             }
 
             showAlert("Export completed. Exported " + exportedCount + " TIFF file(s).");
+
+            if (openFolderCheckBox.isSelected()) {
+                openFolder(folder);
+            }
+
             updateExportStatus();
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -263,5 +272,15 @@ public class UserExportController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void openFolder(File folder) {
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(folder);
+            }
+        } catch (Exception e) {
+            showAlert("Export finished, but the folder could not be opened.");
+        }
     }
 }

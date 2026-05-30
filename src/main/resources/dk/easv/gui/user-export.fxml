@@ -173,19 +173,6 @@
 
                     </VBox>
 
-                    <!-- METADATA -->
-
-                    <VBox spacing="4.0">
-
-                        <CheckBox text="Include metadata in export"
-                                  styleClass="export-checkbox"/>
-
-                        <Label text="A CSV file with document metadata will be included."
-                               wrapText="true"
-                               styleClass="export-card-text"/>
-
-                    </VBox>
-
                 </VBox>
 
                 <!-- RIGHT COLUMN -->
@@ -219,22 +206,6 @@
                                       styleClass="export-combo-box"/>
 
                             <Label text="Each document will be exported as a multi-page TIFF file."
-                                   wrapText="true"
-                                   styleClass="export-card-text"/>
-
-                        </VBox>
-
-                        <!-- FILE NAMING -->
-
-                        <VBox spacing="6.0">
-
-                            <Label text="File Naming"
-                                   styleClass="export-label"/>
-
-                            <ComboBox maxWidth="Infinity"
-                                      styleClass="export-combo-box"/>
-
-                            <Label text="Files will be named using the document name."
                                    wrapText="true"
                                    styleClass="export-card-text"/>
 
@@ -277,7 +248,8 @@
 
                         </VBox>
 
-                        <CheckBox text="Open folder after export is complete"
+                        <CheckBox fx:id="openFolderCheckBox"
+                                  text="Open folder after export is complete"
                                   styleClass="export-checkbox"/>
 
                         <HBox spacing="24.0"

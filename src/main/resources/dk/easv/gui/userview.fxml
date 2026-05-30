@@ -391,12 +391,6 @@
 
                 <VBox spacing="12">
                     <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Button fx:id="themeToggleButton" onAction="#onThemeToggleClicked" pickOnBounds="true" styleClass="sidebar-icon-button" text="☀">
-                            <tooltip>
-                                <Tooltip text="Switch theme" />
-                            </tooltip>
-                        </Button>
-
                         <Button fx:id="sidebarLockButton" onAction="#onSidebarLockClicked" pickOnBounds="true" styleClass="sidebar-icon-button" text="⧉">
                             <tooltip>
                                 <Tooltip text="Lock sidebar" />
@@ -574,7 +568,6 @@
             </VBox>
 
         </StackPane>
-
 
     </children>
 </AnchorPane>
