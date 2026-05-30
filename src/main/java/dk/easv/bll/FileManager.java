@@ -23,6 +23,7 @@ public class FileManager {
 
     // Cached TIFF files from local box
     private List<File> cachedFiles = new ArrayList<>();
+    private String cachedBoxName = null;
 
     //SAVE ROTATION
     public void updatePageRotation(Page page) {
@@ -138,21 +139,20 @@ public class FileManager {
         }
     }
 
-    private void loadLocalBoxFiles() {
-
-        if (!cachedFiles.isEmpty()) {
-            return;
+    private boolean loadLocalBoxFiles(String boxName) {
+        if (!cachedFiles.isEmpty() && boxName.equals(cachedBoxName)) {
+            return true;
         }
 
-        File folder = new File("LocalBoxes/Box_001");
+        cachedFiles = new ArrayList<>();
+        currentFileIndex = 0;
+        cachedBoxName = boxName;
+
+        File folder = new File("LocalBoxes/" + boxName);
 
         if (!folder.exists() || !folder.isDirectory()) {
-
-            System.err.println(
-                    "Local box folder not found"
-            );
-
-            return;
+            System.err.println("Local box folder not found");
+            return false;
         }
 
         File[] files = folder.listFiles((dir, name) ->
@@ -160,24 +160,31 @@ public class FileManager {
                         name.toLowerCase().endsWith(".tiff")
         );
 
-        if (files == null) {
-            return;
+        if (files == null || files.length == 0) {
+            return false;
         }
 
         Arrays.sort(files, Comparator.comparing(File::getName));
 
-        cachedFiles = Arrays.asList(files);
+        cachedFiles = new ArrayList<>(Arrays.asList(files));
+        return true;
     }
-    public void scanNextDocument(
+
+    public boolean scanNextDocument(
+            String boxName,
             Consumer<Page> scannedPage) {
 
-        loadLocalBoxFiles();
+        boolean loaded = loadLocalBoxFiles(boxName);
+
+        if (!loaded) {
+            return false;
+        }
 
         if (currentFileIndex >= cachedFiles.size()) {
 
             System.out.println("No more files");
 
-            return;
+            return false;
         }
 
         boolean firstBarcodeFound = false;
@@ -202,9 +209,7 @@ public class FileManager {
                 }
 
                 Page page = new Page(
-                        String.valueOf(
-                                System.currentTimeMillis()
-                        ),
+                        String.valueOf(System.currentTimeMillis() + currentFileIndex + pageNumber),
                         pageNumber,
                         -1,
                         file.getName(),
@@ -248,5 +253,35 @@ public class FileManager {
                 currentFileIndex++;
             }
         }
+        return true;
+    }
+
+    public void resetLocalBoxScan() {
+        cachedFiles = new ArrayList<>();
+        cachedBoxName = null;
+        currentFileIndex = 0;
+    }
+
+    public boolean hasMoreFiles() {
+        return currentFileIndex < cachedFiles.size();
+    }
+
+    public boolean localBoxExists(String boxName) {
+        if (boxName == null || boxName.trim().isEmpty()) {
+            return false;
+        }
+
+        File folder = new File("LocalBoxes/" + boxName.trim());
+
+        if (!folder.exists() || !folder.isDirectory()) {
+            return false;
+        }
+
+        File[] files = folder.listFiles((dir, name) ->
+                name.toLowerCase().endsWith(".tif") ||
+                        name.toLowerCase().endsWith(".tiff")
+        );
+
+        return files != null && files.length > 0;
     }
 }
