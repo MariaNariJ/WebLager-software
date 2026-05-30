@@ -494,72 +494,48 @@
 
                     </VBox>
 
-                    <!-- RIGHT COLUMN -->
-                    <VBox spacing="8">
+                <!-- RIGHT COLUMN -->
+                <VBox spacing="8">
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="0" />
-                            <Label text="Reset Zoom" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="0" />
+                        <Label text="Reset Zoom" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="F" />
-                            <Label text="Fit Width" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="F" />
+                        <Label text="Fit Width" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="D" />
-                            <Label text="Next File" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="D" />
+                        <Label text="Next File" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="A" />
-                            <Label text="Previous File" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="A" />
+                        <Label text="Previous File" />
+                    </HBox>
 
-                        <Region prefHeight="10" />
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="B" />
+                        <Label text="Finish Box" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="B" />
-                            <Label text="Finish Box" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="Shift + Q" />
+                        <Label text="Export Box" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="Shift + Q" />
-                            <Label text="Save Box To Export" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="↑" />
+                        <Label text="Previous Profile" />
+                    </HBox>
 
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="Ctrl + ↑" />
-                            <Label text="Move TIFF Up" />
-                        </HBox>
-
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="Ctrl + ↓" />
-                            <Label text="Move TIFF Down" />
-                        </HBox>
-
-                        <Region prefHeight="10" />
-
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="↑" />
-                            <Label text="Navigate Up Profiles" />
-                        </HBox>
-
-                        <HBox styleClass="shortcut-row">
-                            <Label styleClass="shortcut-key"
-                                   text="↓" />
-                            <Label text="Navigate Down Profiles" />
-                        </HBox>
+                    <HBox styleClass="shortcut-row">
+                        <Label styleClass="shortcut-key" text="↓" />
+                        <Label text="Next Profile" />
+                    </HBox>
 
                     </VBox>
 
