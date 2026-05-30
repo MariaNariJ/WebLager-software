@@ -6,16 +6,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.util.function.Function;
+import javafx.collections.ObservableList;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AdminLogsController {
 
     @FXML private TextField searchField;
-    @FXML private TextField dateField;
-
-    @FXML private ComboBox<String> levelFilter;
     @FXML private ComboBox<String> typeFilter;
 
     @FXML private TableView<Log> scanningTable;
@@ -28,6 +27,10 @@ public class AdminLogsController {
 
     private final LogManager logManager = new LogManager();
 
+    private ObservableList<Log> allScanningLogs;
+    private ObservableList<Log> allExportLogs;
+    private ObservableList<Log> allUserLogs;
+
     @FXML
     private void initialize() {
         setupFilters();
@@ -37,28 +40,21 @@ public class AdminLogsController {
         setupTable(userTable);
 
         loadLogs();
+        searchField.textProperty().addListener((obs, oldValue, newValue) -> applyFilters());
+        typeFilter.valueProperty().addListener((obs, oldValue, newValue) -> applyFilters());
     }
 
     private void setupFilters() {
-        levelFilter.getItems().addAll("All Levels", "Info", "Warning", "Error");
-        levelFilter.setValue("All Levels");
-
         typeFilter.getItems().addAll("All Types", "Scanning", "Export", "User");
         typeFilter.setValue("All Types");
     }
 
     private void loadLogs() {
-        var scanningLogs = FXCollections.observableArrayList(logManager.getLogsByType("Scanning"));
-        var exportLogs = FXCollections.observableArrayList(logManager.getLogsByType("Export"));
-        var userLogs = FXCollections.observableArrayList(logManager.getLogsByType("User"));
+        allScanningLogs = FXCollections.observableArrayList(logManager.getLogsByType("Scanning"));
+        allExportLogs = FXCollections.observableArrayList(logManager.getLogsByType("Export"));
+        allUserLogs = FXCollections.observableArrayList(logManager.getLogsByType("User"));
 
-        scanningTable.setItems(scanningLogs);
-        exportTable.setItems(exportLogs);
-        userTable.setItems(userLogs);
-
-        scanningCountLabel.setText(String.valueOf(scanningLogs.size()));
-        exportCountLabel.setText(String.valueOf(exportLogs.size()));
-        userCountLabel.setText(String.valueOf(userLogs.size()));
+        applyFilters();
     }
 
     private void setupTable(TableView<Log> table) {
@@ -82,5 +78,65 @@ public class AdminLogsController {
                 new SimpleStringProperty(getter.apply(data.getValue()))
         );
         return column;
+    }
+
+    private void applyFilters() {
+        String search = searchField.getText() == null
+                ? ""
+                : searchField.getText().trim().toLowerCase();
+
+        String selectedType = typeFilter.getValue();
+
+        boolean showScanning = selectedType.equals("All Types") || selectedType.equals("Scanning");
+        boolean showExport = selectedType.equals("All Types") || selectedType.equals("Export");
+        boolean showUser = selectedType.equals("All Types") || selectedType.equals("User");
+
+        scanningTable.setItems(filterLogs(allScanningLogs, search));
+        exportTable.setItems(filterLogs(allExportLogs, search));
+        userTable.setItems(filterLogs(allUserLogs, search));
+
+        scanningTable.setVisible(showScanning);
+        scanningTable.setManaged(showScanning);
+        scanningTable.getParent().setVisible(showScanning);
+        scanningTable.getParent().setManaged(showScanning);
+
+        exportTable.setVisible(showExport);
+        exportTable.setManaged(showExport);
+        exportTable.getParent().setVisible(showExport);
+        exportTable.getParent().setManaged(showExport);
+
+        userTable.setVisible(showUser);
+        userTable.setManaged(showUser);
+        userTable.getParent().setVisible(showUser);
+        userTable.getParent().setManaged(showUser);
+
+        scanningCountLabel.setText(String.valueOf(scanningTable.getItems().size()));
+        exportCountLabel.setText(String.valueOf(exportTable.getItems().size()));
+        userCountLabel.setText(String.valueOf(userTable.getItems().size()));
+    }
+
+    private ObservableList<Log> filterLogs(ObservableList<Log> source, String search) {
+        List<Log> filtered = new ArrayList<>();
+
+        for (Log log : source) {
+            boolean matchesSearch =
+                    search.isEmpty()
+                            || safe(log.getLevel()).toLowerCase().contains(search)
+                            || safe(log.getEvent()).toLowerCase().contains(search)
+                            || safe(log.getUsername()).toLowerCase().contains(search)
+                            || safe(log.getDetails()).toLowerCase().contains(search)
+                            || safe(log.getStatus()).toLowerCase().contains(search)
+                            || String.valueOf(log.getTimestamp()).toLowerCase().contains(search);
+
+            if (matchesSearch) {
+                filtered.add(log);
+            }
+        }
+
+        return FXCollections.observableArrayList(filtered);
+    }
+
+    private String safe(String value) {
+        return value == null ? "" : value;
     }
 }
