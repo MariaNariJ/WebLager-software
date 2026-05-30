@@ -85,17 +85,11 @@
                         <Label text="Selected Document"
                                styleClass="export-card-title"/>
 
-                        <Label text="Export the currently selected document."
-                               wrapText="true"
-                               styleClass="export-card-text"/>
+                        <ComboBox fx:id="selectedDocumentComboBox"
+                                  maxWidth="Infinity"
+                                  styleClass="export-combo-box"/>
 
                         <VBox spacing="4.0">
-
-                            <Label text="File 1 of 45"
-                                   styleClass="export-card-text"/>
-
-                            <Label text="45 pages"
-                                   styleClass="export-card-text"/>
 
                         </VBox>
 
@@ -163,10 +157,8 @@
 
                         <VBox spacing="4.0">
 
-                            <Label text="Box: BOX-102"
-                                   styleClass="export-card-text"/>
-
-                            <Label text="14 documents"
+                            <Label fx:id="allDocumentsCountLabel"
+                                   text="0 documents"
                                    styleClass="export-card-text"/>
 
                         </VBox>

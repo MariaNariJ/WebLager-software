@@ -315,3 +315,46 @@
     -fx-font-weight: 700;
     -fx-text-fill: white;
 }
+/* Export dialogs */
+
+.export-dialog {
+    -fx-background-color: #354556;
+    -fx-background-radius: 12;
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 12;
+}
+
+.export-dialog > *.button-bar > *.container {
+    -fx-background-color: #354556;
+}
+
+.export-dialog .content {
+    -fx-background-color: #354556;
+    -fx-text-fill: #D6E0EA;
+}
+
+.export-dialog-content {
+    -fx-background-color: #354556;
+    -fx-padding: 18;
+}
+
+.export-dialog-check {
+    -fx-text-fill: #D6E0EA;
+    -fx-font-size: 12px;
+    -fx-font-family: "Montserrat";
+}
+
+.export-dialog-check .box {
+    -fx-background-color: #465160;
+    -fx-border-color: #2B3B4C;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.export-dialog-check:selected .box {
+    -fx-border-color: #008FF7;
+}
+
+.export-dialog-check:selected .mark {
+    -fx-background-color: #008FF7;
+}

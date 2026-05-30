@@ -32,6 +32,8 @@ public class UserExportController {
     @FXML private Label exportDocumentCountLabel;
     @FXML private Label exportFormatStatusLabel;
     @FXML private CheckBox openFolderCheckBox;
+    @FXML private ComboBox<Document> selectedDocumentComboBox;
+    @FXML private Label allDocumentsCountLabel;
 
     private final ExportManager exportManager = new ExportManager();
     private final DocumentManager documentManager = new DocumentManager();
@@ -45,6 +47,7 @@ public class UserExportController {
     private void initialize() {
         setupRadioButtons();
         setupExportFormat();
+        setupSelectedDocumentComboBox();
         setupBoxes();
 
         browseButton.setOnAction(e -> chooseFolder());
@@ -119,6 +122,14 @@ public class UserExportController {
             documentsInSelectedBox = documentManager.getDocumentsForBox(selectedBox.getId());
         }
 
+        selectedDocumentComboBox.setItems(FXCollections.observableArrayList(documentsInSelectedBox));
+
+        if (!documentsInSelectedBox.isEmpty()) {
+            selectedDocumentComboBox.setValue(documentsInSelectedBox.getFirst());
+        } else {
+            selectedDocumentComboBox.setValue(null);
+        }
+
         updateExportStatus();
     }
 
@@ -131,13 +142,27 @@ public class UserExportController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Select Documents");
 
+        DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
+        );
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/user-export.css").toExternalForm()
+        );
+
+        dialogPane.getStyleClass().add("export-dialog");
+        dialogPane.setPrefWidth(360);
+
         VBox content = new VBox(8);
-        content.setStyle("-fx-padding: 15;");
+        content.getStyleClass().add("export-dialog-content");
 
         List<CheckBox> checkBoxes = new ArrayList<>();
 
         for (Document document : documentsInSelectedBox) {
             CheckBox checkBox = new CheckBox(document.getDocumentName());
+            checkBox.getStyleClass().add("export-dialog-check");
             checkBox.setUserData(document);
 
             if (selectedDocuments.contains(document)) {
@@ -148,8 +173,14 @@ public class UserExportController {
             content.getChildren().add(checkBox);
         }
 
-        dialog.getDialogPane().setContent(content);
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialogPane.setContent(content);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        okButton.getStyleClass().add("export-button");
+
+        Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.getStyleClass().add("export-secondary-button");
 
         dialog.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
@@ -234,11 +265,13 @@ public class UserExportController {
 
     private List<Document> getDocumentsToExport() {
         if (selectedDocumentRadio.isSelected()) {
-            if (documentsInSelectedBox.isEmpty()) {
+            Document selectedDocument = selectedDocumentComboBox.getValue();
+
+            if (selectedDocument == null) {
                 return new ArrayList<>();
             }
 
-            return List.of(documentsInSelectedBox.getFirst());
+            return List.of(selectedDocument);
         }
 
         if (multipleDocumentsRadio.isSelected()) {
@@ -250,6 +283,7 @@ public class UserExportController {
 
     private void updateExportStatus() {
         int count = getDocumentsToExport().size();
+        allDocumentsCountLabel.setText(documentsInSelectedBox.size() + " documents");
 
         multipleSelectedCountLabel.setText(selectedDocuments.size() + " selected");
         exportDocumentCountLabel.setText(count + " selected");
@@ -271,7 +305,43 @@ public class UserExportController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/app.css").toExternalForm()
+        );
+
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/dk/easv/gui/css/user-export.css").toExternalForm()
+        );
+
+        dialogPane.getStyleClass().add("export-dialog");
+
+        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        okButton.getStyleClass().add("export-button");
+
         alert.showAndWait();
+    }
+
+    private void setupSelectedDocumentComboBox() {
+        selectedDocumentComboBox.setCellFactory(list -> new ListCell<>() {
+            @Override
+            protected void updateItem(Document document, boolean empty) {
+                super.updateItem(document, empty);
+                setText(empty || document == null ? null : document.getDocumentName());
+            }
+        });
+
+        selectedDocumentComboBox.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Document document, boolean empty) {
+                super.updateItem(document, empty);
+                setText(empty || document == null ? null : document.getDocumentName());
+            }
+        });
+
+        selectedDocumentComboBox.setOnAction(e -> updateExportStatus());
     }
 
     private void openFolder(File folder) {
