@@ -20,22 +20,13 @@
                        prefWidth="260"
                        styleClass="admin-input"/>
 
-            <ComboBox fx:id="levelFilter"
-                      prefWidth="140"
-                      styleClass="admin-combo"/>
-
             <ComboBox fx:id="typeFilter"
                       prefWidth="140"
                       styleClass="admin-combo"/>
 
-            <TextField fx:id="dateField"
-                       text="May 18, 2026 - May 25, 2026"
-                       prefWidth="230"
-                       styleClass="admin-input"/>
-
             <Region HBox.hgrow="ALWAYS"/>
 
-            <Button text="Filters"
+            <Label text="Filters"
                     styleClass="admin-secondary-button"/>
         </HBox>
 

@@ -398,6 +398,9 @@
                         </Button>
                     </HBox>
 
+                    <Label text="Press I for shortcuts"
+                           styleClass="shortcut-hint"/>
+
                     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="user-info-card">
 
                         <VBox spacing="0">
@@ -407,6 +410,7 @@
                         </VBox>
                     </HBox>
                 </VBox>
+
 
                 <Button onAction="#onLogOutClicked" styleClass="nav-button" text="↩  Log out" />
             </children>

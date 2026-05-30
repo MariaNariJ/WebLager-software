@@ -305,9 +305,14 @@ public class AdminviewController {
         setInactiveButton(logsButton);
 
         try {
-            Parent root = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/dk/easv/gui/admin-clients.fxml")
             );
+
+            Parent root = loader.load();
+
+            AdminClientsController controller = loader.getController();
+            controller.setLoggedInUser(loggedInUser);
 
             adminContentArea.getChildren().setAll(root);
 

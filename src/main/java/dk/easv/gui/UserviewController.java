@@ -132,8 +132,8 @@ public class UserviewController {
 
     private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 
-    private User loggedInUser
-            ;
+    private User loggedInUser;
+
     @FXML
     private void onListViewClicked() {
         imageViewMode = false;
@@ -636,6 +636,10 @@ public class UserviewController {
     @FXML
     public void onFetchFilesClicked() {
 
+        if (scanningFinished) {
+            return;
+        }
+
         if (currentDocument != null) {
 
             return;
@@ -644,6 +648,11 @@ public class UserviewController {
         // Prevent scanning without profile
         if (selectedProfile == null) {
             onSelectProfileClicked();
+            return;
+        }
+
+        if (txtBox.getText() == null || txtBox.getText().trim().isEmpty()) {
+            scanStatusLabel.setText("Please enter a box name");
             return;
         }
 
@@ -664,7 +673,7 @@ public class UserviewController {
             // fileManager.proccesFilesFromApi(page -> {
 
             // LOCAL TEST BOX VERSION
-            fileManager.scanNextDocument(page -> {
+            boolean scanStarted = fileManager.scanNextDocument(txtBox.getText().trim(), page -> {
 
                 Platform.runLater(() -> {
 
@@ -745,7 +754,38 @@ public class UserviewController {
                     }
 
                 });
+
             });
+
+            if (!scanStarted) {
+                Platform.runLater(() -> {
+                    scanning = false;
+
+                    btnFetchFiles.setDisable(false);
+                    btnFetchFiles.setOpacity(1.0);
+
+                    String boxName = txtBox.getText().trim();
+
+                    if (!fileManager.localBoxExists(boxName)) {
+                        scanStatusLabel.setText("Ready for scanning");
+
+                        selectedBox = null;
+                        selectedProfile = null;
+
+                        txtBox.clear();
+                        txtProfile.clear();
+
+                        showMessage("No box with this number detected");
+                        onSelectProfileClicked();
+                    } else {
+                        btnFetchFiles.setDisable(true);
+                        btnFetchFiles.setOpacity(0.5);
+                        scanStatusLabel.setText("All documents scanned");
+                    }
+                });
+                return;
+            }
+
             Platform.runLater(() -> {
 
                 scanning = false;
@@ -1130,13 +1170,15 @@ public class UserviewController {
         btnSaveasDocument.setDisable(true);
         btnSaveasDocument.setOpacity(0.5);
 
-        // Enable next scan
-        btnFetchFiles.setDisable(false);
-        btnFetchFiles.setOpacity(1.0);
-
-        scanStatusLabel.setText(
-                "Ready for next scan"
-        );
+        if (fileManager.hasMoreFiles()) {
+            btnFetchFiles.setDisable(false);
+            btnFetchFiles.setOpacity(1.0);
+            scanStatusLabel.setText("Ready for next scan");
+        } else {
+            btnFetchFiles.setDisable(true);
+            btnFetchFiles.setOpacity(0.5);
+            scanStatusLabel.setText("All documents scanned");
+        }
 
         documentCounter++;
         currentDocument = null;
@@ -1229,10 +1271,13 @@ public class UserviewController {
         userNameLabel.setText(user.getName());
         userRoleLabel.setText(user.getRole());
     }
+
     @FXML
     private void onScanningClicked() {
 
         mainContent.getChildren().setAll(scanningView);
+
+        resetScanningSession();
 
         setActiveUserTab(scanningButton);
         setInactiveUserTab(exportButton);
@@ -1249,9 +1294,17 @@ public class UserviewController {
 
     private void loadUserTab(String fxmlFile) {
         try {
-            Parent root = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/dk/easv/gui/" + fxmlFile)
             );
+
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+
+            if (controller instanceof UserExportController exportController) {
+                exportController.setLoggedInUser(loggedInUser);
+            }
 
             mainContent.getChildren().setAll(root);
 
@@ -1326,7 +1379,11 @@ public class UserviewController {
         }
 
         // Update status
-        scanStatusLabel.setText("Ready for next scan");
+        if (fileManager.hasMoreFiles()) {
+            scanStatusLabel.setText("Ready for next scan");
+        } else {
+            scanStatusLabel.setText("All documents scanned");
+        }
     }
 
     private void refreshDocumentTree() {
@@ -1390,13 +1447,17 @@ public class UserviewController {
     private void onFinishBoxClicked() {
 
         scanningFinished = true;
+
+        btnFetchFiles.setDisable(true);
+        btnFetchFiles.setOpacity(0.5);
+
         btnSendToExport.setDisable(false);
+        btnSendToExport.setOpacity(1.0);
+
         btnSendToExport.getStyleClass().remove("disabled-action-button");
 
         scanStatusLabel.setText("Box ready for Export");
-        documentStatusLabel.setText(
-                "Scanning completed"
-        );
+        documentStatusLabel.setText("Scanning completed");
 
         btnFinishBox.setDisable(true);
 
@@ -1445,7 +1506,16 @@ public class UserviewController {
         );
     }
 
+    private void showMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void resetScanningSession() {
+
+        fileManager.resetLocalBoxScan();
 
         documentGroups.clear();
         scannedDocuments.clear();

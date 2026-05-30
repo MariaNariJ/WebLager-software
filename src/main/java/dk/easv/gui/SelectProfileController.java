@@ -71,7 +71,8 @@ public class SelectProfileController {
     @FXML
     public void initialize() {
 
-        txtBox.setText("BOX_001");
+        txtBox.clear();
+        txtBox.setPromptText("Enter box name, e.g. Box_001");
 
         txtProfileSearch.textProperty().addListener(
                 (observable, oldValue, newValue) ->

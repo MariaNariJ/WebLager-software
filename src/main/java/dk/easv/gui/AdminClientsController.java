@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.StageStyle;
 import dk.easv.bll.LogManager;
+import dk.easv.be.User;
 
 public class AdminClientsController {
 
@@ -28,6 +29,7 @@ public class AdminClientsController {
 
     private final ClientManager clientManager = new ClientManager();
     private final LogManager logManager = new LogManager();
+    private User loggedInUser;
 
     @FXML
     private void initialize() {
@@ -299,10 +301,10 @@ public class AdminClientsController {
         titleBox.getChildren().addAll(title, subtitle);
 
         Button createProfileButton = new Button("+ Create Profile");
-        createProfileButton.getStyleClass().add("primary-action");
+        createProfileButton.getStyleClass().addAll("primary-action", "client-detail-action-button");
 
         Button deleteClientButton = new Button("Delete Client");
-        deleteClientButton.getStyleClass().add("destructive-action");
+        deleteClientButton.getStyleClass().addAll("destructive-action", "client-detail-action-button");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -412,7 +414,10 @@ public class AdminClientsController {
         TextArea txtDescription = new TextArea();
         txtDescription.setPromptText("Description");
         txtDescription.getStyleClass().add("dark-area");
-        txtDescription.setPrefRowCount(4);
+        txtDescription.setWrapText(true);
+        txtDescription.setMinHeight(120);
+        txtDescription.setPrefHeight(120);
+        txtDescription.setMaxHeight(120);
 
         VBox content = new VBox(12);
         content.getChildren().addAll(
@@ -480,7 +485,10 @@ public class AdminClientsController {
 
         TextArea txtDescription = new TextArea(safe(profile.getDescription()));
         txtDescription.getStyleClass().add("dark-area");
-        txtDescription.setPrefRowCount(4);
+        txtDescription.setWrapText(true);
+        txtDescription.setMinHeight(120);
+        txtDescription.setPrefHeight(120);
+        txtDescription.setMaxHeight(120);
 
         VBox content = new VBox(12);
         content.getChildren().addAll(
@@ -505,7 +513,9 @@ public class AdminClientsController {
         );
 
         Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
+        deleteButton.getStyleClass().clear();
         deleteButton.getStyleClass().add("destructive-action");
+
 
         Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
         cancelButton.getStyleClass().add("dialog-secondary-button");
@@ -557,14 +567,19 @@ public class AdminClientsController {
         });
     }
     private void createAdminLog(String event, String details, String status) {
+        Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
+
         logManager.createLog(
                 "Info",
                 "User",
                 event,
-                null,
+                userId,
                 details,
                 status,
                 "00:00:00"
         );
+    }
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
     }
 }
