@@ -301,10 +301,10 @@ public class AdminClientsController {
         titleBox.getChildren().addAll(title, subtitle);
 
         Button createProfileButton = new Button("+ Create Profile");
-        createProfileButton.getStyleClass().add("primary-action");
+        createProfileButton.getStyleClass().addAll("primary-action", "client-detail-action-button");
 
         Button deleteClientButton = new Button("Delete Client");
-        deleteClientButton.getStyleClass().add("destructive-action");
+        deleteClientButton.getStyleClass().addAll("destructive-action", "client-detail-action-button");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -414,7 +414,10 @@ public class AdminClientsController {
         TextArea txtDescription = new TextArea();
         txtDescription.setPromptText("Description");
         txtDescription.getStyleClass().add("dark-area");
-        txtDescription.setPrefRowCount(4);
+        txtDescription.setWrapText(true);
+        txtDescription.setMinHeight(120);
+        txtDescription.setPrefHeight(120);
+        txtDescription.setMaxHeight(120);
 
         VBox content = new VBox(12);
         content.getChildren().addAll(
@@ -482,7 +485,10 @@ public class AdminClientsController {
 
         TextArea txtDescription = new TextArea(safe(profile.getDescription()));
         txtDescription.getStyleClass().add("dark-area");
-        txtDescription.setPrefRowCount(4);
+        txtDescription.setWrapText(true);
+        txtDescription.setMinHeight(120);
+        txtDescription.setPrefHeight(120);
+        txtDescription.setMaxHeight(120);
 
         VBox content = new VBox(12);
         content.getChildren().addAll(
@@ -507,7 +513,9 @@ public class AdminClientsController {
         );
 
         Button deleteButton = (Button) dialogPane.lookupButton(deleteButtonType);
+        deleteButton.getStyleClass().clear();
         deleteButton.getStyleClass().add("destructive-action");
+
 
         Button cancelButton = (Button) dialogPane.lookupButton(ButtonType.CANCEL);
         cancelButton.getStyleClass().add("dialog-secondary-button");
