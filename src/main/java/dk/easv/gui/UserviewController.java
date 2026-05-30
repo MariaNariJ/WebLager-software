@@ -132,8 +132,8 @@ public class UserviewController {
 
     private final List<javafx.scene.Node> scanningView = new ArrayList<>();
 
-    private User loggedInUser
-            ;
+    private User loggedInUser;
+
     @FXML
     private void onListViewClicked() {
         imageViewMode = false;
@@ -1294,9 +1294,17 @@ public class UserviewController {
 
     private void loadUserTab(String fxmlFile) {
         try {
-            Parent root = FXMLLoader.load(
+            FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/dk/easv/gui/" + fxmlFile)
             );
+
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+
+            if (controller instanceof UserExportController exportController) {
+                exportController.setLoggedInUser(loggedInUser);
+            }
 
             mainContent.getChildren().setAll(root);
 

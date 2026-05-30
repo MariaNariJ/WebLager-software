@@ -49,7 +49,6 @@ public class AdminLogsController {
 
     private void loadLogs() {
         var scanningLogs = FXCollections.observableArrayList(logManager.getLogsByType("Scanning"));
-        var qaLogs = FXCollections.observableArrayList(logManager.getLogsByType("QA"));
         var exportLogs = FXCollections.observableArrayList(logManager.getLogsByType("Export"));
         var userLogs = FXCollections.observableArrayList(logManager.getLogsByType("User"));
 

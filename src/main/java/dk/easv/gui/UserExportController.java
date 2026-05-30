@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Desktop;
+import dk.easv.bll.LogManager;
+import dk.easv.be.User;
 
 public class UserExportController {
 
@@ -42,6 +44,9 @@ public class UserExportController {
 
     private List<Document> documentsInSelectedBox = new ArrayList<>();
     private final List<Document> selectedDocuments = new ArrayList<>();
+
+    private final LogManager logManager = new LogManager();
+    private User loggedInUser;
 
     @FXML
     private void initialize() {
@@ -233,6 +238,16 @@ public class UserExportController {
 
             showAlert("Export completed. Exported " + exportedCount + " TIFF file(s).");
 
+            logManager.createLog(
+                    "Info",
+                    "Export",
+                    "Export Completed",
+                    getLoggedInUserId(),
+                    "Exported " + exportedCount + " TIFF file(s) to " + folder.getAbsolutePath(),
+                    "Completed",
+                    "00:00:00"
+            );
+
             if (openFolderCheckBox.isSelected()) {
                 openFolder(folder);
             }
@@ -244,6 +259,15 @@ public class UserExportController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Export failed: " + e.getMessage());
+            logManager.createLog(
+                    "Error",
+                    "Export",
+                    "Export Failed",
+                    getLoggedInUserId(),
+                    e.getMessage(),
+                    "Failed",
+                    "00:00:00"
+            );
         }
     }
 
@@ -352,5 +376,12 @@ public class UserExportController {
         } catch (Exception e) {
             showAlert("Export finished, but the folder could not be opened.");
         }
+    }
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+    }
+
+    private Integer getLoggedInUserId() {
+        return loggedInUser != null ? loggedInUser.getId() : null;
     }
 }
