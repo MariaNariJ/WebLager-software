@@ -2,6 +2,7 @@ package dk.easv.bll;
 
 import dk.easv.be.User;
 import dk.easv.dal.dao.UserDAO;
+import dk.easv.bll.exceptions.UserException;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UserManager {
             userDAO.createUser(name, login, hashedPassword, salt, role);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed creating user", e);
+            throw new UserException("Failed creating user", e);
         }
     }
 
@@ -41,7 +42,7 @@ public class UserManager {
             userDAO.updateUserPassword(userId, hashedPassword, salt);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed updating user password", e);
+            throw new UserException("Failed updating user password", e);
         }
     }
     public void deleteUser(int userId) {

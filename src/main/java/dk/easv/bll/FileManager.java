@@ -2,6 +2,7 @@ package dk.easv.bll;
 
 import dk.easv.be.Page;
 import dk.easv.dal.dao.PageDAO;
+import dk.easv.bll.interfaces.IFileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,7 +12,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class FileManager {
+public class FileManager implements IFileManager {
 
     private final TIFFService tiffService = new TIFFService();
     private final BarcodeService barcodeService = new BarcodeService();
@@ -25,11 +26,11 @@ public class FileManager {
     private List<File> cachedFiles = new ArrayList<>();
     private String cachedBoxName = null;
 
+    @Override
     //SAVE ROTATION
     public void updatePageRotation(Page page) {
         pageDAO.updatePageRotation(page);
     }
-
 
     // This is the actual method from processing files form the API, which will be commented out later on
     public void proccesFilesFromApi(Consumer<Page> scannedPage) {
@@ -67,6 +68,7 @@ public class FileManager {
             }
         }
     }
+
 
     // This method only acts as a support for showing how it will work in real life
     public void processFilesFromLocalBox(Consumer<Page> scannedPage) {
@@ -130,6 +132,7 @@ public class FileManager {
         }
     }
 
+
     public InputStream getFileStream(Page page) {
         try {
             return new FileInputStream(page.getPagePath());
@@ -138,6 +141,7 @@ public class FileManager {
             return null;
         }
     }
+
 
     private boolean loadLocalBoxFiles(String boxName) {
         if (!cachedFiles.isEmpty() && boxName.equals(cachedBoxName)) {
@@ -170,6 +174,7 @@ public class FileManager {
         return true;
     }
 
+    @Override
     public boolean scanNextDocument(
             String boxName,
             Consumer<Page> scannedPage) {
@@ -256,16 +261,19 @@ public class FileManager {
         return true;
     }
 
+    @Override
     public void resetLocalBoxScan() {
         cachedFiles = new ArrayList<>();
         cachedBoxName = null;
         currentFileIndex = 0;
     }
 
+    @Override
     public boolean hasMoreFiles() {
         return currentFileIndex < cachedFiles.size();
     }
 
+    @Override
     public boolean localBoxExists(String boxName) {
         if (boxName == null || boxName.trim().isEmpty()) {
             return false;

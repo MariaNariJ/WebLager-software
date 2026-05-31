@@ -82,7 +82,6 @@
                                             <TreeView fx:id="documentTreeView"
                                                       VBox.vgrow="ALWAYS"
                                                       styleClass="document-tree"/>
-
                                         </VBox>
 
                                     </content>
@@ -319,7 +318,6 @@
                                 <HBox spacing="12">
 
                                     <Region HBox.hgrow="ALWAYS"/>
-
 
                                     <Button fx:id="btnFinishBox"
                                             onAction="#onFinishBoxClicked"

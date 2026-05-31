@@ -2,6 +2,7 @@ package dk.easv.bll;
 
 import dk.easv.be.Document;
 import dk.easv.be.Page;
+import dk.easv.bll.exceptions.ExportException;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -55,7 +56,7 @@ public class ExportManager {
             BufferedImage image = ImageIO.read(new ByteArrayInputStream(page.getImageData()));
 
             if (image == null) {
-                throw new RuntimeException("Could not read image: " + page.getPageName());
+                throw new ExportException("Could not read image: " + page.getPageName());
             }
 
             String fileName =
@@ -69,7 +70,7 @@ public class ExportManager {
             ImageIO.write(image, "TIFF", outputFile);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed exporting page: " + page.getPageName(), e);
+            throw new ExportException("Failed exporting page: " + page.getPageName(), e);
         }
     }
 
@@ -81,7 +82,7 @@ public class ExportManager {
             Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("TIFF");
 
             if (!writers.hasNext()) {
-                throw new RuntimeException("No TIFF writer found.");
+                throw new ExportException("No TIFF writer found.");
             }
 
             ImageWriter writer = writers.next();
@@ -97,7 +98,7 @@ public class ExportManager {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(page.getImageData()));
 
                     if (image == null) {
-                        throw new RuntimeException("Could not read page image: " + page.getPageName());
+                        throw new ExportException("Could not read page image: " + page.getPageName());
                     }
 
                     writer.writeToSequence(new IIOImage(image, null, null), params);
@@ -109,7 +110,7 @@ public class ExportManager {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed exporting multi-page TIFF: " + document.getDocumentName(), e);
+            throw new ExportException("Failed exporting multi-page TIFF: " + document.getDocumentName(), e);
         }
     }
 

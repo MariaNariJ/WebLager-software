@@ -71,8 +71,6 @@
                             <Insets top="14" right="14" bottom="14" left="14"/>
                         </padding>
 
-
-
                         <HBox spacing="10.0">
 
                             <RadioButton fx:id="selectedDocumentRadio"/>
@@ -145,7 +143,6 @@
 
                             <FontIcon iconLiteral="fas-folder-open"
                                       styleClass="export-card-icon"/>
-
                         </HBox>
 
                         <Label text="All Documents in Current Box"
@@ -160,7 +157,6 @@
                             <Label fx:id="allDocumentsCountLabel"
                                    text="0 documents"
                                    styleClass="export-card-text"/>
-
                         </VBox>
 
                     </VBox>
@@ -200,7 +196,6 @@
                             <Label text="Each document will be exported as a multi-page TIFF file."
                                    wrapText="true"
                                    styleClass="export-card-text"/>
-
                         </VBox>
 
                     </VBox>
@@ -235,7 +230,6 @@
                                         minWidth="90.0"
                                         prefWidth="90.0"
                                         styleClass="export-secondary-button"/>
-
                             </HBox>
 
                         </VBox>
@@ -292,7 +286,6 @@
                                             <Label fx:id="exportFormatStatusLabel"
                                                    text="TIFF Export"
                                                    styleClass="export-status-value"/>
-
                                         </VBox>
 
                                     </HBox>
@@ -308,7 +301,6 @@
                                     prefWidth="220.0"
                                     prefHeight="58.0"
                                     styleClass="export-button"/>
-
                         </HBox>
 
                     </VBox>

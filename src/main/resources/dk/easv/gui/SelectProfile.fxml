@@ -26,7 +26,6 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-
     <!-- HEADER -->
 
     <VBox spacing="8">
@@ -139,7 +138,6 @@
                 fx:id="continueButton"
                 onAction="#onContinueClicked"
                 styleClass="popup-continue"/>
-
     </HBox>
 
 </VBox>

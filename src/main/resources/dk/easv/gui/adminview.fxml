@@ -42,7 +42,6 @@
                         <Insets bottom="18" left="18" right="18" top="18" />
                     </padding>
                 </VBox>
-
             </children>
         </VBox>
 

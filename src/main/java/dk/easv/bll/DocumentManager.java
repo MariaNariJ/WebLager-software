@@ -7,6 +7,7 @@ import dk.easv.be.Page;
 import dk.easv.dal.dao.BoxDAO;
 import dk.easv.dal.dao.DocumentDAO;
 import dk.easv.dal.dao.PageDAO;
+import dk.easv.bll.interfaces.IDocumentManager;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,13 +15,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class DocumentManager {
+
+public class DocumentManager implements IDocumentManager {
 
     private final BoxDAO boxDAO = new BoxDAO();
     private final DocumentDAO documentDAO = new DocumentDAO();
     private final PageDAO pageDAO = new PageDAO();
 
-
+    @Override
     public void saveDocumentForExport(
             DocumentGroup documentGroup,
             int boxId,
@@ -64,6 +66,7 @@ public class DocumentManager {
         }
     }
 
+    @Override
     public void saveBoxForExport(
             List<DocumentGroup> documentGroups,
             String client,
@@ -90,14 +93,20 @@ public class DocumentManager {
             );
         }
     }
+
+    @Override
     public List<Box> getBoxesForExport() {
 
         return boxDAO.getAllBoxes();
     }
+
+    @Override
     public List<Document> getDocumentsForBox(int boxId) {
 
         return documentDAO.getDocumentsForBox(boxId);
     }
+
+    @Override
     public List<Page> getPagesForDocument(
             int documentId
     ) {
