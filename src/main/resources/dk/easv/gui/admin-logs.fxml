@@ -44,7 +44,6 @@
                             <Label text="Scanning Logs" styleClass="logs-section-title"/>
                             <Label fx:id="scanningCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
 
                         <Label text="Logs related to document scanning activities."
@@ -61,7 +60,6 @@
                             <Label text="Export Logs" styleClass="logs-section-title"/>
                             <Label fx:id="exportCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
 
                         <Label text="Logs related to document export activities."
@@ -78,7 +76,6 @@
                             <Label text="User Logs" styleClass="logs-section-title"/>
                             <Label fx:id="userCountLabel" text="0" styleClass="logs-count-pill"/>
                             <Region HBox.hgrow="ALWAYS"/>
-                            <Button text="View All" styleClass="logs-link-button"/>
                         </HBox>
 
                         <Label text="Logs related to user account changes."
