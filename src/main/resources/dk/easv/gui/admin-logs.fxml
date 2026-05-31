@@ -25,9 +25,6 @@
                       styleClass="admin-combo"/>
 
             <Region HBox.hgrow="ALWAYS"/>
-
-            <Label text="Filters"
-                    styleClass="admin-secondary-button"/>
         </HBox>
 
         <ScrollPane fitToWidth="true"
