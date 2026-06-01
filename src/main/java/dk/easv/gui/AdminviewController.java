@@ -401,13 +401,11 @@ public class AdminviewController {
         Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
 
         logManager.createLog(
-                "Info",
                 "User",
                 event,
                 userId,
                 details,
-                status,
-                "00:00:00"
+                status
         );
     }
 

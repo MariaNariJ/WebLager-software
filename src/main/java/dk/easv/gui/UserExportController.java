@@ -239,13 +239,11 @@ public class UserExportController {
             showAlert("Export completed. Exported " + exportedCount + " TIFF file(s).");
 
             logManager.createLog(
-                    "Info",
                     "Export",
                     "Export Completed",
                     getLoggedInUserId(),
                     "Exported " + exportedCount + " TIFF file(s) to " + folder.getAbsolutePath(),
-                    "Completed",
-                    "00:00:00"
+                    "Completed"
             );
 
             if (openFolderCheckBox.isSelected()) {
@@ -260,13 +258,11 @@ public class UserExportController {
             e.printStackTrace();
             showAlert("Export failed: " + e.getMessage());
             logManager.createLog(
-                    "Error",
                     "Export",
                     "Export Failed",
                     getLoggedInUserId(),
                     e.getMessage(),
-                    "Failed",
-                    "00:00:00"
+                    "Failed"
             );
         }
     }

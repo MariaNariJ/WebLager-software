@@ -12,8 +12,8 @@ public class LogManager {
     public List<Log> getLogsByType(String type) {
         return logDAO.getLogsByType(type);
     }
-    public void createLog(String level, String type, String event, Integer userId,
-                          String details, String status, String duration) {
-        logDAO.createLog(level, type, event, userId, details, status, duration);
+    public void createLog(String type, String event, Integer userId,
+                          String details, String status) {
+        logDAO.createLog(type, event, userId, details, status);
     }
 }

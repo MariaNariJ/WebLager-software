@@ -15,8 +15,8 @@ public class LogDAO {
         List<Log> logs = new ArrayList<>();
 
         String sql = """
-                SELECT l.Log_id, l.Timestamp, l.Level, l.Type, l.Event,
-                       u.login AS Username, l.Details, l.Status, l.Duration
+                SELECT l.Log_id, l.Timestamp, l.Type, l.Event,
+                       u.login AS Username, l.Details, l.Status
                 FROM Logs l
                 LEFT JOIN Users u ON l.User_id = u.id
                 WHERE l.Type = ?
@@ -33,13 +33,11 @@ public class LogDAO {
                     logs.add(new Log(
                             rs.getInt("Log_id"),
                             rs.getTimestamp("Timestamp"),
-                            rs.getString("Level"),
                             rs.getString("Type"),
                             rs.getString("Event"),
                             rs.getString("Username"),
                             rs.getString("Details"),
-                            rs.getString("Status"),
-                            rs.getString("Duration")
+                            rs.getString("Status")
                     ));
                 }
             }
@@ -50,29 +48,27 @@ public class LogDAO {
 
         return logs;
     }
-    public void createLog(String level, String type, String event, Integer userId,
-                          String details, String status, String duration) {
+    public void createLog(String type, String event, Integer userId,
+                          String details, String status) {
         String sql = """
-            INSERT INTO Logs (Level, Type, Event, User_id, Details, Status, Duration)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO Logs (Type, Event, User_id, Details, Status)
+            VALUES (?, ?, ?, ?, ?)
             """;
 
         try (Connection con = conMan.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, level);
-            ps.setString(2, type);
-            ps.setString(3, event);
+            ps.setString(1, type);
+            ps.setString(2, event);
 
             if (userId == null) {
-                ps.setNull(4, java.sql.Types.INTEGER);
+                ps.setNull(3, java.sql.Types.INTEGER);
             } else {
-                ps.setInt(4, userId);
+                ps.setInt(3, userId);
             }
 
-            ps.setString(5, details);
-            ps.setString(6, status);
-            ps.setString(7, duration);
+            ps.setString(4, details);
+            ps.setString(5, status);
 
             ps.executeUpdate();
 

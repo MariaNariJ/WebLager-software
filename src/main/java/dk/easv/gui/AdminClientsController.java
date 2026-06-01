@@ -569,13 +569,11 @@ public class AdminClientsController {
         Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
 
         logManager.createLog(
-                "Info",
                 "User",
                 event,
                 userId,
                 details,
-                status,
-                "00:00:00"
+                status
         );
     }
     public void setLoggedInUser(User user) {
