@@ -64,12 +64,10 @@ public class AdminLogsController {
         table.getColumns().clear();
 
         table.getColumns().add(createColumn("Timestamp", log -> String.valueOf(log.getTimestamp())));
-        table.getColumns().add(createColumn("Level", Log::getLevel));
         table.getColumns().add(createColumn("Event", Log::getEvent));
         table.getColumns().add(createColumn("User", Log::getUsername));
         table.getColumns().add(createColumn("Details", Log::getDetails));
         table.getColumns().add(createColumn("Status", Log::getStatus));
-        table.getColumns().add(createColumn("Duration", Log::getDuration));
     }
 
     private TableColumn<Log, String> createColumn(String title, Function<Log, String> getter) {
@@ -121,7 +119,6 @@ public class AdminLogsController {
         for (Log log : source) {
             boolean matchesSearch =
                     search.isEmpty()
-                            || safe(log.getLevel()).toLowerCase().contains(search)
                             || safe(log.getEvent()).toLowerCase().contains(search)
                             || safe(log.getUsername()).toLowerCase().contains(search)
                             || safe(log.getDetails()).toLowerCase().contains(search)

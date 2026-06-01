@@ -911,7 +911,6 @@ public class UserviewController {
             );
 
             createLog(
-                    "Info",
                     "Box Sent To Export",
                     "Box " + txtBox.getText() + " was sent to Export.",
                     "Completed"
@@ -1365,7 +1364,6 @@ public class UserviewController {
         finishCurrentDocument();
 
         createLog(
-                "Info",
                 "Document Saved",
                 "Saved document: " + documentName,
                 "Completed"
@@ -1462,7 +1460,6 @@ public class UserviewController {
         btnFinishBox.setDisable(true);
 
         createLog(
-                "Info",
                 "Box Finished",
                 "Box " + txtBox.getText() + " marked as ready for Export",
                 "Completed"
@@ -1492,17 +1489,15 @@ public class UserviewController {
         }
     }
 
-    private void createLog(String level, String event, String details, String status) {
+    private void createLog(String event, String details, String status) {
         Integer userId = loggedInUser != null ? loggedInUser.getId() : null;
 
         logManager.createLog(
-                level,
                 "Scanning",
                 event,
                 userId,
                 details,
-                status,
-                "00:00:00"
+                status
         );
     }
 
