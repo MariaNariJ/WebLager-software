@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    ConnectionManager conMan = new ConnectionManager();
+    private final ConnectionManager conMan = new ConnectionManager();
 
     public User getUser(String login) {
         try (Connection con = conMan.getConnection())
@@ -32,9 +32,10 @@ public class UserDAO {
                 return null;
             }
         } catch (Exception e) {
-            //Need better error handling
-            System.out.println("Failed getting users" + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException(
+                    "Failed getting users",
+                    e
+            );
         }
     }
     public List<User> getAllUsers() {

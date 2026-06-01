@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PageDAO {
-    ConnectionManager conMan = new ConnectionManager();
+    private final ConnectionManager conMan = new ConnectionManager();
 
     public void insertPage(Page page, InputStream inputStream) {
         try (Connection con = conMan.getConnection()) {
@@ -33,10 +33,10 @@ public class PageDAO {
         }
     }
 
-    // ================= UPDATE ROTATION =================
+    // UPDATE ROTATION
     public void updatePageRotation(Page page) {
 
-        String sql = "UPDATE Files SET rotation = ? WHERE File_id = ?"; // FIXED table name
+        String sql = "UPDATE Files SET rotation = ? WHERE File_id = ?";
 
         try (Connection conn = conMan.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -47,7 +47,10 @@ public class PageDAO {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(
+                    "Failed updating page rotation",
+                    e
+            );
         }
     }
     public List<Page> getPagesForDocument(

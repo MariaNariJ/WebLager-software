@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentDAO {
-    ConnectionManager conMan =  new ConnectionManager();
+    private final ConnectionManager conMan = new ConnectionManager();
 
     public int insertDocument(Document document) {
         int generatedId = -1;

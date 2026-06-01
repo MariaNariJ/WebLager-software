@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class BoxDAO {
-    ConnectionManager conMan =  new ConnectionManager();
+    private final ConnectionManager conMan = new ConnectionManager();
 
     public int insertBox(Box box) {
         int generatedId = -1;
@@ -36,16 +36,12 @@ public class BoxDAO {
     }
 
     public List<Box> getAllBoxes() {
-
         List<Box> boxes = new ArrayList<>();
-
         try (Connection con = conMan.getConnection()) {
 
             String sql = "SELECT * FROM Boxes ORDER BY Box_id DESC";
-
             PreparedStatement ps =
                     con.prepareStatement(sql);
-
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -57,15 +53,11 @@ public class BoxDAO {
                 );
 
                 box.setId(rs.getInt("Box_id"));
-
                 boxes.add(box);
             }
-
         } catch (Exception e) {
-
             throw new RuntimeException(e);
         }
-
         return boxes;
     }
 }

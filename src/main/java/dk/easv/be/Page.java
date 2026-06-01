@@ -62,7 +62,6 @@ public class Page {
     public byte[] getImageData() {
         return imageData;
     }
-
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }

@@ -12,13 +12,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ListView?>
+
 <VBox spacing="10"
       prefWidth="440"
       prefHeight="560"
       alignment="TOP_LEFT"
       stylesheets="@css/app.css,@css/userview.css"
       styleClass="profile-popup"
-      fx:controller="dk.easv.gui.SelectProfileController"
+      fx:controller="dk.easv.gui.ScanSetupController"
       xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1">
 

@@ -632,7 +632,7 @@ public class UserviewController {
         }
     }
 
-    //FETCH
+    // Scan next document from selected Local Box
     @FXML
     public void onFetchFilesClicked() {
 
@@ -647,7 +647,7 @@ public class UserviewController {
 
         // Prevent scanning without profile
         if (selectedProfile == null) {
-            onSelectProfileClicked();
+            onOpenScanSetupClicked();
             return;
         }
 
@@ -669,20 +669,14 @@ public class UserviewController {
 
         CompletableFuture.runAsync(() -> {
 
-            // REAL API VERSION - keep this for later
-            // fileManager.proccesFilesFromApi(page -> {
-
-            // LOCAL TEST BOX VERSION
+            // Scan next document from local box
             boolean scanStarted = fileManager.scanNextDocument(txtBox.getText().trim(), page -> {
 
                 Platform.runLater(() -> {
 
                     // Add page to UI
                     scannedPages.add(page);
-
                     refreshDocumentTree();
-
-                    //addPageToUI(page, scannedPages.size() - 1);
 
                     fileCountLabel.setText(
                             String.valueOf(scannedPages.size())
@@ -693,7 +687,6 @@ public class UserviewController {
                             page.getBarcode() != null &&
                                     !page.getBarcode().isBlank();
 
-                    // FIRST barcode starts document
                     if (hasBarcode && currentDocument == null) {
 
                         // Autofill suggested document name
@@ -734,8 +727,7 @@ public class UserviewController {
                         return;
                     }
 
-                    // SECOND barcode pauses scanning
-                    // Barcode page inside current document
+                    // Start a new document when barcode is found
                     if (hasBarcode && currentDocument != null) {
 
                         currentDocument.addPage(page);
@@ -752,9 +744,7 @@ public class UserviewController {
 
                         refreshDocumentTree();
                     }
-
                 });
-
             });
 
             if (!scanStarted) {
@@ -776,7 +766,7 @@ public class UserviewController {
                         txtProfile.clear();
 
                         showMessage("No box with this number detected");
-                        onSelectProfileClicked();
+                        onOpenScanSetupClicked();
                     } else {
                         btnFetchFiles.setDisable(true);
                         btnFetchFiles.setOpacity(0.5);
@@ -850,21 +840,8 @@ public class UserviewController {
             e.printStackTrace();
         }
     }
-                // Old logic
-        /*Platform.runLater(() -> {
-                   // Group scanned pages into documents
-                   documentGroups = fileManager.groupPagesIntoDocuments(scannedPages);
 
-                   // Refresh document overview UI
-                   renderDocumentOverview();
-
-                   btnFetchFiles.setDisable(false);
-                   btnFetchFiles.setOpacity(1.0);
-
-                   scanning = false;
-               });*/
-
-    // TODO: rename to onSendToExportClicked()
+    // Save scanned box to Export
     @FXML
     public void onSendToExportClicked() {
 
@@ -901,7 +878,6 @@ public class UserviewController {
 
         CompletableFuture.runAsync(() -> {
 
-            // QA flow removed - now used for export pipeline
             documentManager.saveBoxForExport(
                     documentGroups,
                     txtClient.getText(),
@@ -962,42 +938,6 @@ public class UserviewController {
             btn.getStyleClass().add("file-name-label");
             btn.getStyleClass().add("file-list-button");
 
-
-            //IMAGE VIEW MODE
-            if (imageViewMode) {
-
-                BufferedImage img;
-
-                try {
-                    img = ImageIO.read(new File(page.getPagePath()));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                if (img == null) return;
-
-                BufferedImage processed = cropBackground(img);
-
-                Image fxImage = SwingFXUtils.toFXImage(processed, null);
-
-                ImageView thumbnail = new ImageView(fxImage);
-
-                thumbnail.setFitWidth(120);
-                thumbnail.setFitHeight(160);
-                thumbnail.setPreserveRatio(true);
-
-                StackPane container = new StackPane(thumbnail);
-                container.setAlignment(Pos.CENTER);
-
-                btn.setGraphic(container);
-                btn.setContentDisplay(ContentDisplay.TOP);
-
-            } else {
-
-                btn.setGraphic(null);
-                btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
-            }
-
             //CLICK EVENT
             btn.setOnAction(e -> {
 
@@ -1033,7 +973,7 @@ public class UserviewController {
 
     //IMAGE
     private BufferedImage cropBackground(BufferedImage image) {
-        return image; // keep your original logic if needed
+        return image; //
     }
 
     //FILTER
@@ -1184,56 +1124,29 @@ public class UserviewController {
         currentDocument = null;
     }
 
-        /*
-        // If next barcode already exists,
-        // create next document automatically
-        if (pendingBarcode != null) {
-
-            currentDocument = new DocumentGroup(
-                    "Document " + (documentGroups.size() + 1),
-                    pendingBarcode
-            );
-
-            pendingBarcode = null;
-        }*/
-
-    /**
-     * Displays grouped documents inside Document Overview.
-     */
-
     @FXML
-    private void onSelectProfileClicked() {
+    private void onOpenScanSetupClicked() {
 
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("SelectProfile.fxml")
+                    getClass().getResource("ScanSetup.fxml")
             );
-
             Parent root = loader.load();
 
-            root.setStyle(
-                    "-fx-background-radius: 18;" +
-                            "-fx-border-radius: 18;"
-            );
-
-            SelectProfileController controller =
+            ScanSetupController controller =
                     loader.getController();
 
             controller.setUserviewController(this);
 
             Stage stage = new Stage();
-
             Scene scene = new Scene(root);
-
             scene.setFill(null);
 
             stage.initStyle(StageStyle.TRANSPARENT);
             scene.setFill(Color.TRANSPARENT);
 
             stage.setScene(scene);
-
             stage.setResizable(false);
-
             stage.show();
 
         } catch (Exception e) {
@@ -1247,8 +1160,6 @@ public class UserviewController {
     public void setSelectedClient(String client) {
 
         txtClient.setText(client);
-
-        // Optional lock field
         txtClient.setEditable(false);
     }
 
@@ -1336,8 +1247,7 @@ public class UserviewController {
         }
     }
 
-    // Returns how many documents currently exist
-    // Used for automatic default naming
+    // Used for automatic document naming
     public int getDocumentCount() {
 
         return documentGroups.size();
@@ -1346,19 +1256,15 @@ public class UserviewController {
     // Saves the currently scanned document
     public void saveCurrentDocument(String documentName) {
 
-        // Safety check
         if (currentDocument == null) {
             return;
         }
 
-        // Apply chosen document name
         if (documentName == null || documentName.trim().isEmpty()) {
             documentName =
                     "Document " + (documentGroups.size() + 1);
         }
         currentDocument.setTitle(documentName);
-
-        // Update Document Information panel
         txtDocumentName.setText(documentName);
 
         // Finalize document and add to overview
@@ -1571,6 +1477,4 @@ public class UserviewController {
         btnFinishBox.setDisable(false);
         btnFinishBox.setOpacity(1.0);
     }
-
-
 }

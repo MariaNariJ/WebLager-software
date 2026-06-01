@@ -19,26 +19,20 @@ public class LoginController {
 
     @FXML
     private Label loginMessageLabel;
-
     @FXML
     private TextField usernameField;
-
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private Button signInButton;
-
     @FXML
     private Pane loginPatternPane;
 
     private final PasswordManager passwordManager = new PasswordManager();
-    //    private final PasswordHasher hash = new PasswordHasher();
 
     private Image backgroundLogo;
 
     public void initialize() {
-        //CreateUser();
 
         signInButton.setDefaultButton(true);
 
@@ -54,6 +48,7 @@ public class LoginController {
         loginPatternPane.heightProperty().addListener((obs, oldValue, newValue) -> generateResponsiveBackgroundLogos());
     }
 
+    // Creates the background logo pattern
     private void generateResponsiveBackgroundLogos() {
         loginPatternPane.getChildren().clear();
 
@@ -93,6 +88,7 @@ public class LoginController {
         }
     }
 
+    // Handles user login and opens the correct view
     public void btnSingIn() {
 
         String login = usernameField.getText().toLowerCase();
@@ -227,19 +223,4 @@ public class LoginController {
         });
     }
 
-    //    This method is used to create users in the database until there is a feature to create users
-    //    public void CreateUser()
-    //    {
-    //        String login = "Username";
-    //        String password = "u";
-    //        try
-    //        {
-    //            String salt = hash.generateSalt();
-    //            String hashedPassword = hash.hashPassword(password, salt);
-    //            System.out.println(salt);
-    //            System.out.println(hashedPassword);
-    //        } catch (Exception e) {
-    //            System.out.println("Failed generating User" + e.getMessage());
-    //        }
-    //    }
 }

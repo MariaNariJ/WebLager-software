@@ -43,7 +43,7 @@ public class User {
         return login;
     }
 
-    public void setLogin(String email) {
+    public void setLogin(String login) {
         this.login = login;
     }
 
@@ -61,7 +61,7 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
-    }
+    } //Not used
 
     public String getStatus() {return status; }
 

@@ -18,54 +18,38 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectProfileController {
+public class ScanSetupController {
 
     @FXML
     private VBox profileContainer;
-
     @FXML
     private ScrollPane profileScrollPane;
-
     @FXML
     private ListView<String> clientListView;
-
     @FXML
     private TextField txtBox;
-
     @FXML
     private Button continueButton;
-
     @FXML
     private Button cancelButton;
-
     @FXML
     private TextField txtClientSearch;
-
     @FXML
     private TextField txtProfileSearch;
 
     private HBox selectedCard;
-
     private boolean hHeld = false;
-
     private final List<HBox> profileCards =
             new ArrayList<>();
-
     private final List<Tooltip> profileTooltips =
             new ArrayList<>();
-
     private int focusedProfileIndex = 0;
-
     private String selectedProfile;
-
     private final List<Profile> currentProfiles =
             new ArrayList<>();
-
     private UserviewController userviewController;
-
     private final ClientManager clientManager =
             new ClientManager();
-
     private ObservableList<String> allClients;
 
     @FXML
@@ -321,6 +305,7 @@ public class SelectProfileController {
         showDefaultProfiles();
     }
 
+    // Show default profiles before a client is selected
     private void showDefaultProfiles() {
 
         currentProfiles.clear();
@@ -366,6 +351,7 @@ public class SelectProfileController {
         this.userviewController = controller;
     }
 
+    // Load profiles for the selected client
     private void loadProfilesForClient(String clientName) {
 
         currentProfiles.clear();
@@ -517,6 +503,7 @@ public class SelectProfileController {
         stage.close();
     }
 
+    // Filter profiles based on search text
     private void filterProfiles(String searchText) {
 
         profileContainer.getChildren().clear();
@@ -574,6 +561,7 @@ public class SelectProfileController {
         profileTooltips.get(focusedProfileIndex).hide();
     }
 
+    // Update keyboard focus and keep selected profile visible
     private void updateFocusedProfile() {
 
         if (profileCards.isEmpty()) {
@@ -626,6 +614,7 @@ public class SelectProfileController {
         );
     }
 
+    // Enable Continue button only when all fields are selected
     private void validateForm() {
 
         boolean hasClient =

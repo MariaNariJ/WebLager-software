@@ -17,8 +17,7 @@ import dk.easv.be.User;
 
 public class AdminClientsController {
 
-    @FXML
-    private VBox clientsRoot;
+    @FXML private VBox clientsRoot;
     @FXML private VBox clientsOverview;
     @FXML private VBox clientDetailsContainer;
 
